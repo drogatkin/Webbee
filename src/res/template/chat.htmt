@@ -1,0 +1,40 @@
+<div>@label.title@</div>
+
+<div style="width:100px;height:50px;overflow:auto">
+<label>@label.names@</label>
+
+<div id="chat_participants">
+@names(
+  <div>@element@  <a href="javascript:void(0)" onclick="openChat('@^label.me@', '@^element@')">@label.chat@</a></div>
+)@
+</div>
+</div>
+<div>
+<label>@label.tools@</label>
+<div>
+<a href="javascript:void(0)" onclick="addAvailable()">@label.add@</a> &nbsp; | &nbsp;
+<a href="javascript:void(0)" onclick="closeChat(participant)">@label.end@</a>
+</div>
+</div>
+
+@%'insert/chat_box.htmt'@
+
+<script  src="@contextpath@/js/chat.js" language="Javascript"></script>
+<script>
+  var ws = '' != '@use_websocket@';
+  var websocket;
+  function initFields() { 
+     if (ws) {
+        websocket = new WebSocket();
+        websocket.onmessage = function(evt) {
+           
+        }
+     } else {
+	     handlerUrl = 'Chat/ajax/Asyncupdate';
+	     //window.onbeforeunload = function(){ removeAvailable();}
+	     window.onunload = function() { removeAvailable(); }  
+	     // run it async
+	     updateUI();
+     }
+  }
+</script>

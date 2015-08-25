@@ -1,0 +1,36 @@
+
+<script>
+   function dimBackground() {
+      var backgroundDiv = document.getElementById('modal_background');
+      if (!backgroundDiv) {
+         backgroundDiv = document.createElement('div');
+         backgroundDiv.id = 'modal_background';
+         document.body.appendChild(backgroundDiv);
+      }
+      backgroundDiv.style.display = 'block';
+   }
+   
+   function returnBackground () {
+       var backgroundDiv = document.getElementById('modal_background');
+       if (backgroundDiv)
+          backgroundDiv.style.display='none';
+   }
+   
+   function showPopup(url) {
+      var popupDiv  = document.getElementById('popup');
+      if (!popupDiv) {
+         popupDiv = document.createElement('div');
+         popupDiv.id = 'popup';
+         popupDiv.style.position='absolute';
+         popupDiv.style.display='none'
+         popupDiv.style.border='2px solid black';
+         popupDiv.style.zIndex= 100;
+         popupDiv.innerHTML = '<div id="popup_header" style="background-color:#5566AA;border:2px solid white;font-size:small;color:white;padding-left:1em;z-index: 100"><div id="popup_title" style="display:inline">@label.popup_title@</div><div style="position:absolute;right:0;display:inline; width:1.6em;cursor:pointer" onclick="closeModal()">X</div></div>'+
+         '<iframe width="@popup_info.width{@1..(@popup_info.width@)@@(300)@}@" height="@popup_info.height{@1..(@popup_info.height@)@@(200)@}@" name="popup_frm" border=0 FRAMEBORDER=0 src="@contextpath@/blank.html"></iframe>';
+         document.body.appendChild(popupDiv);
+      }
+      frames.popup_frm.location.href=url;
+      popupDiv.style.display = 'block';
+      centerElement(popupDiv);
+   }
+</script>

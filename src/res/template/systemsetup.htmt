@@ -1,0 +1,8 @@
+<div>@label.title@</div>
+<form name="systemsetup">
+<div>@label.model_package_name@ @.ui.field*(model_package_name,java.lang.Object^@model@)*@</div>
+<div><input type="submit" name="submit" value="@commonlabels.submit@"></div>
+
+</form>
+<div>@label.help@</div>
+<div><a href="@contextpath@/">@commonlabels.home@</a>

@@ -1,0 +1,18 @@
+What's Webbee?
+Web building blocks extended experience
+Webbee provides higher level of API and libraries for building application. Webbee can be used as out of box as customizable.
+Webbee base blocks set
+Profile - user profile
+Userregistration
+Signon - user login
+Tabularview
+Gridview (Icons) 
+Form
+Messagetape
+Portal
+
+
+Work items
+
+1. Introduce base behavior delegator and attach it in config
+2. Non DOM (form) JSON submission

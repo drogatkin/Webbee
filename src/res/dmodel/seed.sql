@@ -1,0 +1,1 @@
+seed_user=insert into users (login,id,password) values ('dmitriy',1,'dmitriy')

@@ -1,0 +1,1 @@
+[@events({"eventHandler":"@element.eventHandler@","parameters":[@element.parameters("@^element@",)@]})@]

@@ -1,0 +1,37 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <script src="js/ajaxhelper.js" language="Javascript"></script>
+  <script src="js/common.js" language="Javascript"></script>
+  <style type="text/css">
+     <!--/* <![CDATA[ */
+          @import url(css/base.css);
+            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 11px; };
+       /* ]]> */-->
+   </style>
+   <script>
+      function init() {
+    	  checkLoginandRedirect();
+    	  getLoginBlock();
+      }
+      function checkLoginandRedirect() {
+      }
+      function getLoginBlock() {
+    	  makeGenericAjaxCall("webbee/Signon/ajax/signonDisplay", null, false, 
+    	    	  function (html) {
+	    	    getElement("login_block").innerHTML = html;
+    	  }, function (er) {
+        	  alert("error:"+er);
+    	  }); 
+      }
+   </script>
+</head>
+<body onload="init()">
+<div id="welcome">
+   <div id="free_block"><h2>Welcome to WebBee app building blocks</h2></div>
+   <div id="login_block">
+   </div>
+   <div> <a href="webbee/Portal">Got to portal</a></div>
+</div>
+</body>

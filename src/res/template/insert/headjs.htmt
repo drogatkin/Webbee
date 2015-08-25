@@ -1,0 +1,36 @@
+      @.ajax.initHandlers*(java.lang.Object^@model@)*@
+      @.ajax.submitValidation*(java.lang.Object^@model@)*@
+      @.ajax.initialCascading*(java.lang.Object^@model@)*@
+      @.ajax.initGadgets*(java.lang.Object^@model@)*@
+
+      // TODO provide init section in page include
+      function init() {
+         //alert(window.location.href);
+         if (!formName)
+         formName = '@pageservicename@'; // defined in form.js
+         // TODO check for ending '/'
+         baseServURI = '@request.getContextPath*()*@'+ '@request.getServletPath*()*@' + '/';// + formName;
+         //alert(baseServURI);
+         initializeFieldsHandlers();
+         initialCascading();
+         if (typeof initFields == 'function')
+         	initFields();
+         if (gadgetHandlers != undefined)
+            for (var g in gadgetHandlers)
+               gadgetHandlers[g]();
+
+      @$session( var session_timeout = (0 + @request.getSession*()*.getMaxInactiveInterval*()*@-60)*1000;
+        if ( session_timeout > 0)
+          setTimeout('notifyTimeout()', session_timeout);
+
+      )@
+
+      }
+
+      function notifyTimeout() {
+        if (confirm('@commonlabels.notify_timeout@')) {
+           makeGenericAjaxCall(baseServURI+formName+'/ajax/Cascading', null, true, function(res) {
+                setTimeout('notifyTimeout()', session_timeout);
+           });
+        }
+      }

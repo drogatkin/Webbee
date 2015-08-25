@@ -1,0 +1,119 @@
+<html>
+<head>
+<style type="text/css">
+     <!--/* <![CDATA[ */
+            BODY, TD, TH, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 11px; };
+            .confluenceTable {border:1px solid black}
+            .confluenceTh {font-weight:bold}
+            .confluenceTd {border-top:1px solid black;border-left:1px solid black}
+       /* ]]> */-->
+   </style>
+</head>
+<body>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>&nbsp;</th>
+<th class='confluenceTh'>Stripes</th>
+<th class='confluenceTh'>Struts2</th>
+<th class='confluenceTh'>WebBee</th>
+</tr>
+<tr>
+<th class='confluenceTh'>Version</th>
+<td class='confluenceTd'>1.5</td>
+<td class='confluenceTd'>2.0.12</td>
+<td class='confluenceTd'>1.0.1</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Configuration</th>
+<td class='confluenceTd'><tt>web.xml</tt></td>
+<td class='confluenceTd'><tt>web.xml</tt>, <tt>struts.xml</tt>, optionally <tt>struts.properties</tt> and others</td>
+<td class='confluenceTd'><tt>web.xml</tt>, optionally <tt>app.properties</tt></td>
+</tr>
+<tr>
+<th class='confluenceTh'>Main workhorse</th>
+<td class='confluenceTd'>Classes that implement <tt>ActionBean</tt></td>
+<td class='confluenceTd'>Classes that have an <tt>execute()</tt> method, optionally implement <tt>Action</tt>, or extend <tt>ActionSupport</tt></td>
+<td class='confluenceTd'>Classes that extend <tt>BaseBlock</tt></td>
+</tr>
+<tr>
+<th class='confluenceTh'>Response mechanism</th>
+<td class='confluenceTd'>Instance of <tt>Resolution</tt></td>
+<td class='confluenceTd'><tt>String</tt> identifier that maps to a <tt>result</tt> in <tt>struts.xml</tt> or in an annotation</td>
+<td class='confluenceTd'>Any model object</td>
+</tr>
+<tr>
+<th class='confluenceTh'>View technology</th>
+<td class='confluenceTd'>JSP or FreeMarker</td>
+<td class='confluenceTd'>JSP, FreeMarker, or Velocity</td>
+<td class='confluenceTd'>Built in template engine, or JSP, or Velocity</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Layout mechanism</th>
+<td class='confluenceTd'>Built-in, with three layout tags. For people who like Tiles or SiteMesh, they can be used as well.</td>
+<td class='confluenceTd'>Tiles or SiteMesh</td>
+<td class='confluenceTd'>Built-in</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Binding mechanism</th>
+<td class='confluenceTd'>Built-in</td>
+<td class='confluenceTd'>OGNL</td>
+<td class='confluenceTd'>Built-in</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Validation</th>
+<td class='confluenceTd'><tt>@Validate</tt> and <tt>@ValidateNestedProperties</tt></td>
+<td class='confluenceTd'>Configure in an XML file, or use annotations</td>
+<td class='confluenceTd'>Configure use annotations</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Validation short-circuiting</th>
+<td class='confluenceTd'>Built-in, configurable with <tt>when=ValidationState.ALWAYS</tt> and <tt>Validation.InvokeValidateWhenErrorsExist</tt></td>
+<td class='confluenceTd'>Set <tt>short-circuit="true"</tt> on <tt>&lt;field-validator&gt;</tt></td>
+<td class='confluenceTd'>Built-in, polymorphism configurable</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Custom validation</th>
+<td class='confluenceTd'>Annotate your method with <tt>@ValidationMethod</tt></td>
+<td class='confluenceTd'>Extend either <tt>ValidatorSupport</tt> or <tt>FieldValidatorSupport</tt>, and configure in <tt>validators.xml</tt></td>
+<td class='confluenceTd'>Annotate your fields with <tt>@validator</tt> class implementing<tt>FieldValidator</tt></td>
+</tr>
+<tr>
+<th class='confluenceTh'>Model-to-view data transfer</th>
+<td class='confluenceTd'><tt>${actionBean</tt>} attribute</td>
+<td class='confluenceTd'><tt>ValueStack</tt></td>
+<td class='confluenceTd'>Direct built-in</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Type conversion</th>
+<td class='confluenceTd'>Implementations of <tt>TypeConverter&lt;T&gt;</tt> (generified)</td>
+<td class='confluenceTd'>Implementations of <tt>ognl.TypeConverter</tt>, typically extensions of <tt>StrutsTypeConverter</tt> (not generified)</td>
+<td class='confluenceTd'>Annotate your fields with <tt>@converter</tt> class implementing FieldConverter</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Formatting</th>
+<td class='confluenceTd'>Implementations of <tt>Formatter&lt;T&gt;</tt> (generified)</td>
+<td class='confluenceTd'>Implementations of <tt>ognl.TypeConverter</tt>, typically extensions of <tt>StrutsTypeConverter</tt> (not generified)</td>
+<td class='confluenceTd'>Can be emulated using converter mechanism</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Custom module configuration</th>
+<td class='confluenceTd'>Automatically loaded with <tt>Extension.Packages</tt> init-parameter</td>
+<td class='confluenceTd'>Configuration in <tt>struts.xml</tt></td>
+<td class='confluenceTd'>Configuration in app.properties</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Interceptors</th>
+<td class='confluenceTd'>Implementations of <tt>Interceptor</tt>, or methods annotated with <tt>@Before</tt>/<tt>@After</tt></td>
+<td class='confluenceTd'>Implementations of <tt>Interceptor</tt>, with configuration in <tt>struts.xml</tt></td>
+<td class='confluenceTd'>Inheritance mechanism</td>
+</tr>
+<tr>
+<th class='confluenceTh'>Localization</th>
+<td class='confluenceTd'>Resource bundle(s) for errors and field names, and JSTL</td>
+<td class='confluenceTd'>Resource bundle search mechanism</td>
+<td class='confluenceTd'>Resource bundle(s) for errors, messages, labels and field names</td>
+</tr>
+</tbody></table>
+
+</body>
+</html>

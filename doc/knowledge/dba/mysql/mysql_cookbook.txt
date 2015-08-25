@@ -1,0 +1,14 @@
+MySQL quick start guide for windows:
+
+1. copy my.ini in Windows directory ( echo %WINDIR%)
+2. start MySQL
+    mysqld.exe --console
+3. stop MySQL
+    mysqladmin.exe -u root shutdown
+4. create database (in command mysql -u root)
+    create database <db_name>;
+5. use database (in mysql command)
+    use <db_name>;
+6. grant priviliges (in command mysql -u root)
+   GRANT ALL PRIVILEGES ON *.* TO 'webbee'@'%' IDENTIFIED BY 'webbee' WITH GRANT OPTION;
+7. Field types  http://help.scibit.com/Mascon/masconMySQL_Field_Types.html

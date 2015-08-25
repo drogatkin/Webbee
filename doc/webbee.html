@@ -1,0 +1,187 @@
+<html>
+<head>
+  <title>WebBee</title>
+</head>
+<body>
+<h1>Welcome to WebBee</h1>
+<h2>Abstract</h2>
+<p>
+WebBee is a framework providing building blocks for rapid Java application development for both web and desktop applications including mobile ones. One of main goal of WebBee is reducing learning curve of another product and pretty much stay with basic knowledge of Java, SQL, HTML, JavaScript, CSS and general common software development practices. So WebBee offers very limited additional APIs, scripting languages, and configuration files to learn. WebBee conceptually utilizes just few application design patterns and make a developer to think in the patterns. WebBee also stays on decoupling business and presentation layers giving very flexible ways of connections.. WebBee doesn’t dictate a specific way of creation of an application; it gives much freedom of selecting desired approaches, using 3rd party libraries and etc. It isn’t also overloaded with 3rd party libraries and just defines ways of integration and a use them. WebBee differentiator from other frameworks is giving common building blocks which can be easily customized to fit in a shape of a developed application. However a developer is still free to create own building blocks or work on base level without utilizing building block concepts. It is like using Lego blocks however with possibility to put custom elements making final application look as custom developed.
+<h3>Design</h3>
+<p>
+WebBee is a collection of several frameworks and ready to use solutions build on them. WebBee is SOA friendly and generally encourage of using SOA for applications. WebBee is offering multipurpose container, registry, JDO services, servlet framework with MVC and front controller, template engine, resource manager, object pool, cache and some other utilities and services. . It provides extremely light weight Ajax framework with server push capabilities in addition, however doesn’t limit to use any 3rd party Ajax wramework. WebBee doesn’t replace any EJB container and actually targets POJO. WebBee doesn’t dictate any patterns for adding and initializing services like inversion of control. WebBee stays on reducing amount configuration files and utilizing declarative programming based on Java annotations. WebBee is transparent to use any container based services. When WebBee is combined with TJWS web container, Java recompilation and restart of application so fast, that config based approach of customization can hardly compete with code changes and apply.
+<h3>Getting Started</h3>
+<p>
+WebBee itself is wrapped as ready to use web application. It requires only one simple table created on backend. The table has to have three columns id, username and password. Id can be defined as auto  increment column. 
+<br>
+<kbd>insert into users (login,id,password) values ('username',3,'password')</kbd>
+<br>
+A data source to this table has to be configured with name ‘jdbc/mysql/webbee-app’ in application server. There is no restriction to use MySQL database server, and name of data source can be changed accordingly application server requirements as context parameter with name model_datasource in web.xml
+
+</p>
+<h3>Download</h3>
+<p>Please use the <a href="/download/webbee-beta.zip">link</a></p>
+<h2>WebBee Web application development technique</h2>
+<p>Every development platform specifies own rules of development applications. Webbee isn’t an exception. So this guide covers major steps required for successful and rapid building of web applications. Webbee building blocks are based on Aldan 3 framework. So  application development looks very similar. Every application is built on Front Controller and MVC design patterns. Although all views may have separate models, application itself has to define master application data model. Models staying behind of particular views are defined as Java objects with JDO annotations. So development process itself has very good natural separation of views, models and controllers. It helps in collaborative work on application, when every developer can work on own part without interfering with others.
+</p>
+<h3>Building application canvas</h3>
+<p>WebBee recommends certain code source and deployment organizations. Actually every modern development platform dictates certain project file organization, like Android or iOS/XCODE. The following directory structure is recommended for WebBee projects
+</p>
+<p>Project home
+<ul>
+  <li>bild  - build scripts
+  	<li>out – binaries and deployment archives
+	<li>doc – project documentation, can be additionally structured
+	<li>src – project sources
+	<ul>
+	   <li> res – project resources<br>
+	     <ul>
+	       <li>cfg – config and deployment descriptors
+			<li>css – CSS files
+			<li>html – static HTML resources
+			<li>image – images, can have additional directories
+			<li>text – text resources, can have subdirectories by locale name
+			<li>view – templates and other view related resources, can be structured	     
+	     </ul>
+	     <li>java – Java source tree
+		<li>model – database scripts
+		<li>js – JavaScript code	     
+	</ul>
+  </li>
+</ul>
+</p>
+<h3>Deployment directory structure</h3>
+<p>WebBee uses standard war/ear deployment structure with possibility of detaching not protected resources as static HTML, CSS, images and scripts and serviced by different server for better scalability.
+</p>
+<p>war  context name contains HTML on first level
+   <ul>
+     <li> css – CSS files
+	  <li>js – JavaScript files
+	<li>image – Images
+	<li> WEB-INF web.xml<br>
+	   <ul>
+	      <li>classes  - project Java classes tree
+		<li>lib – jar libraries
+		<li>config – config files
+		<li>res – root resource directory<br>
+		   <ul>
+		     <li>view – view related resources eg templates, additional directories structure can be inside
+			<li>text – text resources, additional locale specific structure can be inside		     
+		   </ul>
+	     </li> 
+       </ul>
+   </ul>
+</p>
+<h3>Preparing directory structures, build and config files</h3>
+<h4>web.xml</h4>
+<p>Webbee requires just few elements in web.xml<br>
+  <ol>
+  <li>context-param model_datasource defines JNDI data source name, unless it isn’t used. 
+  <li>Listener several listeners can be specified, however app model class is required to be specified as one of listeners.
+   <li>Aldan 3 servelt inherited WebBee servlet as com.beegman.webbee.base.WebApp has to be specified as main and only one servelt of application. The former can be replaced by some inherited one even for more customization. There is a possibility of  use multiple servelts, however it won’t be covered by this guide.
+  
+  </ol>
+  </p>
+<h4>Application config file</h4>
+<p>The file has format of standard java properties file. Application model or just base block gives access to the property file, so entire application can read or modify the file. However modifications are not persistent. Name of config file usually matching application context name. The file location is specified as application servelt parameter properties. Read more information about content of the file below.
+</p>
+<h4>Building tool</h4>
+<p>7Bee building tool and corresponding scripts supplied with WebBee can be used for population initial directory structures and follow build abilities. Scripts have to be modified to cover any application specific resources all 3rd parties libraries.
+</p>
+<h3>Application model</h3>
+<p>Any Webbee based application h as to provide own implementation of application model class extending <strong>com.beegman.webbee.model.AppModel</strong>. The implementation class has to be also specified in web.xml as listener, see above. The following methods should be overridden for purpose:
+<br><ul>
+   <li>getAppName – returns name of application which is used for generation many unique ids.
+   <li>getServletName – it is very important to keep this name in sync with app servlet name specified in web.xml, for example if web.xml defines servlet as: <servlet-name>webapp</servlet-name>, then the method has to return “webapp”.
+   <li>initServices – has to be overridden if more application services need to be initialized and started. Base implementation runs only AsyncUpdater service, see more details below. So do not forget to call super implementation if the service is needed for your application. When any new services added, another method has to be overridden, it is deactivateServices, see more details below.
+   <li>deactivateServices – override this method if new services were instantiated in initServices and need to be destroyed or deactivated at end of application or when application is temporary unloaded. However do not design your services in way if calling the method was skipped for some reason, some system resources will be consumed forever.   
+</ul>
+<br>
+More methods can be overridden to customize application behavior, for example tabs or quick access links. Although former ones can be configured just modifying resources.
+<br>A developer can add more methods in base app model as needed. Since the model is available for all parts of application it can be used for data exchange. 
+</p>
+<h2>Multi languages support and resources</h2>
+<p>User locale is always available in page services, and all resource loading get verified against current user locale. So all application text constants have to be stored in resource files for easier localization if applied.
+</p>
+<h3>Standard resources</h3>
+<p>There are several standard resource files which suppose to be supplied for normal app functioning.
+<ul>
+<li>commonlabels.properties – contains labels shared by all views
+<li>navigationtabs.properties – contains navigation tabs definitions
+<li>fastaccessbuttons.properties – contains fast access buttons definitions
+</ul>
+</p>
+<h3>View resources</h3>
+<p>View resources are templates, JSP or other renderer type resources. WebBee encourages using only template based view resources. 
+</p>
+<h3>Resource naming convention</h3>
+<p>All resources related to a particular page service have to carry page service name with corresponding to resource type extension. Text resources have extension .properties. View related resources have extension helping to pick correct view renderer approach. Since base WebBee view renderer is template engine, template resource extension can be configured. Parameter viewext in application properties file.
+</p>
+<h2>General application UI layout</h2>
+<p>Webbee softly dictate certain UI layout based on common practice of creation web application UI. So entire screen consists of the following areas
+</p>
+<ol>
+<li>Top tool/info bar with fast access buttons and user name stationary
+<li>Navigation / menu bar
+<li>Breadcrumbs bar (optional) 
+<li>Left navigation panel (optional)
+<li>Work area
+<li>Status bar
+<li>Error/Info banner
+</ol>
+<p>Standard UI layout is defined in canvas template. The template can be changed to provide any other layout or customize existing one. 
+</p>
+<h3>navigationtabs.properties</h3>
+<p>Property name used for ordering tabs in alphabetic order. Value is comma separated values with page service name, label, and description correspondingly. Commas have to be HTML encoded. Only first value is required.
+</p>
+<h3>Standard templates(views) wrappers</h3>
+<h4>canvas.nnn</h4>
+<p>This wrapper defines general layout of application UI. If it isn’t planned to customize it, then include to Webbee standard application layout can be provided there, like
+<br><kbd>@%'canvas.htmt'@</kbd>
+</p>
+<h2>Enabling server side push</h2>
+<p>A web push handler URL has to be specified and also requester loop started. This code can be added in initFields handler as below:<br>
+ <pre>
+ &lt;script&gt;
+  function initFields() { 
+     handlerUrl = Status/ajax/Asyncupdate';
+     // run it async
+     updateUI();
+  }
+&lt;/script&gt;
+ </pre>
+ <br>
+ Since Asyncupdate' is available in BaseBlock, a developer rarely needs to override it. However getAsyncupdateViewName may need be overridden especially if different than ‘htmt’ template extension is used. Another solution can be define asyncupdate_json with project template extension providing inside same content as asyncupdate_json.htm. Another method which can be considered to be overridden is getUIID. This method return session id by default, but sometimes you may need something else especially for application where session isn’t supported. updateUI initiates push content loop. The former function is provided in ui.js, so assure this script is added once in involved templates as below
+ <br>
+ <pre>
+ &lt;script src="@contextpath@/js/ui.js" language="Javascript"&gt;&lt;/script&gt;
+ </pre>
+</p>
+<h2>Beefing with data objects</h2>
+<p>All WebBee data objects have to be inherited from SimpleCoordinator,  it gives access to application model from data object and can be used for requesting additional information from common data model required for normal functionality of data object. Fields of data object have to be defined as public and JDO and form presentation annotations can be added to provide as automatic persistence of data object as automatic form rendering built of the data object.
+</p>
+<h2>Page service class</h2>
+<p>Any user interaction with application happens through page service class. The class gives access to a page model which is rendered by view, and the class can also process control events and update corresponding model as needed. All page service classes have to be stored in the same package and name of this package has to be defined in PresentServicePackage config parameter. Such classes can be dispatched by Front Controller. Page service class must be inherited from BaseBlock or from corresponding functional block.
+</p>
+<h2>Adding views</h2>
+<p>A view resource or some other active renderer component as JSP has to be added with corresponding page service name in corresponding to renderer type location. Normally views are stored in template resource folder which location is defined by TEMPLATEROOT configuration parameter. Controls are part of page service classes
+</p>
+<h2>Adding background processes</h2>
+<p>All background processes have to be wrapped in services and instantiated and started in initServices of application model class.
+</p>
+<h2>Final wrap</h2>
+<p>A final application will require most of resources from WebBee base application, so is recommended to copy all these resources blindly. However to avoid security risk, it I s recommended to redefine as default view extension as page services package name. So if application requires some template resources from WebBee base packaging, then such resources can be renamed with required extensions, or resource delegation approach (as include) should be used. Former provide better application upgradability to next versions of WebBee.
+</p>
+<h2>Webbee base blocks set</h2>
+<ul>
+<li>Useprofiler – view/edit  user profile
+<li>Userregistration – user registration service
+<li>Userlogin – user login service
+<li>Tabular – service for tabular report presenatation
+<li>Form – service for forms
+<li>Message – service for delivering messages
+
+</ul>
+</body>
+
+</html>

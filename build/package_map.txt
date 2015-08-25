@@ -1,0 +1,29 @@
+$Id: package_map.txt,v 1.1 2009/01/20 07:30:51 dmitriy Exp $
+
+Java
+
+Package path                      Purpose
+src/java
+   com
+      beegman                   - company name
+        webbee                  - project name web application building blocks   
+            base                - base classes
+            block               - particular web blocks
+            model               - model
+            util                - utility classes
+           
+   
+3rdparty
+    lib                         - 3rd parties pre compiled class libraries
+    src                         - 3rd parties in source as html, javascipt
+
+src
+    js                          - java script code
+
+src/res
+   cfg                          - config files for app web and properties
+   html                         - static html content
+   css                          - cascade style sheets
+   dmodel                       - model related sql and jdbc driver
+   template                     - view template files
+   text                         - text resources

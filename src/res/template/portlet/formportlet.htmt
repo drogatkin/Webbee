@@ -1,0 +1,8 @@
+
+<form>
+  @request.setAttribute*(model,java.lang.Object^@model@)*@
+   @.request.getAttribute*(ui)*.fields*(java.lang.Object^@model@)*(
+      <label for="@element@">@element@ @.request.getAttribute*(ui)*.field*(@element@,java.lang.Object^@request.model@)*@</label>)@
+   <hr>
+   <div><input type="submit" name="submit" value="@label.submit@"></div>
+</form>

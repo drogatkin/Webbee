@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <script>
+	function init() {
+		if (@upload@ == 0) {
+			parent.updateUploadStatus('@target@', '@name@', '');
+		} else if (@upload@ == 1) {
+			parent.uploadDone('@name@', '@filename@', '@id@', '@divid@', '@action@');
+		}
+	}
+
+    function  notifyAndSubmit() {
+		var filePath = document.attach.browsefile.value;
+		if (filePath == '')
+			return; // canceled
+		var parts = filePath.split(/(\\|\/)/g);
+		filePath = parts[parts.length - 1];
+		
+		if (document.attach.browsefile.files) { // html5
+		    parent.uploadInitiated(filePath, '@^name@', document.attach.browsefile.files[0].size);
+			uploadFile();
+		} else  {
+		    parent.uploadInitiated(filePath, '@^name@');
+			document.forms[0].submit();
+		}
+	        // document.attach.submitme.click();
+	}
+    var xhr;
+    function uploadFile() {
+		xhr = new XMLHttpRequest();
+		var fd = new FormData(document.attach);
+		/* event listners */
+		xhr.upload.addEventListener("progress", uploadProgress, false);
+		xhr.addEventListener("load", uploadComplete, false);
+		xhr.addEventListener("error", uploadFailed, false);
+		xhr.addEventListener("abort", uploadCanceled, false);
+		//alert('upload:'+document.attach.action+' of '+document.attach.browsefile.files[0].size);
+		xhr.open("POST", document.attach.action+'&response=json');
+		xhr.send(fd);    	
+    }
+    
+    function uploadProgress(evt) {
+		if (evt.lengthComputable) {		
+			parent.uploadProgress('@^name@', (evt.loaded*100/evt.total).toFixed(0)+'%');
+		}	else {
+			parent.uploadProgress('@^name@', '??%');
+		}
+	}
+	
+	function uploadComplete(evt) {
+	    //alert(xhr.responseText);
+	    var resp = new Function("return "+xhr.responseText)();
+		parent.uploadDone('@name@', resp.filename, resp.id, '@divid@', '@action@');
+	}
+	
+	function uploadFailed(evt) {
+		alert("There was an error attempting to upload the file.");
+	}
+	
+	function uploadCanceled(evt) {
+		alert("The upload has been canceled by the user or the browser dropped the connection.");
+	}  
+</script>
+</head>
+<body onload="init();">
+<form name="attach" method="POST" action="@action@?upload=1" id="attach" enctype="multipart/form-data">
+   <input type="file" name="browsefile" onchange="notifyAndSubmit()">
+   <input type="hidden" name="submit.x" value="1">
+   <input type="hidden" name="divid" value="@divid@">
+   <input type="hidden" name="name" value="@name@">
+</form>
+</body>
+</html>

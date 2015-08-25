@@ -1,0 +1,78 @@
+<!-- editable list   -->
+<div class="form_header">@label.title@</div>
+
+<div>
+    <form name="editabletabular"  action="Editabletabular">
+        <label for="listName">@label.listName@ <div class="field_val">@.ui.field*(listName,java.lang.Object^@model@)*@</div></label>
+        <label for="listType">@label.listType@ <div class="field_val">@.ui.select*(listType,java.lang.Object^@model@)*@</div></label>
+        <div><input type="submit" value="@label.update@" name="submit" onclick=""></div>
+        @.ui.field*(listId,java.lang.Object^@model@)*@
+    </form>
+</div>
+<hr>
+<div class="floating" style="display:none" id="edit_form_holder">
+<!-- @%edit_form@    can be inserted or just actual form provided -->
+<form name="editable"  action="./ajax/updateRow">
+     <label for="name">@label.name@ <div class="field_val">@.ui.field*(name,java.lang.Object^@row_model@)*@</div></label>
+     <label for="description">@label.description@ <div class="field_val">@.ui.field*(description,java.lang.Object^@row_model@)*@</div></label>
+     <label for="director">@label.director@ <div class="field_val">@.ui.field*(director,java.lang.Object^@row_model@)*@</div></label>
+     <label for="genre">@label.genre@ <div class="field_val">@.ui.select*(genre,java.lang.Object^@row_model@)*@</div></label>
+     <input type="hidden" name="rowId" value="">
+     <div><input type="button" value="@label.update@" onclick="updateRow()"></div>
+     @.ui.field*(id,java.lang.Object^@row_model@)*@
+</form>
+</div>
+
+<!-- rows area, fragment for tabular area with optional pagenation   -->
+
+<table id="editable_rows" border="0">
+<tr><th>@label.movie@</th><th>@label.duration@</th><th>@label.director@</th><th>@label.genre@</th><th>@label.rate@</th></tr>
+@rows_model(
+     <tr id="row_@element.id@"><td><div title="@element.description@" onclick="editRow(@element.id@)">@element.name@</div></td>
+     <td>@element.duration@</td>
+     <td>@element.director@</td>
+     <td>@element.genre@</td>
+     <td>@element.rate@</td>
+     </tr>   
+)@
+</table>
+
+<a href="javascript:void(0)" onclick="editRow('')">@label.add@</a>
+
+
+<script>
+    var serviceName = 'Editabletabular';
+
+    /////////////////////////  custom functions  ///////////////////////
+    function insertTabular(model) {
+    
+        var tbl = getElement('editable_rows');
+        var rid = document.forms.editable.id.value;
+        //alert("updating with id"+rid);
+		var rti = tbl.rows.length;
+		for (var ri=0; ri < tbl.rows.length; ri++) {
+		   if (tbl.rows[ri].id == 'row_'+rid) {
+		       tbl.deleteRow(ri);
+		       rti = ri;
+		       break; 
+		   }
+		}   
+        
+        var row = tbl.insertRow(rti);
+        row.id = 'row_'+rid;
+        var cell = row.insertCell(0);
+        cell.innerHTML = '<div title="'+document.forms.editable.description.value+'" onclick="editRow('+rid+')">'+document.forms.editable.name.value+'</div>';
+        cell = row.insertCell(1);
+        //cell.innerHTML = 
+        cell = row.insertCell(2);
+        cell = row.insertCell(3);
+        cell = row.insertCell(4);
+    }
+    
+    function getURIHeaderId() {
+        return '&listId='+encodeURIComponent(document.forms.editabletabular.listId.value);
+    }
+    
+    function deleteTabular(rid) {
+    }
+</script>
