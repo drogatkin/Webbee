@@ -8,6 +8,10 @@ import com.beegman.webbee.tool.SchemaCreator;
 
 public class Systemsetup<T extends Setup, A extends AppModel> extends Form<T, A> {
 
+	/** returns package name of data model classes
+	 * This method has to be overridden 
+	 * @return
+	 */
 	protected String getDefaultModelPackage() {
 		return Setup.class.getPackage().getName();
 	}
