@@ -29,7 +29,7 @@ public class Systemsetup<T extends Setup, A extends AppModel> extends Form<T, A>
 	@Override
 	protected Object storeModel(T setup) {
 		try {
-			new SchemaCreator().create(setup.model_package_name, getAppModel().getDOService(), setup.discardExisting, true);
+			new SchemaCreator().create(setup.model_package_name, getAppModel().getDOService(), setup.discardExisting, setup.doAlter);
 		} catch (ProcessException e) {
 			log("", e);
 			return "Problem: "+e;

@@ -5,6 +5,7 @@
 package com.beegman.webbee.block;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.beegman.webbee.base.BaseBlock;
 import com.beegman.webbee.model.AppModel;
@@ -32,14 +33,21 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 						errorMsg = (String) errorResult;
 						if (errorMsg.length() == 0)
 							return null;
-					} else
-						return errorResult;
+					} else { // TODO reconsider check to Map
+						if (errorResult == null || errorResult instanceof Map)
+							return errorResult;
+						errorMsg = errorResult.toString();
+					}
 				}
-			} else
-				return errorResult;
+			} else { // TODO reconsider check to Map
+				if (errorResult == null || errorResult instanceof Map)
+					return errorResult;
+				errorMsg = errorResult.toString();
+			}
 		}
 		HashMap pageModel = new HashMap(10);
 		// TODO add method for model redisplay preparation, like cleaning password fields
+		// sanitize(model);
 		pageModel.put(MODEL, model);
 		pageModel.put(Variable.ERROR, errorMsg);
 		return pageModel;

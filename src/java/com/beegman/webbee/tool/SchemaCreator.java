@@ -49,11 +49,12 @@ public class SchemaCreator {
 							Log.l.debug("Can't drop table for "+ts+" :"+pe);
 						}
 					ts.createTable(dos, update);
-					Log.l.debug("Created table for: " + modelClass);
+					Log.l.debug("Created "+(update?"or altered ":"")+"table for: " + modelClass);
 				} catch (IllegalArgumentException ie) {
 					// skip 
+					//Log.l.error("", ie);
 				}
-		} catch (ProcessException pe) {
+		} catch (ProcessException pe) {			
 			throw pe;
 		} catch (Exception e) {
 			throw new ProcessException("Unhandled " + e, e);

@@ -8,4 +8,7 @@ public class Setup {
 	
 	@FormField
 	public boolean discardExisting;
+	
+	@FormField
+	public boolean doAlter;
 }
