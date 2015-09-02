@@ -247,12 +247,11 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 
 	@Override
 	protected String getUnauthorizedPage() {
-		// TODO use behavior and config to customize
 		String page = getConfigValue(CONFIG_PUBLIC_HOME, WebApp.commonBehavior.unauthorizedView);
 		if (page == null || page.length() == 0) {
 			try {
 				page = new URL(req.getScheme(), req.getServerName(), req.getServerPort(), req.getContextPath()
-						+ "/welcome.html").toString();
+						+ "/").toString();
 			} catch (MalformedURLException e) {
 				log("", e);
 			}

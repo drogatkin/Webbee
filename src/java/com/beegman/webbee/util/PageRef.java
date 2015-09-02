@@ -170,4 +170,16 @@ public class PageRef implements Serializable {
 		}
 		return result;
 	}
+	
+	public static String appendParamSeparator(String path) {
+		int qi = path.indexOf('?');
+		if (qi >= 0) {
+			if (qi < path.length() - 1) {
+				if (!path.endsWith("&"))
+					path += '&';
+			}
+		} else
+			path += '?';
+		return path;
+	}
 }

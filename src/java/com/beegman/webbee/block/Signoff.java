@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import com.beegman.webbee.base.BaseBlock;
+import com.beegman.webbee.util.PageRef;
 
 public class Signoff extends BaseBlock {
 
@@ -31,7 +32,8 @@ public class Signoff extends BaseBlock {
 		String ar = autoRedirect();
 		if (ar != null) {
 			try {
-				redirect(req, resp, ar + TARGET_PAGE + "=" + URLEncoder.encode(getParameterValue(TARGET_PAGE, "", 0), CharSet.UTF8));
+				redirect(req, resp,
+						PageRef.appendParamSeparator(ar) + TARGET_PAGE + "=" + URLEncoder.encode(getParameterValue(TARGET_PAGE, "", 0), CharSet.UTF8));
 			} catch (IOException e) {
 			}
 			return null;

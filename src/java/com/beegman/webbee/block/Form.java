@@ -74,6 +74,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 	protected String getSubmitPage() {
 		if (navigation == null)
 			return req.getContextPath();
+		// TODO make it behavior configured
 		return navigation;
 	}
 

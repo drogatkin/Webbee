@@ -16,3 +16,4 @@ Work items
 
 1. Introduce base behavior delegator and attach it in config
 2. Non DOM (form) JSON submission
+3. Add Segment block
