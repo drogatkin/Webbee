@@ -56,6 +56,7 @@ public class Attach<A extends AppModel> extends BaseBlock<A> {
 				log("error", e);
 			}
 		}
+		resp.setContentType("application/json; charset=UTF-8");
 		return pageMap;
 	}
 
@@ -145,6 +146,7 @@ public class Attach<A extends AppModel> extends BaseBlock<A> {
 	}
 
 	protected String generateId(String fileName) {
+		// TODO not reliable, perhaps replace with UDDI
 		return "" + (long) (10000000 * Math.random() / 1) + ext(fileName);
 	}
 
