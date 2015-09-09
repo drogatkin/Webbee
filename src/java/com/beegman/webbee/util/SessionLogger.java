@@ -6,14 +6,16 @@ package com.beegman.webbee.util;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionEvent;
 
 /** This class is provided for debug purpose only
  * 
  * @author Dmitriy
  *
  */
-public class SessionLogger implements HttpSessionAttributeListener {
+public class SessionLogger implements HttpSessionAttributeListener, HttpSessionListener {
 
 	@Override
 	public void attributeAdded(HttpSessionBindingEvent sessionBindingEvent) {
@@ -40,6 +42,16 @@ public class SessionLogger implements HttpSessionAttributeListener {
 		// Log some information
 		System.out.println(new java.util.Date()+" Attribute	replaced, session "+session+": "+sessionBindingEvent
 		.getName()+"="+sessionBindingEvent.getValue());
+	}
+	
+	@Override
+	public void 	sessionCreated(HttpSessionEvent se) {
+		new Exception("Session "+se.getSession().getId()+" has  been created.").printStackTrace(System.out);
+	}
+	
+	@Override
+	public void 	sessionDestroyed(HttpSessionEvent se) {
+		new Exception("Session "+se.getSession().getId()+" has  been destroyed.").printStackTrace(System.out);
 	}
 
 }
