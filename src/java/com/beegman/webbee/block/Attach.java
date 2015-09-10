@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -145,9 +146,13 @@ public class Attach<A extends AppModel> extends BaseBlock<A> {
 		return -1;
 	}
 
+	/** Override this method to generate unique id of attachment of your choice
+	 * It is desirable to keep extension to properly apply MIME type for
+	 * downloads. However it is still can be controlled without it.
+	 */
 	protected String generateId(String fileName) {
-		// TODO not reliable, perhaps replace with UDDI
-		return "" + (long) (10000000 * Math.random() / 1) + ext(fileName);
+		//return "" + (long) (10000000 * Math.random() / 1) + ext(fileName);
+		return UUID .	randomUUID().toString() + ext(fileName);
 	}
 
 	protected String getId() {
