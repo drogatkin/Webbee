@@ -214,7 +214,7 @@ public class AppModel extends Registry implements Serializable,
 
 	public Tab[] getTabs(BaseBlock<? extends AppModel> baseBlock) {
 		try {
-			return Tab.createTabsFronResource(baseBlock
+			return Tab.createTabsFromResource(baseBlock
 					.getNamedResource("navigationtabs"));
 		} catch (ResourceException e) {
 			return new Tab[0];
@@ -223,7 +223,7 @@ public class AppModel extends Registry implements Serializable,
 
 	public PageRef[] getTopBarLinks(BaseBlock<? extends AppModel> baseBlock) {
 		try {
-			return PageRef.createPageRefsFronResource(baseBlock
+			return PageRef.createPageRefsFromResource(baseBlock
 					.getNamedResource("fastaccessbuttons"));
 		} catch (ResourceException e) {
 			return new PageRef[0];

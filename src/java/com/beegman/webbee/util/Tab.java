@@ -31,7 +31,7 @@ public class Tab extends PageRef {
 	 * @param resource
 	 * @return
 	 */
-	public static Tab[] createTabsFronResource(ResourceBundle resource) {
+	public static Tab[] createTabsFromResource(ResourceBundle resource) {
 		Enumeration<String> ke = resource.getKeys();
 		ArrayList<String> keys = new ArrayList<String>(10);
 		while(ke.hasMoreElements())
@@ -51,7 +51,7 @@ public class Tab extends PageRef {
 			else if (tabComps.length == 2)
 				result[i] = new Tab(tabComps[0], tabComps[1]);
 			else if (tabComps.length == 3)
-				result[i] = new Tab(tabComps[0], tabComps[1], tabComps[1]);
+				result[i] = new Tab(tabComps[0], tabComps[2], tabComps[1]);
 		}
 		return result;
 	}

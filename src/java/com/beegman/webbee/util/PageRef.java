@@ -145,7 +145,7 @@ public class PageRef implements Serializable {
 	 * @param resource
 	 * @return
 	 */
-	public static PageRef[] createPageRefsFronResource(ResourceBundle resource) {
+	public static PageRef[] createPageRefsFromResource(ResourceBundle resource) {
 		// TODO try to find generic code for tabs and buttons
 		Enumeration<String> keys =resource.getKeys();
 		ArrayList<String> keysarray = new ArrayList<String>();
