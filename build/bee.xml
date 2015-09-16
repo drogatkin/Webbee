@@ -77,7 +77,7 @@
                  <value variable="folder"/>
               </operator>
            </expression> 
-           <echo variable="target folder"/>
+           <!--echo variable="target folder"/-->
            <function name="mkd">
               <parameter variable="target folder"/>
            </function>
@@ -89,7 +89,7 @@
                  <parameter>com</parameter>
            </function>
        </expression>
-       <expression name="db vendor">
+       <expression name="db code">
            <function name="ask">
                  <parameter>Database type used, one of h2, ora, my, hado [ora]?</parameter>
                  <parameter>ora</parameter>
@@ -117,7 +117,7 @@
                  <value variable="folder"/>
               </operator>
            </expression> 
-           <echo variable="target folder"/>
+           <!--echo variable="target folder"/-->
            <function name="mkd">
               <parameter variable="target folder"/>
            </function>
@@ -164,7 +164,7 @@ public class </value>
 	@Override
 	protected DOService createDataService(DataSource datasource) {
 		return new DOService(datasource) {
-                }
+                };
         }
 
 	@Override
@@ -300,7 +300,73 @@ DEBUG=1
 &lt;/web-app&gt;
            </parameter>
         </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="bee.xml"/>
+          </operator>
+       </expression>
 
+       <variable name="conf header">&lt;?xml version="1.0"?&gt;
+ &lt;!DOCTYPE bee PUBLIC "-//Dmitriy Rogatkin//DTD Bee Project Builder 1.0//EN"
+    "http://knitknot.info/DTD/bee.dtd" [
+      &lt;!ENTITY env SYSTEM "./env.xml"&gt;
+      &lt;!ENTITY project "</variable>
+       <expression variable="conf header">
+          <operator name="append">
+             <value variable="conf header"/>
+             <value variable="project name"/>
+             <value>"&gt;
+      &lt;!ENTITY build_directory "./build"&gt;
+      &lt;!ENTITY source_directory "src/java"&gt;
+      &lt;!ENTITY build_file "&amp;project;.jar"&gt; 
+      &lt;!ENTITY domain "</value>
+             <value variable="project domain"/>
+             <value>"&gt;
+      &lt;!ENTITY org "</value>
+             <value variable="org name"/>
+             <value>"&gt;
+      &lt;!ENTITY manifestf ""&gt; 
+      &lt;!ENTITY main_class "&amp;domain;.&amp;org;.&amp;project;.Main"&gt;
+      &lt;!ENTITY webapp_file "&amp;project;.war"&gt; 
+      &lt;!ENTITY projects_root "</value>
+            <value variable=""/>
+            <value>"&gt;
+      ]>
+</value>
+         </operator>
+       </expression>
+       <function name="write">
+           <parameter variable="wrk file"/>
+           <parameter variable="conf header"/>
+       </function>
+       <function name="cpa">
+           <parameter type="dir">bee.proj.tmpl</parameter>
+           <parameter variable="wrk file"/>
+       </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="env.xml"/>
+          </operator>
+       </expression>
+       <function name="write">
+           <parameter variable="wrk file"/>
+           <parameter>   &lt;variable name="WEBBEE_HOME" type="path"&gt;</parameter>
+           <parameter variable="WEBBEE_HOME"/>
+           <parameter>&lt;/variable&gt;
+   &lt;variable name="ALDAN3_HOME" type="path"&gt;</parameter>
+           <parameter variable="ALDAN3_HOME"/>
+           <parameter>&lt;/variable&gt;
+
+</parameter>
+       </function>
+       <function name="cpa">
+           <parameter type="path">build/env.proj.tmpl</parameter>
+           <parameter variable="wrk file"/>        
+      </function>
 
      </block>
   </target>
