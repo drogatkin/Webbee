@@ -8,13 +8,9 @@ Most of RAD tools provide tons of documentation to help people use them. Therefo
 
 
 ### Create application
+Slip to build directory and run script as below, and then answer new application wizard questions. 
 
-<div style="
-  font-family:Courier;
- color: #CCCCCC;
-  background: #000000;
-  border: 3px double #CCCCCC;
-  padding: 10px;">
+~~~
   >bee create<br/>
   Welcome to new project creation wizard<br/>
 Enter projects root directory [../..]?<br/>
@@ -22,7 +18,10 @@ Enter projects name [test]?vega<br/>
 Enter your organization name [acme]?drogatkin<br/>
 Enter projects domain [com]?org<br/>
 Database type used, one of h2, ora, my, hado [ora]?h2<br/>
-  </div>
+~~~
+
+Your application is ready now, you can switch to it directory and run -bee- script to build its .war. 
+
 ## Major object types
 Webbee distinguishes the following fundamental objects
 1. data
