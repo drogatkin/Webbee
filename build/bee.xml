@@ -41,7 +41,20 @@
        <expression name="project name">
            <function name="ask">
                  <parameter>Enter projects name [test]?</parameter>
-                 <parameter type="path">test</parameter>
+                 <parameter>test</parameter>
+           </function>
+       </expression>
+       <expression name="C project name">
+           <function name="string">
+                 <parameter variable="project name"/>
+                 <parameter>capital</parameter>
+           </function>
+       </expression>
+
+       <expression name="org name">
+           <function name="ask">
+                 <parameter>Enter your organization name [acme]?</parameter>
+                 <parameter>test</parameter>
            </function>
        </expression>
        <expression name="project directory">
@@ -54,7 +67,7 @@
        <function name="mkd">
           <parameter variable="project directory"/>
        </function>
-       <variable name="project folders">build,doc,out,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/view,src/java,src/model,src/js</variable>
+       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/view,src/java,src/model,src/js</variable>
        <for variable="folder" in="project folders" separator=",">
          <block>
            <expression name="target folder">
@@ -73,9 +86,222 @@
        <expression name="project domain">
            <function name="ask">
                  <parameter>Enter projects domain [com]?</parameter>
-                 <parameter type="path">com</parameter>
+                 <parameter>com</parameter>
            </function>
        </expression>
+       <expression name="db vendor">
+           <function name="ask">
+                 <parameter>Database type used, one of h2, ora, my, hado [ora]?</parameter>
+                 <parameter>ora</parameter>
+           </function>
+       </expression>
+       <expression name="class folders">
+         <operator name="append">
+             <value value="ux,model,model/util,serv"/>             
+         </operator>
+       </expression>
+
+       <for variable="folder" in="class folders" separator=",">
+         <block>
+           <expression name="target folder">
+              <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/java/"/>
+                 <value variable="project domain"/>
+                 <value>/</value>
+                 <value variable="org name"/>
+                 <value>/</value>
+                 <value variable="project name"/>
+                 <value>/</value>
+                 <value variable="folder"/>
+              </operator>
+           </expression> 
+           <echo variable="target folder"/>
+           <function name="mkd">
+              <parameter variable="target folder"/>
+           </function>
+          </block>
+       </for>
+       <expression variable="model class">
+           <operator name="append">
+             <value>
+// Webbee (C) 2015 Dmitriy Rogatkin
+///////   application model file   //////////
+// TODO modify the file for the application purpose
+package </value>
+             <value variable="project domain"/>
+             <value>.</value>
+             <value variable="org name"/>
+             <value>.</value>
+             <value variable="project name"/>
+             <value>.model;
+</value>
+             <value>
+import javax.sql.DataSource;
+import org.aldan3.data.DOService;
+import org.aldan3.model.Log;
+
+import com.beegman.webbee.model.AppModel;
+//import com.beegman.webbee.model.Auth;
+
+public class </value>
+             <value variable="C project name"/>
+             <value>Model extends AppModel {
+
+	@Override
+	public String getAppName() {
+		return "</value>
+             <value variable="project name"/>
+             <value>";
+	}
+	
+	@Override
+	protected String getServletName() {
+		return "Webbee servlet";
+	}
+ 
+	@Override
+	protected DOService createDataService(DataSource datasource) {
+		return new DOService(datasource) {
+                }
+        }
+
+	@Override
+	protected void initServices() {
+		super.initServices();
+	}
+}</value>         
+           </operator>
+       </expression>
+       
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/java/"/>
+                 <value variable="project domain"/>
+                 <value>/</value>
+                 <value variable="org name"/>
+                 <value>/</value>
+                 <value variable="project name"/>
+                 <value>/model/</value>
+                 <value variable="C project name"/>
+                 <value>Model.java</value>
+          </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter variable="model class"/>
+       </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/cfg/"/>
+                 <value variable="project name"/>
+                 <value>.properties</value>
+         </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter>
+#
+PresentServicePackage=</parameter>
+         <parameter variable="project domain"/>
+         <parameter>.</parameter>
+         <parameter variable="org name"/>
+         <parameter>.</parameter>
+         <parameter variable="project name"/>
+         <parameter>.ux.
+
+RESOURCEROOT=/WEB-INF/res/text
+
+TEMPLATEROOT=/WEB-INF/res/view
+
+viewext=.html
+
+#stationary=
+
+#copyright=
+
+#public_home=
+
+#attach_home=
+
+#public_canvas=
+
+#mobile_support=yes
+
+DEBUG=1
+</parameter>
+       </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/cfg/web.xml"/>
+          </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter>&lt;web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	metadata-complete="true"&gt;
+
+	&lt;context-param&gt;
+		&lt;param-name&gt;model_datasource&lt;/param-name&gt;
+		&lt;param-value>jdbc/</parameter>
+        <parameter variable="db code"/>
+        <parameter>/</parameter>
+        <parameter variable="project name"/>
+        <parameter>&lt;/param-value&gt;
+	&lt;/context-param&gt;
+	&lt;listener&gt;
+		&lt;listener-class></parameter>
+          <parameter variable="project domain"/>
+          <parameter>.</parameter>
+          <parameter variable="org name"/>
+          <parameter>.</parameter>
+          <parameter variable="project name"/>
+          <parameter>.model.</parameter>
+          <parameter variable="C project name"/>
+          <parameter>Model&lt;/listener-class&gt;
+	&lt;/listener&gt;
+	&lt;servlet&gt;
+                &lt;servlet-name&gt;Webbee servlet&lt;/servlet-name&gt;
+		&lt;description&gt;Webbee main servlet&lt;/description&gt;
+		&lt;servlet-class&gt;com.beegman.webbee.base.WebApp&lt;/servlet-class&gt;
+		&lt;init-param>
+			&lt;param-name&gt;properties&lt;/param-name&gt;
+			&lt;param-value&gt;/WEB-INF/config/</parameter>
+          <parameter variable="project name"/>
+          <parameter>.properties&lt;/param-value&gt;
+		&lt;/init-param&gt;
+		&lt;async-supported>true&lt;/async-supported&gt;
+	&lt;/servlet&gt;
+	&lt;servlet-mapping&gt;
+		&lt;servlet-name&gt;Webbee servlet&lt;/servlet-name&gt;
+		&lt;url-pattern&gt;/webbee/*&lt;/url-pattern&gt;
+	&lt;/servlet-mapping&gt;
+	&lt;welcome-file-list&gt;
+		&lt;welcome-file&gt;index.html&lt;/welcome-file&gt;
+	&lt;/welcome-file-list&gt;
+	&lt;resource-ref&gt;
+		&lt;res-ref-name&gt;java:comp/env/jdbc/</parameter>
+        <parameter variable="db code"/>
+        <parameter>/</parameter>
+        <parameter variable="project name"/>
+        <parameter>&lt;/res-ref-name&gt;
+		&lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+		&lt;res-auth&gt;Container&lt;/res-auth&gt;
+	&lt;/resource-ref&gt;
+&lt;/web-app&gt;
+           </parameter>
+        </function>
+
+
      </block>
   </target>
 
