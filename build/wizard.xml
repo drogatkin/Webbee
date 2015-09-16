@@ -1,7 +1,7 @@
 <echo>Welcome to Webbee component creation wizard</echo>
 <expression name="comp type">
   <function name="ask">
-     <parameter>Enter type of component d- for JDO, u - for web [d]? </parameter>
+     <parameter>Enter type of component d - for JDO, u - for web, s - for service [d]? </parameter>
      <parameter>d</parameter>
   </function>
 </expression>
@@ -72,7 +72,7 @@ public class module extends SimpleCoordinator&lt;</parameter>
   <block type="case" value="u">
      <expression name="block type">
        <function name="ask">
-          <parameter>Enter UX bas lock type f - Form, t - Tabular, q - SQLTabular, s - Schema setup? </parameter>
+          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, s - Schema setup? </parameter>
           <parameter></parameter>
        </function>
      </expression>
@@ -204,4 +204,12 @@ public class </parameter>
          </block>
       </switch>
   </block> 
+  <block type="case" value="s">
+     <expression name="serv type">
+       <function name="ask">
+          <parameter>Enter base service type m - mailer, c - CRON [m]? </parameter>
+          <parameter>m</parameter>
+       </function>
+     </expression>
+  </block>
 </switch>
