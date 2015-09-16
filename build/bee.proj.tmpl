@@ -144,6 +144,14 @@
     </task>
   </target>
 
+  <target name="create" dir="PROJECT_HOME">
+     <dependency>true</dependency>
+     <block>
+       &wizard;
+     </block>
+  </target>
+
+
   <target name="clean" dir="PROJECT_HOME">
     <dependency>
        <expression>

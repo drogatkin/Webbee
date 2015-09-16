@@ -67,7 +67,7 @@
        <function name="mkd">
           <parameter variable="project directory"/>
        </function>
-       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/view,src/java,src/model,src/js</variable>
+       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/view,src/java,src/js</variable>
        <for variable="folder" in="project folders" separator=",">
          <block>
            <expression name="target folder">
@@ -327,7 +327,10 @@ DEBUG=1
       &lt;!ENTITY org "</value>
              <value variable="org name"/>
              <value>"&gt;
-      &lt;!ENTITY manifestf ""&gt; 
+      &lt;!ENTITY manifestf ""&gt;
+      &lt;!ENTITY wizard SYSTEM "file:/</value> 
+             <value variable="WEBBEE_HOME"/>
+             <value>/build/wizard.xml"&gt;
       &lt;!ENTITY main_class "&amp;domain;.&amp;org;.&amp;project;.Main"&gt;
       &lt;!ENTITY webapp_file "&amp;project;.war"&gt; 
       &lt;!ENTITY projects_root "</value>

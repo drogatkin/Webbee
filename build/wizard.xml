@@ -1,0 +1,207 @@
+<echo>Welcome to Webbee component creation wizard</echo>
+<expression name="comp type">
+  <function name="ask">
+     <parameter>Enter type of component d- for JDO, u - for web [d]? </parameter>
+     <parameter>d</parameter>
+  </function>
+</expression>
+<expression name="comp name">
+  <function name="ask">
+     <parameter>Enter name of component? </parameter>
+     <parameter></parameter>
+  </function>
+</expression>
+<expression name="proj cap">
+   <function name="string">
+      <parameter>&project;</parameter>
+      <parameter>capital</parameter>
+   </function>
+</expression>
+<switch variable="comp type">
+  <block type="case" value="d">
+      <expression name="file">
+         <operator name="append">
+            <value>src/java/&domain;/&org;/&project;/model/</value>
+            <value variable="comp name"/>
+            <value>.java</value>
+         </operator>
+      </expression>
+      <function name="write">
+         <parameter variable="file"/>
+         <parameter>package &domain;.&org;.&project;.model;
+
+import java.util.Date;
+
+import org.aldan3.annot.DBField;
+import org.aldan3.annot.DataRelation;
+import org.aldan3.annot.FormField;
+import org.aldan3.annot.FormField.FieldType;
+
+import com.beegman.webbee.util.SimpleCoordinator;
+
+@DataRelation
+public class module extends SimpleCoordinator&lt;</parameter>
+        <parameter variable="proj cap"/>
+        <parameter>Model&gt; {
+
+	public module(</parameter>
+        <parameter variable="proj cap"/>
+        <parameter>Model m) {
+		super(m);
+	}
+
+	@DBField(key = true, auto = 1)
+	@FormField(presentType = FieldType.Hidden)
+	public long id;
+
+	@DBField(size = 500)
+	@FormField()
+	public String name;
+
+	@DBField(size = 4000)
+	@FormField(presentSize = 68, presentRows = 6)
+	public String description;
+
+	@DBField
+	public Date end_date;
+
+}
+         </parameter>
+      </function>
+  </block>
+  <block type="case" value="u">
+     <expression name="block type">
+       <function name="ask">
+          <parameter>Enter UX bas lock type f - Form, t - Tabular, q - SQLTabular, s - Schema setup? </parameter>
+          <parameter></parameter>
+       </function>
+     </expression>
+     <expression name="JDO name">
+       <function name="ask">
+          <parameter>Enter based on JDO name if any? </parameter>
+          <parameter></parameter>
+       </function>
+     </expression>
+      <expression name="file">
+         <operator name="append">
+            <value>src/res/text/</value>
+            <value variable="comp name"/>
+            <value>.properties</value>
+         </operator>
+      </expression>
+      <function name="write">
+         <parameter variable="file"/>
+         <parameter># put localized labels here
+title=</parameter>
+         <parameter variable="comp name"/>
+         <parameter>
+name=Name
+descriotion=Description</parameter>
+      </function>
+      <expression name="file">
+         <operator name="append">
+            <value>src/res/view/</value>
+            <value variable="comp name"/>
+            <value>.html</value>
+         </operator>
+      </expression>
+
+      <expression name="name cap">
+         <function name="string">
+           <parameter variable="comp name"/>
+           <parameter>capital</parameter>
+         </function>
+      </expression>
+
+      <expression name="file java">
+         <operator name="append">
+            <value>src/java/&domain;/&org;/&project;/ux/</value>
+            <value variable="name cap"/>
+            <value>.java</value>
+         </operator>
+      </expression>
+      <switch variable="block type">
+         <block type="case" value="f">
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter>package &domain;.&org;.&project;.ux;
+
+import org.aldan3.model.ProcessException;
+import org.aldan3.data.DODelegator;
+import com.beegman.webbee.block.Form;
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model;
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>;
+
+public class </parameter>
+                 <parameter variable="name cap"/>
+                 <parameter> extends Form&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>, </parameter> 
+                 <parameter variable="proj cap"/>
+                 <parameter>Model&gt; {
+
+	@Override
+	protected </parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter> getFormModel() {
+		return new </parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>(getAppModel());
+	}
+
+	@Override
+	protected void loadModel(</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter> jdo) {
+		try {
+			getAppModel().getDOService().getObjectLike(new DODelegator&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>&gt;(jdo, null, "", "id"));
+		} catch (ProcessException e) {
+			log("", e);
+		}
+	}
+
+	@Override
+	protected Object storeModel(</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter> jdo) {
+		DODelegator&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>&gt; djdo = new DODelegator&lt;&gt;(jdo, null, "", "id");
+		try {
+			getAppModel().getDOService().addObject(djdo, "id", jdo.id &lt;= 0 ? null : djdo);
+			log("c/u %d", null, jdo.id);
+			navigation = ".";
+		} catch (ProcessException e) {
+			log("", e);
+			return e;
+		}
+		return null;
+	}
+
+}</parameter>
+            </function>
+            <function name="write">
+                <parameter variable="file"/>
+                <parameter>&lt;div class="form_header">@label.title@&lt;/div&gt;
+
+&lt;form name="</parameter>
+               <parameter variable="name cap"/>
+               <parameter>" method="POST"&gt;
+&lt;div&gt;&lt;div&gt;@label.name@&lt;/div&gt;@.ui.field*(name,java.lang.Object^@model@)*@&lt;/div&gt;
+&lt;div&gt;&lt;div&gt;@label.description@&lt;/div&gt;@.ui.field*(description,java.lang.Object^@model@)*@&lt;/div&gt;
+
+&lt;hr&gt; 
+@.ui.field*(id,java.lang.Object^@model@)*@
+&lt;input type="submit" name="submit" value="@commonlabels.submit@"&gt;
+&lt;/form&gt;</parameter>
+            </function>
+         </block>
+      </switch>
+  </block> 
+</switch>
