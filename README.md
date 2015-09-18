@@ -10,17 +10,17 @@ Every application defines one instance of Application Model object. Webbee provi
 ### Create application
 Slip to build directory and run script as below, and then answer new application wizard questions. 
 
-~~~
-  >bee create<br/>
-  Welcome to new project creation wizard<br/>
-Enter projects root directory [../..]?<br/>
-Enter projects name [test]?vega<br/>
-Enter your organization name [acme]?drogatkin<br/>
-Enter projects domain [com]?org<br/>
-Database type used, one of h2, ora, my, hado [ora]?h2<br/>
-~~~
+```
+>bee create
+  Welcome to new project creation wizard
+Enter projects root directory [../..]?
+Enter projects name [test]?vega
+Enter your organization name [acme]?drogatkin
+Enter projects domain [com]?org
+Database type used, one of h2, ora, my, hado [ora]?h2
+```
 
-Your application is ready now, you can switch to it directory and run -bee- script to build its .war. 
+Your application is ready now, you can switch to its directory and run `bee` to build a .war. 
 
 ## Major object types
 Webbee distinguishes the following fundamental objects
@@ -29,4 +29,4 @@ Webbee distinguishes the following fundamental objects
 2. UI service
 3. backend service
 
-Use bee create command in an application forlder to create any of these objects.
+Use `bee create` command in an application folder to create any of these objects.
