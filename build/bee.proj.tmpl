@@ -355,7 +355,8 @@
          <parameter type="path">&build_directory;/&domain;</parameter>
          <parameter/>
          <parameter>L</parameter>
-         <parameter variable="CUSTOM CP" type="array" separator="PATH SEPARATOR"/>
+         <!-- TODO change to CUSTOME CP when app server runtime already provides JDBC driver -->
+         <parameter variable="RUNTIME CP" type="array" separator="PATH SEPARATOR"/>
          <parameter>jasper\.jar|javax\.servlet\.jar</parameter>
          <parameter>A WEB-INF/config/</parameter>
          <parameter type="path">src/res/cfg/*.properties</parameter>

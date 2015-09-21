@@ -356,6 +356,18 @@ DEBUG=1
           <operator name="append">
                  <value variable="project directory"/>
                  <value>/</value>
+                 <value value="src/res/view/canvas.html"/>
+          </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter>@%'canvas.htmt'@
+</parameter>
+       </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
                  <value value="src/res/cfg/web.xml"/>
           </operator>
        </expression>
@@ -479,8 +491,19 @@ DEBUG=1
    &lt;variable name="ALDAN3_HOME" type="path"&gt;</parameter>
            <parameter variable="ALDAN3_HOME"/>
            <parameter>&lt;/variable&gt;
-
-</parameter>
+   &lt;variable name=&quot;JDBC_DRIVER&quot;</parameter>
+           <parameter>
+             <expression>
+                <switch variable="db code">
+                   <block type="case" value="h2">
+                       <expression>
+                         <value> type=&quot;repo_artifact&quot;&gt;maven:com.h2database:h2:1.4.189&lt;/variable&gt;
+</value>
+                       </expression>
+                   </block>
+                </switch>
+              </expression>
+            </parameter>
        </function>
        <function name="cpa">
            <parameter type="path">build/env.proj.tmpl</parameter>
@@ -507,13 +530,47 @@ DEBUG=1
          &lt;h2&gt;Welcome to </parameter>
          <parameter variable="C project name"/>
          <parameter>&lt;/h2&gt; 
-           &lt;a href=&quote;/</parameter>
+           &lt;a href=&quot;/</parameter>
          <parameter variable="project name"/>
-         <parameter>/webbee/&quote;&gt;Cick here&lt;/a&gt; to access( append UI service name)
+         <parameter>/webbee/&quot;&gt;Cick here&lt;/a&gt; to access( append UI service name)
       &lt;/body&gt;
 &lt;/html&gt;
          </parameter>
-     </function>
+       </function>
+       <switch variable="db code">
+          <block type="case" value="h2">
+            <expression name="wrk file">
+              <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/res/cfg/context.xml"/>
+              </operator>
+            </expression>
+            <function name="write">
+               <parameter variable="wrk file"/>
+               <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Context&gt;
+    &lt;!-- Specify a JDBC datasource --&gt;
+    &lt;Resource name=&quot;jdbc/h2/</parameter>
+               <parameter variable="project name"/>
+               <parameter>&quot; 
+              auth=&quot;Container&quot;
+              type=&quot;javax.sql.DataSource&quot;
+              username=&quot;sa&quot;
+              password=&quot;&quot;
+              driverClassName=&quot;org.h2.Driver&quot;
+              driverClassPath=&quot;Application&quot;
+              url=&quot;jdbc:h2:~/</parameter>
+               <parameter variable="project name"/>
+              <parameter>&quot;
+              validationQuery=&quot;select 1&quot;
+              maxActive=&quot;3&quot;
+              maxIdle=&quot;2&quot;/&gt;
+&lt;/Context&gt;
+</parameter>
+            </function>
+          </block>
+       </switch>
      </block>
   </target>
 

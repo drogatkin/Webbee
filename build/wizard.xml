@@ -105,6 +105,12 @@ public class </parameter>
           <parameter></parameter>
        </function>
      </expression>
+      <expression name="name cap">
+         <function name="string">
+           <parameter variable="comp name"/>
+           <parameter>capital</parameter>
+         </function>
+      </expression>
       <expression name="file">
          <operator name="append">
             <value>src/res/text/</value>
@@ -116,18 +122,11 @@ public class </parameter>
          <parameter variable="file"/>
          <parameter># put localized labels here
 title=</parameter>
-         <parameter variable="comp name"/>
+         <parameter variable="name cap"/>
          <parameter>
 name=Name
 description=Description</parameter>
       </function>
-
-      <expression name="name cap">
-         <function name="string">
-           <parameter variable="comp name"/>
-           <parameter>capital</parameter>
-         </function>
-      </expression>
 
       <expression name="file">
          <operator name="append">
@@ -140,7 +139,11 @@ description=Description</parameter>
           <parameter variable="seq gen"/>
           <parameter>=</parameter>
           <parameter variable="name cap"/>
-          <parameter>?id=
+          <parameter>?id=,</parameter>
+          <parameter variable="name cap"/>
+          <parameter>,</parameter> 
+          <parameter variable="name cap"/>
+          <parameter>
 </parameter>
       </function>
       <expression name="file">
