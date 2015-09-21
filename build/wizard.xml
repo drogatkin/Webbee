@@ -17,6 +17,26 @@
       <parameter>capital</parameter>
    </function>
 </expression>
+
+<expression name="seq gen">
+   <function name="calc">
+     <parameter>
+        <function name="read">
+           <parameter>sequence.cnt</parameter>
+           <parameter/>
+           <parameter/>
+        </function>
+     </parameter>
+     <parameter>+</parameter> 
+     <parameter>1</parameter> 
+   </function>
+</expression>
+
+   <function name="write">
+      <parameter>sequence.cnt</parameter>
+      <parameter variable="seq gen"/>
+   </function>
+
 <switch variable="comp type">
   <block type="case" value="d">
       <expression name="file">
@@ -40,11 +60,14 @@ import org.aldan3.annot.FormField.FieldType;
 import com.beegman.webbee.util.SimpleCoordinator;
 
 @DataRelation
-public class module extends SimpleCoordinator&lt;</parameter>
+public class </parameter>
+        <parameter variable="comp name"/>
+        <parameter> extends SimpleCoordinator&lt;</parameter>
         <parameter variable="proj cap"/>
         <parameter>Model&gt; {
-
-	public module(</parameter>
+	public </parameter>
+        <parameter variable="comp name"/>
+        <parameter>(</parameter>
         <parameter variable="proj cap"/>
         <parameter>Model m) {
 		super(m);
@@ -96,15 +119,8 @@ title=</parameter>
          <parameter variable="comp name"/>
          <parameter>
 name=Name
-descriotion=Description</parameter>
+description=Description</parameter>
       </function>
-      <expression name="file">
-         <operator name="append">
-            <value>src/res/view/</value>
-            <value variable="comp name"/>
-            <value>.html</value>
-         </operator>
-      </expression>
 
       <expression name="name cap">
          <function name="string">
@@ -113,6 +129,27 @@ descriotion=Description</parameter>
          </function>
       </expression>
 
+      <expression name="file">
+         <operator name="append">
+            <value>src/res/text/navigationtabs.properties</value>
+         </operator>
+      </expression>
+      <function name="writea">
+          <parameter variable="file"/>
+          <parameter>menu_item-</parameter>
+          <parameter variable="seq gen"/>
+          <parameter>=</parameter>
+          <parameter variable="name cap"/>
+          <parameter>?id=
+</parameter>
+      </function>
+      <expression name="file">
+         <operator name="append">
+            <value>src/res/view/</value>
+            <value variable="comp name"/>
+            <value>.html</value>
+         </operator>
+      </expression>
       <expression name="file java">
          <operator name="append">
             <value>src/java/&domain;/&org;/&project;/ux/</value>

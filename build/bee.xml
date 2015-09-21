@@ -91,7 +91,7 @@
        </expression>
        <expression name="db code">
            <function name="ask">
-                 <parameter>Database type used, one of h2, ora, my, hado [ora]?</parameter>
+                 <parameter>Database type used, one of h2, ora, my, hado, none [ora]?</parameter>
                  <parameter>ora</parameter>
            </function>
        </expression>
@@ -123,6 +123,17 @@
            </function>
           </block>
        </for>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/sequence.cnt</value>
+          </operator>
+       </expression>
+       <function name="write">
+          <parameter variable="wrk file"/>
+          <parameter>1</parameter>
+       </function>
+
        <expression variable="model class">
            <operator name="append">
              <value>
