@@ -184,6 +184,7 @@
       </dependency>
       <block>
         <echo>Deploying &build_directory;/&webapp_file;</echo>
+        <echo variable= "APP DEPLOY DROP"/>
         <function name="cp">
            <parameter value="&build_directory;/&webapp_file;" type="path"/>
            <parameter variable="APP DEPLOY DROP"/>

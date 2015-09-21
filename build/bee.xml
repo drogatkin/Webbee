@@ -95,6 +95,12 @@
                  <parameter>ora</parameter>
            </function>
        </expression>
+       <expression name="behav pub">
+           <function name="ask">
+                 <parameter>Does the application require user autentication [y]?</parameter>
+                 <parameter>y</parameter>
+           </function>
+       </expression>
        <expression name="class folders">
          <operator name="append">
              <value value="ux,model,model/util,serv"/>             
@@ -138,7 +144,7 @@
            <operator name="append">
              <value>
 // Webbee (C) 2015 Dmitriy Rogatkin
-///////   application model file   //////////
+///////   application model class   //////////
 // TODO modify the file for the application purpose
 package </value>
              <value variable="project domain"/>
@@ -155,7 +161,17 @@ import org.aldan3.model.Log;
 
 import com.beegman.webbee.model.AppModel;
 //import com.beegman.webbee.model.Auth;
+import com.beegman.webbee.base.BaseBehavior;
 
+import </value>
+             <value variable="project domain"/>
+             <value>.</value>
+             <value  variable="org name"/>
+             <value>.</value>
+             <value variable="project name"/>
+             <value>.model.util.</value>
+             <value variable="C project name"/>
+             <value>Behavior;
 public class </value>
              <value variable="C project name"/>
              <value>Model extends AppModel {
@@ -177,6 +193,13 @@ public class </value>
 		return new DOService(datasource) {
                 };
         }
+
+	@Override
+        public BaseBehavior getCommonBehavior() {
+		return new </value>
+             <value variable="C project name"/>
+             <value>Behavior ();
+	}
 
 	@Override
 	protected void initServices() {
@@ -209,7 +232,79 @@ public class </value>
           <operator name="append">
                  <value variable="project directory"/>
                  <value>/</value>
-                 <value value="src/cfg/"/>
+                 <value value="src/java/"/>
+                 <value variable="project domain"/>
+                 <value>/</value>
+                 <value variable="org name"/>
+                 <value>/</value>
+                 <value variable="project name"/>
+                 <value>/model/util/</value>
+                 <value variable="C project name"/>
+                 <value>Behavior.java</value>
+          </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter>// Webbee (C) 2015 Dmitriy Rogatkin
+///////   application common behavior class   //////////
+// TODO modify the file for the application behavior purpose
+package </parameter>
+             <parameter variable="project domain"/>
+             <parameter>.</parameter>
+             <parameter variable="org name"/>
+             <parameter>.</parameter>
+             <parameter variable="project name"/>
+             <parameter>.model.util;
+import com.beegman.webbee.base.BaseBehavior;
+import </parameter>
+             <parameter variable="project domain"/>
+             <parameter>.</parameter>
+             <parameter variable="org name"/>
+             <parameter>.</parameter>
+             <parameter variable="project name"/>
+             <parameter>.model.</parameter>
+             <parameter variable="C project name"/>
+             <parameter>Model;
+
+public class </parameter>
+             <parameter variable="C project name"/>
+             <parameter>Behavior extends BaseBehavior&lt;</parameter>
+             <parameter variable="C project name"/>
+             <parameter>Model&gt; {
+    public </parameter>
+             <parameter variable="C project name"/>
+             <parameter>Behavior () {
+         super();
+             </parameter>
+             <parameter> 
+               <expression>
+               <if>
+                  <expression>
+                     <operator name="neq">
+                          <value variable="behav pub"/>
+                          <value>y</value>
+                      </operator>
+                  </expression>
+                  <then>
+                     <expression>
+                        <value>  
+        isPublic = true;
+</value>
+                     </expression>
+                  </then>
+               </if>
+               </expression>
+            </parameter>
+            <parameter>
+    }
+}
+</parameter>
+       </function>
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/res/cfg/"/>
                  <value variable="project name"/>
                  <value>.properties</value>
          </operator>
@@ -232,6 +327,16 @@ TEMPLATEROOT=/WEB-INF/res/view
 
 viewext=.html
 
+CommonBehaviorClass=</parameter>
+         <parameter variable="project domain"/>
+         <parameter>.</parameter>
+         <parameter variable="org name"/>
+         <parameter>.</parameter>
+         <parameter variable="project name"/>
+         <parameter>.model.util.</parameter>
+         <parameter variable="C project name"/>
+         <parameter>Behavior
+
 #stationary=
 
 #copyright=
@@ -251,7 +356,7 @@ DEBUG=1
           <operator name="append">
                  <value variable="project directory"/>
                  <value>/</value>
-                 <value value="src/cfg/web.xml"/>
+                 <value value="src/res/cfg/web.xml"/>
           </operator>
        </expression>
        <function name="write">
@@ -382,6 +487,33 @@ DEBUG=1
            <parameter variable="wrk file"/>        
       </function>
 
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
+                 <value value="src/res/html/index.html"/>
+         </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+   &lt;head&gt;
+      &lt;title&gt;Welcome to </parameter>
+         <parameter variable="C project name"/>
+         <parameter>&lt;/title&gt; 
+   &lt;/head&gt;
+      &lt;body&gt; 
+         &lt;h2&gt;Welcome to </parameter>
+         <parameter variable="C project name"/>
+         <parameter>&lt;/h2&gt; 
+           &lt;a href=&quote;/</parameter>
+         <parameter variable="project name"/>
+         <parameter>/webbee/&quote;&gt;Cick here&lt;/a&gt; to access( append UI service name)
+      &lt;/body&gt;
+&lt;/html&gt;
+         </parameter>
+     </function>
      </block>
   </target>
 
