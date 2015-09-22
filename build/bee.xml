@@ -300,6 +300,91 @@ public class </parameter>
 }
 </parameter>
        </function>
+       <if>
+          <expression>
+            <operator name="neq">
+               <value variable="db code"/>
+               <value>none</value>
+            </operator>
+           </expression>
+           <then>
+                <expression name="wrk file">
+                    <operator name="append">
+                      <value variable="project directory"/>
+                      <value>/</value>
+                      <value value="src/java/"/>
+                      <value variable="project domain"/>
+                      <value>/</value>
+                      <value variable="org name"/>
+                      <value>/</value>
+                      <value variable="project name"/>
+                      <value>/ux/Schemainit.java</value>
+                  </operator>
+               </expression>
+               <function name="write">
+                  <parameter variable="wrk file"/>
+                  <parameter>package </parameter>
+                  <parameter variable="project domain"/>
+                  <parameter>.</parameter>
+                  <parameter variable="org name"/>
+                  <parameter>.</parameter>
+                  <parameter variable="project name"/>
+                  <parameter>.ux;
+
+import com.beegman.webbee.block.Systemsetup;
+import com.beegman.webbee.model.Setup;
+import </parameter>
+                  <parameter variable="project domain"/>
+                  <parameter>.</parameter>
+                  <parameter variable="org name"/>
+                  <parameter>.</parameter>
+                  <parameter variable="project name"/>
+                  <parameter>.model.</parameter>
+                  <parameter variable="C project name"/>
+                  <parameter>Model;
+
+public class Schemainit extends Systemsetup&lt;Setup, </parameter>
+                  <parameter variable="C project name"/>
+                  <parameter>Model&gt; {
+
+	@Override
+	protected String getDefaultModelPackage() {
+             return &quot;</parameter>
+                  <parameter variable="project domain"/>
+                  <parameter>.</parameter>
+                  <parameter variable="org name"/>
+                  <parameter>.</parameter>
+                  <parameter variable="project name"/>
+                  <parameter>.model</parameter>
+                  <parameter>&quot;;
+        }
+}
+</parameter>
+               </function>
+                <expression name="wrk file">
+                    <operator name="append">
+                      <value variable="project directory"/>
+                      <value>/</value>
+                      <value value="src/res/view/schemainit.html"/>
+                  </operator>
+               </expression>
+               <function name="write">
+                  <parameter variable="wrk file"/>
+                  <parameter>@%'systemsetup.htmt'@</parameter>
+               </function>
+                <expression name="wrk file">
+                    <operator name="append">
+                      <value variable="project directory"/>
+                      <value>/</value>
+                      <value value="src/res/text/schemainit.properties"/>
+                  </operator>
+               </expression>
+               <function name="cp">
+                   <parameter type="path">src/res/text/systemsetup.properties</parameter>
+                   <parameter variable="wrk file"/>
+               </function>
+           </then>
+       </if>
        <expression name="wrk file">
           <operator name="append">
                  <value variable="project directory"/>
@@ -501,6 +586,11 @@ DEBUG=1
 </value>
                        </expression>
                    </block>
+                   <block type="default">
+                       <expression>
+                          <value>&gt;&lt;/variable&gt;</value>
+                       </expression>
+                   </block>
                 </switch>
               </expression>
             </parameter>
@@ -532,7 +622,9 @@ DEBUG=1
          <parameter>&lt;/h2&gt; 
            &lt;a href=&quot;/</parameter>
          <parameter variable="project name"/>
-         <parameter>/webbee/&quot;&gt;Cick here&lt;/a&gt; to access( append UI service name)
+         <parameter>/webbee/&quot;&gt;Click here&lt;/a&gt; to access( append UI service name) &lt;br/&gt;&lt;a href=&quot;/</parameter>
+         <parameter variable="project name"/>
+         <parameter>/webbee/Schemainit&quot;&gt;Prepare schema&lt;/a&gt; 
       &lt;/body&gt;
 &lt;/html&gt;
          </parameter>
