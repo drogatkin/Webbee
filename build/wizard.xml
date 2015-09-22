@@ -101,8 +101,8 @@ public class </parameter>
      </expression>
      <expression name="JDO name">
        <function name="ask">
-          <parameter>Enter based on JDO name if any? </parameter>
-          <parameter></parameter>
+          <parameter>Enter based on JDO name if any [DataObject]? </parameter>
+          <parameter>DataObject</parameter>
        </function>
      </expression>
       <expression name="name cap">
@@ -242,6 +242,125 @@ public class </parameter>
 &lt;/form&gt;</parameter>
             </function>
          </block>
+         <block type="case" value="q">
+             <expression name="sql">
+                <function name="ask">
+                   <parameter>Enter SQL query of tabular result [select id, name, description from ..]? </parameter>
+                   <parameter>select id, name, description from ...</parameter>
+                </function>
+             </expression>  
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter>package &domain;.&org;.&project;.ux;
+
+import org.aldan3.model.ProcessException;
+import org.aldan3.data.DODelegator;
+import org.aldan3.model.DataObject;
+import org.aldan3.annot.DataRelation;
+import com.beegman.webbee.block.SqlTabular;
+
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="proj cap"/>
+                  <parameter>Model;
+@DataRelation(query="</parameter>
+                  <parameter variable="sql"/>
+                   <parameter>")
+public class </parameter>
+                  <parameter variable="name cap"/>
+                  <parameter> extends SqlTabular&lt;</parameter>
+                  <parameter variable="JDO name"/>
+                  <parameter>,</parameter>
+                  <parameter variable="proj cap"/>
+                  <parameter>Model&gt; {
+}
+</parameter>  
+           </function>
+           <expression name="columns">
+              <function name="region">
+                 <parameter variable="sql"/>
+                 <parameter>select\s+(\w+[,\s*\w+]*)\s+from.*</parameter>
+              </function>
+           </expression>
+           <expression name="columns">
+              <function name="element">
+                 <parameter variable="columns"/>
+                 <parameter value="0"/>
+              </function>
+           </expression>
+           <expression name="tablr templ">
+              <operator name="append">
+                <value> &lt;div class="form_header">@label.title@&lt;/div&gt;
+
+&lt;table&gt;&lt;tr&gt;</value>
+               </operator>
+           </expression>
+           <for variable="colm" in="columns" separator=",">
+               <expression name="low colm">
+                  <function name="string">
+                     <parameter variable="colm"/>
+                     <parameter>trim</parameter>
+                  </function>
+               </expression>
+               <expression name="low colm">
+                  <function name="string">
+                     <parameter variable="low colm"/>
+                     <parameter>lower</parameter>
+                  </function>
+               </expression>
+               <expression name="tablr templ">
+                  <operator name="append">
+                     <value variable="tablr templ"/>
+                     <value>&lt;th&gt;@label.</value>
+                     <value variable="low colm"/>
+                     <value>@&lt;/th&gt;
+</value>
+                  </operator>
+               </expression>
+           </for>
+           <expression name="tablr templ">
+              <operator name="append">
+                 <value variable="tablr templ"/>
+                 <value>&lt;/tr&gt;
+     @model(&lt;tr&gt;
+</value>
+              </operator>
+           </expression>
+           <for variable="colm" in="columns" separator=",">
+               <expression name="upc colm">
+                  <function name="string">
+                     <parameter variable="colm"/>
+                     <parameter>trim</parameter>
+                  </function>
+               </expression>
+               <expression name="upc colm">
+                  <function name="string">
+                     <parameter variable="upc colm"/>
+                     <parameter>upper</parameter>
+                  </function>
+               </expression>
+               <expression name="tablr templ">
+                 <operator name="append">
+                    <value variable="tablr templ"/>
+                    <value>&lt;td&gt;@element.get*(</value>
+                    <value variable="upc colm"/>
+                    <value>)*@&lt;/td&gt;
+</value>
+                  </operator>
+               </expression>
+           </for>
+           <expression name="tablr templ">
+              <operator name="append">
+                 <value variable="tablr templ"/>
+                 <value>&lt;/tr&gt;)@
+    &lt;/table&gt;
+</value>
+              </operator>
+           </expression>
+           <function name="write">
+                <parameter variable="file"/>
+                <parameter variable="tablr templ"></parameter>
+           </function>
+        </block>
       </switch>
   </block> 
   <block type="case" value="s">
