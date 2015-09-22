@@ -42,3 +42,27 @@ Webbee distinguishes the following fundamental objects
 3. backend service
 
 Use `bee create` command in an application folder to create any of these objects.
+
+## First time run
+
+It is recommended to build Webbee instead of getting binaries. [7Bee](https://github.com/drogatkin/7Bee), [Aldan3 JDO](https://github.com/drogatkin/aldan3-jdo), and [Aldan3](https://github.com/drogatkin/aldan3) are prerequisites. [TJWS](https://github.com/drogatkin/TJWS2) is optional, however it is recommended instead of Tomcat. Make some Webbee suite directory and then checkout all mentioned projects there. It will be easy to reference each other just using relative path.
+
+Slip in Webbee build directory and copy __env.xml.mas__ to __env.xml__. Edit __env.xml__ as below
+
+``` xml
+ <!-- useful for quick run without app server like Tomcat -->
+  <variable name="TJWS_HOME" type="path">../../TJWS2/1.x</variable>
+
+  <!-- Aldan3 library home  -->
+  <variable name="ALDAN3_HOME" type="path">../../aldan3</variable>
+  ```
+  
+  Internet access is required to pull other dependencies from Maven repository. However local copy of the dependencies can be used in case of offline usage. Note that Internet access is required only for filling dependencies cache.
+  
+  Use `bee` to build Webbee. Now you are ready to use `bee create` to start building your first project
+  
+  ### My library - my first Webbee project
+  
+  Consider creating a simple project to manage a personal library. 
+  
+   
