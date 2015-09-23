@@ -11,9 +11,9 @@
       <!ENTITY main_class "">
       <!ENTITY webapp_file "&project;.war"> <!-- change if differs -->
       ]>
-<!-- $Id: bee.xml,v 1.10 2012/04/17 22:04:56 dmitriy Exp $
+<!-- 
    Build script file used for "WebBee" project
-   Copyright (c) 2008-2010 Dmitriy Rogatkin    -->
+   Copyright (c) 2008-2015 Dmitriy Rogatkin    -->
 
 <bee name="&project;" type="project" dir="..">
   &env;
@@ -28,19 +28,20 @@
   <target name="create" dir="..">
      <dependency>true</dependency>
      <block>
-       <echo>Welcome to new project creation wizard</echo>
+       <echo>Welcome to a new project creation wizard</echo>
+       <echo>Tips: use only a single word in lower case letters for answers</echo>
        <variable name="projects root"/>
        <expression name="projects root">
           <operator name="append">
              <function name="ask">
-                 <parameter>Enter projects root directory [../..]?</parameter>
+                 <parameter>Enter Webbee suite root directory [../..]?</parameter>
                  <parameter type="path">../../</parameter>
              </function>
            </operator> 
        </expression>
        <expression name="project name">
            <function name="ask">
-                 <parameter>Enter projects name [test]?</parameter>
+                 <parameter>Enter project's name [test]?</parameter>
                  <parameter>test</parameter>
            </function>
        </expression>
@@ -85,19 +86,19 @@
        </for>
        <expression name="project domain">
            <function name="ask">
-                 <parameter>Enter projects domain [com]?</parameter>
+                 <parameter>Enter project's domain [com]?</parameter>
                  <parameter>com</parameter>
            </function>
        </expression>
        <expression name="db code">
            <function name="ask">
-                 <parameter>Database type used, one of h2, ora, my, hado, none [ora]?</parameter>
+                 <parameter>Provide database type used, one of h2, ora, my, hado, none [ora]?</parameter>
                  <parameter>ora</parameter>
            </function>
        </expression>
        <expression name="behav pub">
            <function name="ask">
-                 <parameter>Does the application require user autentication [y]?</parameter>
+                 <parameter>Does the application require user authentication [y]?</parameter>
                  <parameter>y</parameter>
            </function>
        </expression>
@@ -520,7 +521,22 @@ DEBUG=1
                  <value value="bee.xml"/>
           </operator>
        </expression>
-
+       <expression name="file prot">
+	       <if>
+	           <expression>
+	               <operator name="eq">
+	                   <value>/</value>
+	                   <value name="file.separator" type="property"/>
+	               </operator>
+	           </expression>
+	           <then>
+	               <variable>file:</variable>
+	           </then>
+	           <else>
+	               <variable>file:</variable>
+	           </else>
+	       </if>
+       </expression>
        <variable name="conf header">&lt;?xml version="1.0"?&gt;
  &lt;!DOCTYPE bee PUBLIC "-//Dmitriy Rogatkin//DTD Bee Project Builder 1.0//EN"
     "http://knitknot.info/DTD/bee.dtd" [
@@ -541,7 +557,8 @@ DEBUG=1
              <value variable="org name"/>
              <value>"&gt;
       &lt;!ENTITY manifestf ""&gt;
-      &lt;!ENTITY wizard SYSTEM "file:/</value> 
+      &lt;!ENTITY wizard SYSTEM "</value>
+             <value variable="file prot"/> 
              <value variable="WEBBEE_HOME"/>
              <value>/build/wizard.xml"&gt;
       &lt;!ENTITY main_class "&amp;domain;.&amp;org;.&amp;project;.Main"&gt;
