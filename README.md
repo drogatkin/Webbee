@@ -60,8 +60,8 @@ Slip in Webbee build directory and copy __env.xml.mas__ to __env.xml__. Edit __e
   Internet access is required to pull other dependencies from Maven repository. However local copy of the dependencies can be used in case of offline usage. Note that Internet access is required only for filling dependencies cache.
   
   Use `bee` to build Webbee. Now you are ready to use `bee create` to start building your first project
-  
-  ### My library - my first Webbee project
+
+### My library - my first Webbee project
   
   Consider creating a simple project to manage a personal library. 
   
@@ -99,7 +99,7 @@ Enter based on JDO name if any [DataObject]? book
 [dmitriy@fedora-box library]$
 ```
 
-Note there is no conflict between JDO name and UI component name, however you have to specify _book_ as object name for __book___ form. Now you can deploy 
+Note there is no conflict between JDO name and UI component name, however you have to specify _book_ as object name for __book__ form. Now you can deploy 
 your first Webbee web application. Execute `bee deploy`, simple, isn't it? 
 if your TJWS isn't running yet, then launch it in app server mode (`bee runapp`).
 
