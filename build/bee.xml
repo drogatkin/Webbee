@@ -193,16 +193,22 @@ public class </value>
 	protected DOService createDataService(DataSource datasource) {
 		return new DOService(datasource) {
 </value>
-             <expression><switch variable="db code">
+             <expression>
+                 <switch variable="db code">
                    <block type="case" value="h2">
                        <value>
                      @Override      
                      public String normalizeElementName(String name) {
                          return name.toUpperCase();
                      }
+                     
+                     @Override
+			         protected int getInsertUpdateVariant() {
+				          return 2;
+			         }
                        </value>
-                       </block>
-                       </switch>
+                   </block>
+                 </switch>
              </expression>
                 <value>
                 };
