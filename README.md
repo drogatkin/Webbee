@@ -65,4 +65,54 @@ Slip in Webbee build directory and copy __env.xml.mas__ to __env.xml__. Edit __e
   
   Consider creating a simple project to manage a personal library. 
   
+ ```
+[dmitriy@fedora-box build]$ bee create
+Welcome to a new project creation wizard
+Tips: use only a single word in lower case letters for answers
+Enter Webbee suite root directory [../..]?
+Enter project's name [test]?library
+Enter your organization name [acme]?webbee
+Enter project's domain [com]?org
+Provide database type used, one of h2, ora, my, hado, none [ora]?h2
+Does the application require user authentication [y]?n
+[dmitriy@fedora-box build]$ 
+```
+
+Now your project is ready and you can even build it and deploy. Slip in *../../library* directory. However instead of building and deploying, let add some functionality. Since it is a library, an object as *book* sounds reasonable. To create the object issue `bee create` again, but already in the project directory.
+
+```
+[dmitriy@fedora-box library]$ bee create
+Welcome to Webbee component creation wizard
+Enter type of component d - for JDO, u - for web, s - for service [d]? d
+Enter name of component? book
+[dmitriy@fedora-box library]$
+```
+Well, perhaps just creation of data object without a way to fill it with some data isn't much fun. Let's create a simple form around it. Again issue `bee create`, however select UI component in this time.
+
+```
+[dmitriy@fedora-box library]$ bee create
+Welcome to Webbee component creation wizard
+Enter type of component d - for JDO, u - for web, s - for service [d]? u
+Enter name of component? book
+Enter UX block type f - Form, t - Tabular, q - SQLTabular, s - Schema setup? f
+Enter based on JDO name if any [DataObject]? book
+[dmitriy@fedora-box library]$
+```
+
+Note there is no conflict between JDO name and UI component name, however you have to specify _book_ as object name for __book___ form. Now you can deploy 
+your first Webbee web application. Execute `bee deploy`, simple, isn't it? 
+if your TJWS isn't running yet, then launch it in app server mode (`bee runapp`).
+
+Reach your application point a browser to `http://fedora-box:8080/library/`
+
+You need to initialize your H2 database schema first, therefore click __Prepare schema__ first, check content of schema initialization form and submit. 
+Now you are ready to test your first form _book_, issue URL `http://fedora-box:8080/library/webbee/Book`. you can fill out the form and submit it to get your first book record created. 
+
+## What is next
+
+You already have your application created in matter of one minute, however it doesn't do all functionality you may plan for it. Adding the functionality isn't so complicated. Start with adding new fields in your book JDO. 
+
+
+
+
    
