@@ -54,7 +54,7 @@
 
        <expression name="org name">
            <function name="ask">
-                 <parameter>Enter your organization name [acme]?</parameter>
+                 <parameter>Enter your organization name [webbee]?</parameter>
                  <parameter>test</parameter>
            </function>
        </expression>
@@ -64,7 +64,35 @@
              <value>/</value>
              <value variable="project name"/>
           </operator>
-       </expression>       
+       </expression>
+       <if>
+         <expression>
+           <operator name="neq">
+              <function name="timestamp">
+                 <parameter variable="project directory"/>
+              </function>
+              <value></value>
+           </operator >
+         </expression>
+         <then>
+           <if>
+             <expression>
+               <operator name="eq">
+                  <function name="ask">
+                     <parameter>The project directory already exists, if you continue, then you can overwrite content [n]? </parameter>
+                     <parameter>n</parameter>
+                  </function>
+                  <value>n</value>
+               </operator>
+             </expression>
+             <then>
+                <function name="stop">
+                  <parameter>-1</parameter>
+                </function>
+             </then>
+           </if>
+         </then>
+       </if>
        <function name="mkd">
           <parameter variable="project directory"/>
        </function>
@@ -143,8 +171,7 @@
 
        <expression variable="model class">
            <operator name="append">
-             <value>
-// Webbee (C) 2015 Dmitriy Rogatkin
+             <value>// Webbee (C) 2015 Dmitriy Rogatkin
 ///////   application model class   //////////
 // TODO modify the file for the application purpose
 package </value>
@@ -161,7 +188,7 @@ import org.aldan3.data.DOService;
 import org.aldan3.model.Log;
 
 import com.beegman.webbee.model.AppModel;
-//import com.beegman.webbee.model.Auth;
+import com.beegman.webbee.model.Auth;
 import com.beegman.webbee.base.BaseBehavior;
 
 import </value>
@@ -180,7 +207,7 @@ public class </value>
 	@Override
 	public String getAppName() {
 		return "</value>
-             <value variable="project name"/>
+             <value variable="C project name"/>
              <value>";
 	}
 	
@@ -203,16 +230,32 @@ public class </value>
                      }
                      
                      @Override
-			         protected int getInsertUpdateVariant() {
-				          return 2;
-			         }
-                       </value>
+		     protected int getInsertUpdateVariant() {
+		          return 2;
+		     }
+</value>
+                   </block>
+                   <block type="case" value="my">
+                       <value>
+                     @Override
+                     protected int getInsertUpdateVariant() {
+	          	return 0;
+	             }
+</value>
+                   </block>
+                   <block type="case" value="ora">
+                       <value>
+                     @Override
+                     protected int getInsertUpdateVariant() {
+	          	return 1;
+	             }
+</value>
                    </block>
                  </switch>
              </expression>
                 <value>
                 };
-    }
+        }
 
 	@Override
         public BaseBehavior getCommonBehavior() {
@@ -225,6 +268,27 @@ public class </value>
 	protected void initServices() {
 		super.initServices();
 	}
+</value>
+             <expression>
+                <if>
+                  <expression>
+                     <operator name="eq">
+                        <value variable="behav pub"/>
+                         <value>y</value>
+                      </operator>
+                   </expression>
+                   <then>
+                      <value>
+        @Override
+	public Auth getAuth() {
+	        // TODO override the class to conduct authentication
+		return super.getAuth();
+        } 
+                      </value>
+                    </then>
+                </if>
+             </expression>
+             <value>
 }</value>         
            </operator>
        </expression>
@@ -322,10 +386,16 @@ public class </parameter>
        </function>
        <if>
           <expression>
-            <operator name="neq">
-               <value variable="db code"/>
-               <value>none</value>
-            </operator>
+            <operator name="or">
+               <operator name="neq">
+                  <value variable="db code"/>
+                  <value>none</value>
+                </operator>
+               <operator name="neq">
+                  <value variable="db code"/>
+                  <value>hado</value>
+                </operator>
+             </operator>
            </expression>
            <then>
                 <expression name="wrk file">
@@ -473,8 +543,47 @@ DEBUG=1
           <operator name="append">
                  <value variable="project directory"/>
                  <value>/</value>
+                 <value value="src/res/text/fastaccessbuttons.properties"/>
+          </operator>
+       </expression>
+       <function name="write">
+         <parameter variable="wrk file"/>
+         <parameter/>
+       </function>
+        <if>
+           <expression>
+               <operator name="eq">
+                   <value variable="behav pub"/>
+                   <value>y</value>
+               </operator>
+           </expression>
+           <then>
+               <function name="writea">
+                  <parameter variable="wrk file"/>
+                  <parameter>button_logoff=Logoff, Log off, Log off current session
+</parameter>
+              </function>
+          </then>
+       </if>        
+       <expression name="wrk file">
+          <operator name="append">
+                 <value variable="project directory"/>
+                 <value>/</value>
                  <value value="src/res/cfg/web.xml"/>
           </operator>
+       </expression>
+       <expression name="db name">
+          <switch variable="db code">
+             <block type="case" value="h2">
+               <value>h2</value>
+             </block>
+             <block type="case" value="my">
+               <value>mysql</value>
+             </block>
+             <block type="case" value="ora">
+               <value>oracle</value>
+             </block>
+          </switch>
        </expression>
        <function name="write">
          <parameter variable="wrk file"/>
@@ -486,7 +595,7 @@ DEBUG=1
 	&lt;context-param&gt;
 		&lt;param-name&gt;model_datasource&lt;/param-name&gt;
 		&lt;param-value>jdbc/</parameter>
-        <parameter variable="db code"/>
+        <parameter variable="db name"/>
         <parameter>/</parameter>
         <parameter variable="project name"/>
         <parameter>&lt;/param-value&gt;
@@ -523,7 +632,7 @@ DEBUG=1
 	&lt;/welcome-file-list&gt;
 	&lt;resource-ref&gt;
 		&lt;res-ref-name&gt;java:comp/env/jdbc/</parameter>
-        <parameter variable="db code"/>
+        <parameter variable="db name"/>
         <parameter>/</parameter>
         <parameter variable="project name"/>
         <parameter>&lt;/res-ref-name&gt;
@@ -622,6 +731,18 @@ DEBUG=1
 </value>
                        </expression>
                    </block>
+                   <block type="case" value="my">
+                       <expression>
+                         <value> type=&quot;repo_artifact&quot;&gt;maven:mysql:mysql-connector-java:5.1.6&lt;/variable&gt;
+</value>
+                       </expression>
+                   </block>
+                   <block type="case" value="ora">
+                       <expression>
+                         <value>Modify me and add driver downloaded from http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html&lt;/variable&gt;
+</value>
+                       </expression>
+                   </block>
                    <block type="default">
                        <expression>
                           <value>&gt;&lt;/variable&gt;</value>
@@ -665,8 +786,20 @@ DEBUG=1
 &lt;/html&gt;
          </parameter>
        </function>
-       <switch variable="db code">
-          <block type="case" value="h2">
+       <if>
+          <expression>
+            <operator name="or">
+                <operator name="neq">
+                   <value variable="db code"/>
+                  <value>none</value>
+               </operator>
+                <operator name="neq">
+                   <value variable="db code"/>
+                  <value>hado</value>
+               </operator>
+           </operator>
+         </expression>
+         <then>
             <expression name="wrk file">
               <operator name="append">
                  <value variable="project directory"/>
@@ -679,7 +812,15 @@ DEBUG=1
                <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;Context&gt;
     &lt;!-- Specify a JDBC datasource --&gt;
-    &lt;Resource name=&quot;jdbc/h2/</parameter>
+</parameter>
+            </function>
+         </then>
+       </if>
+       <switch variable="db code">
+          <block type="case" value="h2">
+            <function name="writea">
+               <parameter variable="wrk file"/>
+               <parameter>&lt;Resource name=&quot;jdbc/h2/</parameter>
                <parameter variable="project name"/>
                <parameter>&quot; 
               auth=&quot;Container&quot;
@@ -694,6 +835,57 @@ DEBUG=1
               validationQuery=&quot;select 1&quot;
               maxActive=&quot;3&quot;
               maxIdle=&quot;2&quot;/&gt;
+&lt;/Context&gt;
+</parameter>
+            </function>
+          </block>
+          <block type="case" value="ora">
+            <function name="writea">
+               <parameter variable="wrk file"/>
+               <parameter>&lt;Resource name=&quot;jdbc/oracle/</parameter>
+               <parameter variable="project name"/>
+               <parameter>&quot; 
+              auth=&quot;Container&quot;
+              type=&quot;javax.sql.DataSource&quot;
+              username=&quot;</parameter>
+               <parameter variable="project name"/>
+               <parameter>&quot;
+              password=&quot;</parameter>
+              <parameter>
+                 <function name="ask">
+                     <parameter>Oracle password []?</parameter>
+                     <parameter/>
+                 </function>
+              </parameter>
+              <parameter>&quot;
+              driverClassName=&quot;oracle.jdbc.driver.OracleDriver&quot;
+              driverClassPath=&quot;Application&quot;
+              url=&quot;jdbc:oracle:thin:@//localhost:1521/XE&quot;
+              validationQuery=&quot;select 1 from dual&quot;
+              maxActive=&quot;3&quot;
+              maxIdle=&quot;2&quot;/&gt;
+&lt;/Context&gt;
+</parameter>
+            </function>
+          </block>
+          <block type="case" value="my">
+            <function name="writea">
+               <parameter variable="wrk file"/>
+               <parameter>&lt;Resource name=&quot;jdbc/mysql/</parameter>
+               <parameter variable="project name"/>
+               <parameter>&quot; 
+              auth=&quot;Container&quot;
+              type=&quot;javax.sql.DataSource&quot;
+              username=&quot;root&quot;
+              password=&quot;&quot;
+              driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+              driverClassPath=&quot;Application&quot;
+              url=&quot;jdbc:mysql://localhost:3306/</parameter>
+               <parameter variable="project name"/>
+              <parameter>?autoReconnect=true&amp;amp;zeroDateTimeBehavior=convertToNull&quot;
+              validationQuery=&quot;select 1&quot;
+              maxActive=&quot;10&quot;
+              maxIdle=&quot;4&quot;/&gt;
 &lt;/Context&gt;
 </parameter>
             </function>

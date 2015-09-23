@@ -95,8 +95,8 @@ public class </parameter>
   <block type="case" value="u">
      <expression name="block type">
        <function name="ask">
-          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, s - Schema setup? </parameter>
-          <parameter></parameter>
+          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal [f]? </parameter>
+          <parameter>f</parameter>
        </function>
      </expression>
      <expression name="JDO name">
@@ -212,7 +212,7 @@ public class </parameter>
                  <parameter> jdo) {
 		DODelegator&lt;</parameter>
                  <parameter variable="JDO name"/>
-                 <parameter>&gt; djdo = new DODelegator&lt;&gt;(jdo, null, "", "id");
+                 <parameter>&gt; djdo = jdo.id &lt;= 0?new DODelegator&lt;&gt;(jdo, null, "id", "id"):new DODelegator&lt;&gt;(jdo, null, "", "");
 		try {
 			getAppModel().getDOService().addObject(djdo, "id", jdo.id &lt;= 0 ? null : djdo);
 			log("c/u %d", null, jdo.id);

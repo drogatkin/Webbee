@@ -144,7 +144,7 @@ public class AppModel extends Registry implements Serializable,
 	public Auth getAuth() {
 		Auth auth = new Auth(this) {
 			public String getName() {
-				return "users";
+				return "user";
 			}
 
 			@Override
