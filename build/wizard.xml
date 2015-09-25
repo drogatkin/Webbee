@@ -482,14 +482,14 @@ public class </parameter>
 	
 	@Override
 	protected String getRichView() {
-		return "</parameter>
+		return "eml/</parameter>
 		         <parameter variable="name lower"/>
 		         <parameter>.html";
 	}
 
 	@Override
 	protected String getPlainView() {
-		return "</parameter>
+		return "eml/</parameter>
 		         <parameter variable="name lower"/>
 		         <parameter>.txt";
 	}   
