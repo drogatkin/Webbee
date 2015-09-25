@@ -216,7 +216,7 @@ public class </parameter>
 		try {
 			getAppModel().getDOService().addObject(djdo, "id", jdo.id &lt;= 0 ? null : djdo);
 			log("c/u %d", null, jdo.id);
-			navigation = ".";
+			navigation = "."; // TODO set target page after successful operation
 		} catch (ProcessException e) {
 			log("", e);
 			return e;
@@ -332,6 +332,7 @@ public class </parameter>
                      <parameter>trim</parameter>
                   </function>
                </expression>
+               <!--  set upper conversion as DB specific -->
                <expression name="upc colm">
                   <function name="string">
                      <parameter variable="upc colm"/>
@@ -361,6 +362,48 @@ public class </parameter>
                 <parameter variable="tablr templ"></parameter>
            </function>
         </block>
+        <block type="case" value="p">
+        </block>
+        <block type="case" value="l">
+            <expression name="ajax login">
+                <function name="ask">
+                    <parameter>Is it a dedicated login screen [n]?</parameter>
+                    <parameter>n</parameter>
+                </function>
+            </expression>
+            <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter>package &domain;.&org;.&project;.ux;
+
+import org.aldan3.model.ProcessException;
+import javax.servlet.http.HttpSession;
+
+import com.beegman.webbee.block.Signon;
+import com.beegman.webbee.model.Auth;
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model;
+public class </parameter>
+                 <parameter variable ="name cap"></parameter>
+                 <parameter> extends Signon&lt;</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model&gt; {
+	@Override
+	protected boolean initSession(Auth auth) {
+		boolean result = super.initSession(auth);
+		if (result) {
+			HttpSession session = req.getSession(false);
+			if (session != null) {
+			// TODO deploy in session required auth attribute
+				//session.setAttribute("stationary", auth.get(auth.getFullUserNameFieldName()));
+				//session.setAttribute("email", auth.get("mail"));
+			}
+		}
+		return result;
+	}
+}</parameter>
+           </function>  
+        </block>
       </switch>
   </block> 
   <block type="case" value="s">
@@ -370,5 +413,125 @@ public class </parameter>
           <parameter>m</parameter>
        </function>
      </expression>
+     <expression name="file java">
+         <operator name="append">
+            <value>src/java/&domain;/&org;/&project;/serv/</value>
+            <value variable="comp name"/>
+            <value>.java</value>
+         </operator>
+      </expression>
+     <switch variable="serv type">
+         <block type="case" value="m">
+             <expression name="JDO name">
+                <function name="ask">
+                   <parameter>Enter mail model object name[DataObject]? </parameter>
+                    <parameter>DataObject</parameter>
+                </function>
+             </expression>
+             <expression name="name lower">
+                 <function name="string">
+                     <parameter variable ="comp name"/>
+                     <parameter>lower</parameter>
+                 </function>
+             </expression>
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter>///// Webbee (C) D Rogatkin   ////////////
+//// TODO modify the file for required functionality
+/*  Do not forget to activate the service in model class as below
+     void initServices() {
+         ...
+         register(new </parameter>
+                  <parameter variable ="comp name"></parameter>
+                  <parameter>(this));
+         ...
+     }    
+     
+*/                     
+package &domain;.&org;.&project;.serv;
+import java.util.Collection;
+import org.aldan3.model.DataObject;
+import org.aldan3.model.ProcessException;
+import com.beegman.webbee.util.Mailer;
+import &domain;.&org;.&project;.model.*;
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model;
+public class </parameter>
+                 <parameter variable ="comp name"></parameter>
+                 <parameter> extends Mailer&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>, </parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model&gt; {
+    public </parameter>
+                 <parameter variable ="comp name"></parameter>
+                 <parameter>(</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model model) {
+         super(model);
+    }
+                     
+    @Override                 
+    protected Collection&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>&gt; getMailingList() {
+        // TODO retrieve a mailing list here
+		return null;
+	}
+	
+	@Override
+	protected String getRichView() {
+		return "</parameter>
+		         <parameter variable="name lower"/>
+		         <parameter>.html";
+	}
+
+	@Override
+	protected String getPlainView() {
+		return "</parameter>
+		         <parameter variable="name lower"/>
+		         <parameter>.txt";
+	}   
+	
+	@Override
+	protected String getSubject(</parameter>
+	             <parameter variable="JDO name"/>
+                 <parameter> mo) {
+         // TODO return value from e-mail model object, for example mo.subject            
+		return null;
+	}
+
+	@Override
+	protected String getTo(</parameter>
+	             <parameter variable="JDO name"/>
+                 <parameter> mo) {
+        // TODO return value from e-mail model object, for example mo.mail
+		return null;
+	}
+
+    @Override
+	protected String getCc(</parameter>
+	             <parameter variable="JDO name"/>
+                 <parameter> mo) {
+        // TODO return value from e-mail model object, for example mo.cc
+		return null;
+	}
+
+    @Override
+	protected String getFrom(</parameter>
+	             <parameter variable="JDO name"/>
+                 <parameter> mo) {
+        // TODO return value from e-mail model object or just some other place
+		return null;
+	}
+	 
+}</parameter>
+            </function>	
+         </block>
+         <block type="case" value="c">
+             
+         </block>
+         </switch>
   </block>
 </switch>

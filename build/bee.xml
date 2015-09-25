@@ -279,11 +279,12 @@ public class </value>
                    </expression>
                    <then>
                       <value>
-        @Override
+    @Override
 	public Auth getAuth() {
 	        // TODO override the class to conduct authentication
+	        // see AD/LDAP example https://github.com/MetricStream/Third-Party-SW-Diligence/blob/master/src/java/com/metricstream/labs/tpswd/model/Model.java#L82
 		return super.getAuth();
-        } 
+    } 
                       </value>
                     </then>
                 </if>
