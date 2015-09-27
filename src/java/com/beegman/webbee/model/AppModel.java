@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -200,6 +201,14 @@ public class AppModel extends Registry implements Serializable,
 				.getResourceId(getServletName(), type));
 	}
 
+	public PropertyResourceBundle getTextResource(String resPath, Object requester) {
+		try {
+			return (PropertyResourceBundle)getResourceManager(ResourceManager.RESOURCE_RES).getResource(resPath, requester);
+		} catch(ResourceException re) {
+			Log.l.error("Error in locating resource "+resPath+" by "+requester, re);
+			return null;
+		}
+	}	
 	public TemplateProcessor getTemplateProcessor() {
 		//System.err.println("Retrieving:"+getServletName()
 			//	+ '_' + Constant.ATTR_DEF_TEMPLATE_PROC);

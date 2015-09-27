@@ -446,10 +446,11 @@ public class </parameter>
                   <parameter>(this));
          ...
      }    
-     
+    SMTP connection attributes can be specified in a property file referenced by smtp_config 
 */                     
 package &domain;.&org;.&project;.serv;
 import java.util.Collection;
+import java.util.HashMap;
 import org.aldan3.model.DataObject;
 import org.aldan3.model.ProcessException;
 import com.beegman.webbee.util.Mailer;
@@ -483,49 +484,64 @@ public class </parameter>
 	@Override
 	protected String getRichView() {
 		return "eml/</parameter>
-		         <parameter variable="name lower"/>
-		         <parameter>.html";
+		 <parameter variable="name lower"/>
+		 <parameter>.html";
 	}
 
 	@Override
 	protected String getPlainView() {
 		return "eml/</parameter>
-		         <parameter variable="name lower"/>
-		         <parameter>.txt";
+		 <parameter variable="name lower"/>
+		 <parameter>.txt";
 	}   
 	
 	@Override
 	protected String getSubject(</parameter>
-	             <parameter variable="JDO name"/>
+	         <parameter variable="JDO name"/>
                  <parameter> mo) {
-         // TODO return value from e-mail model object, for example mo.subject            
-		return null;
+         // TODO return value from e-mail model object, for example mo.subject
+         // if a subject is a part of text resource, then code like below can be used            
+		return getResourceBundle(mo). getString(&quot;subject&quot;);
 	}
 
 	@Override
 	protected String getTo(</parameter>
-	             <parameter variable="JDO name"/>
+	         <parameter variable="JDO name"/>
                  <parameter> mo) {
         // TODO return value from e-mail model object, for example mo.mail
 		return null;
 	}
 
-    @Override
+        @Override
 	protected String getCc(</parameter>
-	             <parameter variable="JDO name"/>
+	         <parameter variable="JDO name"/>
                  <parameter> mo) {
         // TODO return value from e-mail model object, for example mo.cc
 		return null;
 	}
 
-    @Override
+        @Override
 	protected String getFrom(</parameter>
-	             <parameter variable="JDO name"/>
+	         <parameter variable="JDO name"/>
                  <parameter> mo) {
         // TODO return value from e-mail model object or just some other place
 		return null;
 	}
-	 
+
+        @Override
+	protected void updateStatus(</parameter>
+	          <parameter variable="JDO name"/>
+                  <parameter>  mo) {
+        // TODO update status that given e-mail has been sent and has to be removed from mailing queue
+        }
+
+	@Override
+	protected void prepareComposeModel(HashMap&lt;String, Object&gt; composeData, </parameter>
+	         <parameter variable="JDO name"/>
+                 <parameter>   mo) {
+        // TODO override this method to add some information to e-mail compose in addition to model object
+        }
+ 
 }</parameter>
             </function>	
          </block>

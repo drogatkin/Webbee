@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import org.aldan3.model.Log;
@@ -23,6 +24,7 @@ import org.aldan3.model.ServiceProvider;
 import org.aldan3.model.TemplateProcessor;
 import org.aldan3.servlet.Constant.CharSet;
 import org.aldan3.util.Stream;
+import org.aldan3.util.ResourceManager;
 import org.aldan3.util.inet.Base64Codecs;
 import org.aldan3.util.inet.HttpUtils;
 import org.aldan3.util.inet.SendMail;
@@ -347,6 +349,26 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	protected TimeZone getTimeZone(T mo) {
 		return null;
 	}
+	
+	protected ResourceBundle getResourceBundle(final T mo) {
+		return appModel.getTextResource(getResourcePath(mo),
+				new ResourceManager.LocalizedRequester() {
+			@Override
+			public Locale getLocale() {
+				 return Mailer.this.getLocale(mo);
+			 }
+		      
+			@Override
+		    public String getEncoding() {
+				return getCharSet(mo);
+			}
+
+			@Override
+		    public TimeZone getTimeZone() {
+				return Mailer.this.getTimeZone(mo);
+			}
+		});
+	}
 
 	/**
 	 * returns message subject
@@ -406,6 +428,10 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	 */
 	protected String getContentType(String name) {
 		return "image/jpeg";
+	}
+	
+	protected String getResourcePath(T mo) {
+		return "serv/"+this.getClass().getSimpleName().toLowerCase()+".properties";
 	}
 
 	/** returns limitation in attachment size. It can't be more than  2 ^ 32
