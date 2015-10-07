@@ -33,6 +33,13 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 
 	boolean jumpLastHistory;
 
+	@Override
+	protected String getContentType(String name) {
+		if (callAsAjaxOnly())
+			return "application/json; charset=utf-8";
+		return super.getContentType(name);
+	}
+	
 	public Map processsignonDisplayCall() {
 		//log("referer:"+req.getHeader("REFERER"), null);
 		HashMap model = new HashMap();
@@ -68,6 +75,13 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 	}
 
 	@Override
+	protected String getCanvasView() {
+		if (callAsAjaxOnly())
+			return null;
+		return super.getCanvasView();
+	}
+	
+	@Override
 	protected void visit() {
 	}
 
@@ -87,6 +101,8 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 				this.setAllowed(true); // assure session
 				if (initSession(auth)) {
 					manageFlags();
+					if (callAsAjaxOnly())
+						return processsignonDisplayCall();
 					return null;
 				}
 			}

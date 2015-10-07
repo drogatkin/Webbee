@@ -133,6 +133,7 @@ description=Description</parameter>
             <value>src/res/text/navigationtabs.properties</value>
          </operator>
       </expression>
+      <!-- TODO skip login screens -->
       <function name="writea">
           <parameter variable="file"/>
           <parameter>menu_item-</parameter>
@@ -401,8 +402,33 @@ public class </parameter>
 		}
 		return result;
 	}
+
+	@Override
+        public String getsignonDisplayViewName() {
+              // TODO customize the method to return .json view
+		return super.getViewName();
+	}
+
+        @Override
+        protected boolean callAsAjaxOnly() {
+		return </parameter>
+                <parameter/>
+                <parameter>;
+	}
 }</parameter>
            </function>  
+           <expression name="file">
+             <operator name="append">
+               <value>src/res/view/insert</value>
+               <value variable="comp name"/>
+               <value>.html</value>  <!-- TODO ext depends on login type -->
+             </operator>
+           </expression>
+           <function name="write">
+             <parameter varianle="file"/>
+             <parameter>%'insert/signon.json'</parameter>
+           </function> 
+          <!-- TODO generate login specific resource  failed_login= -->   
         </block>
       </switch>
   </block> 

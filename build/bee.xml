@@ -96,7 +96,7 @@
        <function name="mkd">
           <parameter variable="project directory"/>
        </function>
-       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/view,src/java,src/js</variable>
+       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/textsrc/res/text/data,src/res/view,src/res/view/insert,src/res/view/portal,src/res/view/mobile,src/java,src/js</variable>
        <for variable="folder" in="project folders" separator=",">
          <block>
            <expression name="target folder">
@@ -112,6 +112,12 @@
            </function>
           </block>
        </for>
+       <expression name="bunit name">
+           <function name="ask">
+                 <parameter>Enter your business unit name []?</parameter>
+                 <parameter></parameter>
+           </function>
+       </expression>
        <expression name="project domain">
            <function name="ask">
                  <parameter>Enter project's domain [com]?</parameter>
@@ -130,6 +136,13 @@
                  <parameter>y</parameter>
            </function>
        </expression>
+       <expression name="use dropdown">
+           <function name="ask">
+                 <parameter>Will your application use dropdowns [y]?</parameter>
+                 <parameter>y</parameter>
+           </function>
+       </expression>
+
        <expression name="class folders">
          <operator name="append">
              <value value="ux,model,model/util,serv"/>             
@@ -282,7 +295,7 @@ public class </value>
     @Override
 	public Auth getAuth() {
 	        // TODO override the class to conduct authentication
-	        // see AD/LDAP example https://github.com/MetricStream/Third-Party-SW-Diligence/blob/master/src/java/com/metricstream/labs/tpswd/model/Model.java#L82
+	        // see AD/LDAP plug-in com.beegman.webbee.util.LDAPAuth
 		return super.getAuth();
     } 
                       </value>

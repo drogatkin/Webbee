@@ -253,5 +253,23 @@ public class AppModel extends Registry implements Serializable,
 	public BaseBehavior getCommonBehavior() {
 		return new BaseBehavior ();
 	}
+	
+	public Properties fillConfigProperties(String configName) {
+		Properties result = new Properties(); 
+		
+		InputStream is = null;
+		try {
+			result.load(is = getResourceAsStream(getInitParameter(configName)));
+		} catch (Exception e) {
+			Log.l.error("Can't read config: " + getInitParameter(configName), e);
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (Exception e) {
+			}
+		}
+		return result;
+	}
 
 }
