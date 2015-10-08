@@ -50,7 +50,7 @@
 	
 	function uploadComplete(evt) {
 	    //alert(xhr.responseText);
-	    var resp = new Function("return "+xhr.responseText)();
+	    var resp = JSON.parse(xhr.responseText);
 		parent.uploadDone('@name@', resp.filename, resp.id, '@divid@', '@action@');
 	}
 	

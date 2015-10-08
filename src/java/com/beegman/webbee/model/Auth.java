@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.aldan3.data.SimpleDataObject;
 import org.aldan3.model.ProcessException;
+import org.aldan3.model.Log;
 
 /** This class keeps user credentials and provides authentication against
  * used user repository/directory, policy server, smart card and so on. 
@@ -39,8 +40,7 @@ public abstract class Auth extends SimpleDataObject {
 			//else
 				//System.err.println("No auth found for "+this);
 		} catch (ProcessException pe) {
-			//		appModel.log("", pe);
-			pe.printStackTrace();
+			Log.l.error("", pe);
 		}
 	}
 

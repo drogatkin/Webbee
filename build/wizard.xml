@@ -95,7 +95,7 @@ public class </parameter>
   <block type="case" value="u">
      <expression name="block type">
        <function name="ask">
-          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal [f]? </parameter>
+          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal, a - attach [f]? </parameter>
           <parameter>f</parameter>
        </function>
      </expression>
@@ -232,7 +232,7 @@ public class </parameter>
                 <parameter>&lt;div class="form_header">@label.title@&lt;/div&gt;
 
 &lt;form name="</parameter>
-               <parameter variable="name cap"/>
+               <parameter variable="comp name"/>
                <parameter>" method="POST"&gt;
 &lt;div&gt;&lt;div&gt;@label.name@&lt;/div&gt;@.ui.field*(name,java.lang.Object^@model@)*@&lt;/div&gt;
 &lt;div&gt;&lt;div&gt;@label.description@&lt;/div&gt;@.ui.field*(description,java.lang.Object^@model@)*@&lt;/div&gt;
@@ -430,6 +430,9 @@ public class </parameter>
            </function> 
           <!-- TODO generate login specific resource  failed_login= -->   
         </block>
+        <block type="case" value="l">
+          <!-- do not forget to create attach_json.html -->
+        </block> 
       </switch>
   </block> 
   <block type="case" value="s">
