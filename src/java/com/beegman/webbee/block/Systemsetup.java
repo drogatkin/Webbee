@@ -13,7 +13,7 @@ public class Systemsetup<T extends Setup, A extends AppModel> extends Form<T, A>
 	 * @return
 	 */
 	protected String getDefaultModelPackage() {
-		return Setup.class.getPackage().getName();
+		return getAppModel().getClass().getPackage().getName();
 	}
 	
 	@Override
@@ -22,8 +22,9 @@ public class Systemsetup<T extends Setup, A extends AppModel> extends Form<T, A>
 	}
 
 	@Override
-	protected void loadModel(T setup) {
+	protected T loadModel(T setup) {
 		setup.model_package_name = getDefaultModelPackage();
+		return setup;
 	}
 
 	@Override

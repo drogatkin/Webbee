@@ -195,16 +195,20 @@ public class </parameter>
 	}
 
 	@Override
-	protected void loadModel(</parameter>
+	protected </parameter>
+                 <parameter variable="JDO name"/>          
+                 <parameter> loadModel(</parameter>
                  <parameter variable="JDO name"/>
                  <parameter> jdo) {
 		try {
 			getAppModel().getDOService().getObjectLike(new DODelegator&lt;</parameter>
                  <parameter variable="JDO name"/>
                  <parameter>&gt;(jdo, null, "", "id"));
+                        return jdo;
 		} catch (ProcessException e) {
 			log("", e);
 		}
+                return null;
 	}
 
 	@Override

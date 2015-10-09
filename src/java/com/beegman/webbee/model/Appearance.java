@@ -5,5 +5,5 @@
 package com.beegman.webbee.model;
 
 public enum Appearance {
-	full, portal, iconized, insert, inline, compact, popup, mobile, tablet, json
+	full, portal, iconized, insert, inline, compact, popup, mobile, tablet, json, restricted
 }

@@ -453,14 +453,7 @@ public class Schemainit extends Systemsetup&lt;Setup, </parameter>
 
 	@Override
 	protected String getDefaultModelPackage() {
-             return &quot;</parameter>
-                  <parameter variable="project domain"/>
-                  <parameter>.</parameter>
-                  <parameter variable="org name"/>
-                  <parameter>.</parameter>
-                  <parameter variable="project name"/>
-                  <parameter>.model</parameter>
-                  <parameter>&quot;;
+             return getAppModel().getClass().getPackage().getName();
         }
 }
 </parameter>
@@ -525,6 +518,8 @@ CommonBehaviorClass=</parameter>
          <parameter>.model.util.</parameter>
          <parameter variable="C project name"/>
          <parameter>Behavior
+
+#perspective_separator=/
 
 #stationary=
 

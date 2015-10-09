@@ -110,21 +110,8 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		headers.put("Mime-Version", "1.0");
 		headers.put("Content-Type", String.format("multipart/mixed; boundary=\"%s\"", getBoundary()));
 		headers.put("X-Mailer", "WebBee app blocks framework");
-		Properties mailProp = new Properties();
-		InputStream is = null;
-		try {
-			mailProp.load(is = appModel.getResourceAsStream(appModel.getInitParameter("smtp_config")));
-		} catch (IOException e) {
-			Log.l.error("Can't read config: " + appModel.getInitParameter("smtp_config"), e);
-		} catch (NullPointerException ne) {
-			Log.l.error("Check if available: " + appModel.getInitParameter("smtp_config"), ne);
-		} finally {
-			try {
-				if (is != null)
-					is.close();
-			} catch (IOException e) {
-			}
-		}
+		Properties mailProp = 
+		appModel.fillConfigProperties("smtp_config");
 		mailer = new SendMail(mailProp);
 	}
 

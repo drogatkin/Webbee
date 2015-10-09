@@ -114,7 +114,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 
 	protected Config configCache;
 
-	protected Appearance appearance;
+	protected Appearance appearance; // TODO change to Appearance[] appearances;
 
 	protected String navigation;
 	
@@ -183,11 +183,16 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	 * @return String name of perspective
 	 */
 	protected String getPerspective() {
+		// TODO use appearances
 		if (appearance == null || appearance == Appearance.full)
 			return null;
 		return appearance.name() + getConfigValue(CONFIG_PPERSPECTIVE_SEPARATOR, "");
 	}
 
+	protected boolean isAppearance(Appearance a) {
+		return a.equals(appearance);
+	}
+	
 	/**
 	 * Puts record in navigation history cached in session
 	 * 
@@ -198,7 +203,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		HttpSession session = req.getSession(false);
 		if (session == null)
 			return; // do not maintain of history for non signed
-		if (forwarded == false && Appearance.popup.equals(appearance) == false) {
+		if (forwarded == false && isAppearance(Appearance.popup) == false) {
 			History history = (History) session.getAttribute(History.NAME);
 			if (history == null) {
 				synchronized (session) {

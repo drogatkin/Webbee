@@ -21,7 +21,7 @@ import com.beegman.webbee.util.PageRef;
 public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordinator {
 
 	@Override
-	protected void loadModel(T model) {
+	protected T loadModel(T model) {
 		DataRelation dr = getClass().getAnnotation(DataRelation.class);
 		if (dr == null)
 			throw new RuntimeException("No DataRelation is defined, the operation isn't possible");
@@ -37,6 +37,7 @@ public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordi
 				modelInsert(Variable.ERROR, ""+e); // localized standard error messaging
 				log("", e);
 			}
+		return model;
 	}
 
 	protected String[] applyFilters(Class[] filterClasses, DataObject dataObject) {

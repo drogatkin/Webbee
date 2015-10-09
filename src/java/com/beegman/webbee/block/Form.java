@@ -55,9 +55,8 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object getModel() {
-		HashMap pageModel = new HashMap(10);
-		T model;
-		pageModel.put(MODEL, model = getFormModel());
+		HashMap<String, Object> pageModel = new HashMap<String, Object>(10);
+		T model = getFormModel();
 		// TODO message population code move to base block prefill standard variables
 		String message = (String) req.getAttribute(MESSAGE);
 		if (message != null)
@@ -66,7 +65,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 			disableValidCascading = true;
 			fillModel(model);
 		}
-		loadModel(model);
+		pageModel.put(MODEL, loadModel(model));
 		return pageModel;
 	}
 
@@ -109,8 +108,9 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 	 * @param model
 	 * 
 	 */
-	protected void loadModel(T model) {
+	protected T loadModel(T model) {
 		loadFormModel(model);
+		return model;
 	}
 	
 	/** tells if model needs be pre-populated with web values before load
