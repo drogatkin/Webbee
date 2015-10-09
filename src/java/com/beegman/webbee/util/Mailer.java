@@ -418,7 +418,11 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	}
 	
 	protected String getResourcePath(T mo) {
-		return "serv/"+this.getClass().getSimpleName().toLowerCase()+".properties";
+		return getResourceNameSpace()+this.getClass().getSimpleName().toLowerCase();
+	}
+	
+	protected String getResourceNameSpace() {
+		return "serv/";
 	}
 
 	/** returns limitation in attachment size. It can't be more than  2 ^ 32
