@@ -470,7 +470,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 
 	}
 	
-	/** implement the method if updating status when erro happened required to be different
+	/** implement the method if updating status when error happened required to be different
 	 * 
 	 * @param mo
 	 * @param e
