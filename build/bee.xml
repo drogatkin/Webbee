@@ -533,6 +533,8 @@ CommonBehaviorClass=</parameter>
 
 #mobile_support=yes
 
+#logoff=Signoff
+
 DEBUG=1
 </parameter>
        </function>

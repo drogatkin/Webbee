@@ -32,5 +32,8 @@
            makeGenericAjaxCall(baseServURI+formName+'/ajax/Cascading', null, true, function(res) {
                 setTimeout('notifyTimeout()', session_timeout);
            });
+        } else {
+            if('@logoff@')
+              goto('@logoff@');
         }
       }
