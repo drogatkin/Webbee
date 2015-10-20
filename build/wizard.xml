@@ -41,7 +41,7 @@
   <block type="case" value="d">
       <expression name="file">
          <operator name="append">
-            <value>src/java/&domain;/&org;/&project;/model/</value>
+            <value>src/java/&domain;/&org_path;/&project;/model/</value>
             <value variable="comp name"/>
             <value>.java</value>
          </operator>
@@ -156,7 +156,7 @@ description=Description</parameter>
       </expression>
       <expression name="file java">
          <operator name="append">
-            <value>src/java/&domain;/&org;/&project;/ux/</value>
+            <value>src/java/&domain;/&org_path;/&project;/ux/</value>
             <value variable="name cap"/>
             <value>.java</value>
          </operator>
@@ -448,7 +448,7 @@ public class </parameter>
      </expression>
      <expression name="file java">
          <operator name="append">
-            <value>src/java/&domain;/&org;/&project;/serv/</value>
+            <value>src/java/&domain;/&org_path;/&project;/serv/</value>
             <value variable="comp name"/>
             <value>.java</value>
          </operator>

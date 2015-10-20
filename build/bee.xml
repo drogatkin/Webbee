@@ -79,7 +79,7 @@
              <expression>
                <operator name="eq">
                   <function name="ask">
-                     <parameter>The project directory already exists, if you continue, then you can overwrite content [n]? </parameter>
+                     <parameter>The project directory already exists, if you cntinue then contest can be overwriten [n]? </parameter>
                      <parameter>n</parameter>
                   </function>
                   <value>n</value>
@@ -118,6 +118,33 @@
                  <parameter></parameter>
            </function>
        </expression>
+       <expression name="org path">
+            <value variable="org name"/>
+       </expression>
+       <if>
+          <expression>
+             <operator  name="neq">
+                <value></value>
+                <value variable="bunit name"/>
+             </operator>
+          </expression>
+          <then>
+             <expression name="org name">
+                <operator name="append">
+                   <value variable="org name"/> 
+                   <value>.</value>
+                   <value variable="bunit name"/>
+                </operator>
+              </expression>
+             <expression name="org path">
+                <operator name="append">
+                   <value variable="org path"/> 
+                   <value>/</value>
+                   <value variable="bunit name"/>
+                </operator>
+              </expression>
+          </then>
+       </if> 
        <expression name="project domain">
            <function name="ask">
                  <parameter>Enter project's domain [com]?</parameter>
@@ -142,6 +169,12 @@
                  <parameter>y</parameter>
            </function>
        </expression>
+       <expression name="mobile">
+           <function name="ask">
+                 <parameter>Is mobile support required [n]?</parameter>
+                 <parameter>n</parameter>
+           </function>
+       </expression>
 
        <expression name="class folders">
          <operator name="append">
@@ -158,7 +191,7 @@
                  <value value="src/java/"/>
                  <value variable="project domain"/>
                  <value>/</value>
-                 <value variable="org name"/>
+                 <value variable="org path"/>
                  <value>/</value>
                  <value variable="project name"/>
                  <value>/</value>
@@ -191,6 +224,7 @@ package </value>
              <value variable="project domain"/>
              <value>.</value>
              <value variable="org name"/>
+             <!-- <value variable="bunit name"/> -->  
              <value>.</value>
              <value variable="project name"/>
              <value>.model;
@@ -314,7 +348,7 @@ public class </value>
                  <value value="src/java/"/>
                  <value variable="project domain"/>
                  <value>/</value>
-                 <value variable="org name"/>
+                 <value variable="org path"/>
                  <value>/</value>
                  <value variable="project name"/>
                  <value>/model/</value>
@@ -333,7 +367,7 @@ public class </value>
                  <value value="src/java/"/>
                  <value variable="project domain"/>
                  <value>/</value>
-                 <value variable="org name"/>
+                 <value variable="org path"/>
                  <value>/</value>
                  <value variable="project name"/>
                  <value>/model/util/</value>
@@ -419,7 +453,7 @@ public class </parameter>
                       <value value="src/java/"/>
                       <value variable="project domain"/>
                       <value>/</value>
-                      <value variable="org name"/>
+                      <value variable="org path"/>
                       <value>/</value>
                       <value variable="project name"/>
                       <value>/ux/Schemainit.java</value>
@@ -493,8 +527,7 @@ public class Schemainit extends Systemsetup&lt;Setup, </parameter>
        </expression>
        <function name="write">
          <parameter variable="wrk file"/>
-         <parameter>
-#
+         <parameter>#
 PresentServicePackage=</parameter>
          <parameter variable="project domain"/>
          <parameter>.</parameter>
@@ -531,7 +564,23 @@ CommonBehaviorClass=</parameter>
 
 #public_canvas=
 
-#mobile_support=yes
+</parameter>
+         <parameter>
+            <expression> 
+            <if>
+               <expression>
+                  <operator name="neq">
+                      <value>y</value>
+                      <value variable="mobile"/>
+                  </operator>
+               </expression>
+               <then>
+                  <value>#</value>
+               </then>
+             </if>
+            </expression>
+          </parameter>
+          <parameter>mobile_support=yes
 
 #logoff=Signoff
 
@@ -696,6 +745,9 @@ DEBUG=1
              <value variable="org name"/>
              <value>"&gt;
       &lt;!ENTITY manifestf ""&gt;
+      &lt;!ENTITY org_path "</value>
+             <value variable="org path"/>
+             <value>"&gt;
       &lt;!ENTITY wizard SYSTEM "</value>
              <value variable="file prot"/> 
              <value variable="WEBBEE_HOME"/>
