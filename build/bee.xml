@@ -28,7 +28,7 @@
   <target name="create" dir="..">
      <dependency>true</dependency>
      <block>
-       <echo>Welcome to a new project creation wizard</echo>
+       <echo>Welcome to a new project template creation wizard</echo>
        <echo>Tips: use only a single word in lower case letters for answers</echo>
        <variable name="projects root"/>
        <expression name="projects root">
@@ -79,7 +79,7 @@
              <expression>
                <operator name="eq">
                   <function name="ask">
-                     <parameter>The project directory already exists, if you cntinue then contest can be overwriten [n]? </parameter>
+                     <parameter>The project directory already exists, please confirm that you want to overwwrite it [n]? </parameter>
                      <parameter>n</parameter>
                   </function>
                   <value>n</value>
@@ -818,7 +818,7 @@ DEBUG=1
        <function name="cpa">
            <parameter type="path">build/env.proj.tmpl</parameter>
            <parameter variable="wrk file"/>        
-      </function>
+       </function>
 
        <expression name="wrk file">
           <operator name="append">
@@ -954,6 +954,26 @@ DEBUG=1
             </function>
           </block>
        </switch>
+       <expression name="done mess">
+         <operator name="append">
+           <value>
+A new </value>
+           <value variable="project name"/>
+           <value> application template has been created in </value>
+           <value variable="project directory"/>
+           <value>
+Navigate to 
+cd </value>
+           <value variable="project directory"/>
+           <value>
+and execute
+bee create
+to build application objects, and
+bee deploy
+to deploy and test the applicaiton</value>
+         </operator>  
+       </expression>
+       <echo variable="done mess"/>
      </block>
   </target>
 
