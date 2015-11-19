@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" 
+      type="image/png" 
+      href="http://example.com/myicon.png">
   <title>@title@</title>
   <style type="text/css">
      <!--/* <![CDATA[ */
