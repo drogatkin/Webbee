@@ -96,7 +96,7 @@
        <function name="mkd">
           <parameter variable="project directory"/>
        </function>
-       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/textsrc/res/text/data,src/res/view,src/res/view/insert,src/res/view/portal,src/res/view/mobile,src/java,src/js</variable>
+       <variable name="project folders">build,doc,src,src/res,src/res/cfg,src/res/css,src/res/html,src/res/image,src/res/text,src/res/text,src/res/text/data,src/res/view,src/res/view/insert,src/res/view/portal,src/res/view/mobile,src/java,src/js</variable>
        <for variable="folder" in="project folders" separator=",">
          <block>
            <expression name="target folder">
@@ -954,6 +954,28 @@ DEBUG=1
             </function>
           </block>
        </switch>
+       <if>
+          <expression>
+             <operator name="eq">
+               <value>y</value>
+               <value variable="use dropdown"/>
+            </operator>
+          </expression>
+          <then>
+             <expression name="wrk file">
+                <operator name="append">
+                    <value variable="project directory"/>
+                     <value>/</value>
+                     <value value="src/res/text/data/listslabels.properties"/>
+                </operator>
+             </expression>
+             <function name="write">
+                <parameter variable="wrk file"/>
+                <parameter># add entires for lists/dropdowns in form field_name=value1,label1,value2,label2,...
+</parameter>
+             </function>
+           </then> 
+       </if>
        <expression name="done mess">
          <operator name="append">
            <value>
