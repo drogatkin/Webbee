@@ -15,7 +15,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 
 	private boolean disableValidCascading;
 
-	private String errorMsg;
+	protected String errorMsg;
 
 	@Override
 	protected Object doControl() {
@@ -77,7 +77,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 		return navigation;
 	}
 
-	/** this method has to be overridden in inherited class
+	/** this method has to be overridden in an inherited class
 	 * 
 	 * @return
 	 */

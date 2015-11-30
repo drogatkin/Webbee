@@ -9,7 +9,7 @@ import java.util.HashMap;
 import com.beegman.webbee.base.BaseBlock;
 import com.beegman.webbee.model.AppModel;
 
-public class Retstful<M, A extends AppModel> extends BaseBlock <A>{
+public class Restful<M, A extends AppModel> extends Form <M, A>{
 	
 	public enum restful_op  {Create, Read, Update, Delete};
 
@@ -19,6 +19,24 @@ public class Retstful<M, A extends AppModel> extends BaseBlock <A>{
 	transient protected String source;
 	transient protected String object;
 	transient int returnCode;
+	
+	protected M doREST(M model) {
+		errorMsg = "";
+		switch(op) {
+		case Update:
+			storeModel(model);  
+			return model;
+			case Read:
+				return loadModel(model);
+			case Create:
+				return getFormModel();
+			case Delete:
+				return deleteModel(model);
+		default:
+			break;
+		}
+		return null;
+	}
 	
 	@Override
 	protected void start() {
@@ -31,12 +49,11 @@ public class Retstful<M, A extends AppModel> extends BaseBlock <A>{
 			op = restful_op.Update;
 		else if ("PUT".equals(m))
 			op = restful_op.Create;
-		else if ("DELET".equals(m))
+		else if ("DELETE".equals(m))
 			op = restful_op.Delete;
 		String restReq = req.getPathInfo();
 		if (restReq != null && restReq.length() > 0) {
 			String[] reqParams = restReq.split("/");
-			
 		}
 	}
 
@@ -57,8 +74,9 @@ public class Retstful<M, A extends AppModel> extends BaseBlock <A>{
 
 	@Override
 	protected Object getModel() {
+		M model = getFormModel();
 		HashMap pageModel = new HashMap(10);
-		
+		pageModel.put(MODEL,  doREST(model));
 		return pageModel;
 	}
 
@@ -67,11 +85,11 @@ public class Retstful<M, A extends AppModel> extends BaseBlock <A>{
 		return navigation;
 	}
 
-	protected void delete() {
-		
+	protected M deleteModel(M model) {
+		return model;
 	}
 	
-	protected int getControlType() {
-		return 0;
+	protected String getKey() {
+		return "id";
 	}
 }
