@@ -58,6 +58,8 @@ import org.aldan3.annot.FormField;
 import org.aldan3.annot.FormField.FieldType;
 
 import com.beegman.webbee.util.SimpleCoordinator;
+// TODO insert it conditionally when drop downs requested
+import com.beegman.webbee.util.GenericResourceOptions;
 
 @DataRelation
 public class </parameter>
