@@ -1358,6 +1358,10 @@ to deploy and test the applicaiton</value>
          <parameter type="path">src/res/image/*.gif</parameter>
          <parameter>A image/</parameter>
          <parameter type="path">src/res/image/*.jpg</parameter>
+         <parameter>A image/</parameter>
+         <parameter type="path">src/res/image/*.png</parameter>
+         <parameter>A image/</parameter>
+         <parameter type="path">src/res/image/*.jpeg</parameter>
 
          <parameter>A</parameter>
          <parameter type="path">src/res/html/*.html</parameter>

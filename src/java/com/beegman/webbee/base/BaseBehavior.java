@@ -31,6 +31,8 @@ public class BaseBehavior<T extends AppModel> {
 	protected String charset;
 	protected boolean canCache;
 	protected boolean ignoreSession;
+	// prevent error returns to be wrapped to a map when are not maps
+	protected boolean noErrorMapWrap;
 	
 	protected boolean useBreadCrumbs;
 	

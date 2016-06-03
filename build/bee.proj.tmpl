@@ -241,6 +241,13 @@
      </operator>
   </expression>
 
+  <expression name="WEBBEE_IMAGE_PNG">
+     <operator name="append">
+        <value variable="WEBBEE_HOME"/>
+        <value>/src/res/image/*.png</value>
+     </operator>
+  </expression>
+
   <expression name="WEBBEE_IMAGE_CAL_PNG">
      <operator name="append">
         <value variable="WEBBEE_HOME"/>
@@ -357,7 +364,7 @@
          <parameter>L</parameter>
          <!-- TODO change to CUSTOM CP when app server runtime already provides JDBC driver -->
          <parameter variable="RUNTIME CP" type="array" separator="PATH SEPARATOR"/>
-         <parameter>jasper\.jar|javax\.servlet\.jar</parameter>
+         <parameter>jasper\.jar|javax\.servlet*\.jar</parameter>
          <parameter>A WEB-INF/config/</parameter>
          <parameter type="path">src/res/cfg/*.properties</parameter>
          <parameter>A META-INF//</parameter>
@@ -413,6 +420,8 @@
          <parameter type="path" variable="WEBBEE_JS"></parameter>
          <parameter>A image/</parameter>
          <parameter type="path" variable="WEBBEE_IMAGE_GIF"></parameter>
+         <parameter>A image/</parameter>
+         <parameter type="path" variable="WEBBEE_IMAGE_PNG"></parameter>
          <parameter>A image/calendar/</parameter>
          <parameter type="path" variable="WEBBEE_IMAGE_CAL_GIF"></parameter>
          <parameter>A image/calendar/</parameter>

@@ -108,7 +108,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	
 	public static final String CONFIG_MOBILLE_SUPPORT = "mobile_support";
 
-	public static final String CONFIG_PPERSPECTIVE_SEPARATOR = "perspective_separator";
+	public static final String CONFIG_PERSPECTIVE_SEPARATOR = "perspective_separator";
 
 	public static final String SESS_USER_ID = "wb#userid";
 
@@ -186,7 +186,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		// TODO use appearances
 		if (appearance == null || appearance == Appearance.full)
 			return null;
-		return appearance.name() + getConfigValue(CONFIG_PPERSPECTIVE_SEPARATOR, "");
+		return appearance.name() + getConfigValue(CONFIG_PERSPECTIVE_SEPARATOR, "");
 	}
 
 	protected boolean isAppearance(Appearance a) {
@@ -394,6 +394,11 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 
 	protected boolean forceMobile() {
 		return false;		
+	}
+	
+	@Override
+	protected boolean noTemplate() {
+		return WebApp.commonBehavior.noErrorMapWrap;
 	}
 	
 	@Override

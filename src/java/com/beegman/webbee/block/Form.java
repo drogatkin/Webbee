@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.beegman.webbee.base.BaseBlock;
+import com.beegman.webbee.base.WebApp;
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.util.AjaxHandlers;
 
@@ -45,9 +46,12 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 				errorMsg = errorResult.toString();
 			}
 		}
+		if(noTemplate())
+			return errorMsg;
 		HashMap pageModel = new HashMap(10);
 		// TODO add method for model redisplay preparation, like cleaning password fields
 		// sanitize(model);
+		// TODO postValidate has to do above
 		pageModel.put(MODEL, model);
 		pageModel.put(Variable.ERROR, errorMsg);
 		return pageModel;
@@ -129,7 +133,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 	protected Object postValidate(T model) {
 		return "";
 	}
-
+	
 	public Object processAutosuggestCall() {
 		return commonAjaxProcess("autosuggest", true);
 	}
