@@ -224,7 +224,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	@Override
 	protected void start() {
 		super.start();
-		// currently hack, until BasePageService obtain better method to reset
+		// currently hack, until BasePageService obtains a better method to reset
 		// service state
 		navigation = null;
 		userAgent = req.getHeader(HTTP.USER_AGENT);

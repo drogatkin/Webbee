@@ -796,7 +796,7 @@ DEBUG=1
                    </block>
                    <block type="case" value="my">
                        <expression>
-                         <value> type=&quot;repo_artifact&quot;&gt;maven:mysql:mysql-connector-java:5.1.6&lt;/variable&gt;
+                         <value> type=&quot;repo_artifact&quot;&gt;maven:mysql:mysql-connector-java:5.1.39&lt;/variable&gt;
 </value>
                        </expression>
                    </block>

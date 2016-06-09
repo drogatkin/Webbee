@@ -95,6 +95,7 @@ public class </parameter>
       </function>
   </block>
   <block type="case" value="u">
+     <!-- TODO decide to normalize component name to lower case here -->
      <expression name="block type">
        <function name="ask">
           <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal, a - attach [f]? </parameter>
@@ -380,6 +381,22 @@ public class </parameter>
                     <parameter>n</parameter>
                 </function>
             </expression>
+            <expression name="ajax true">
+              <if>
+                 <expression>
+                    <operator name="eq">
+                       <value>n</value>
+                       <value variable="ajax login"/>
+                    </operator>
+                 </expression>
+                <then>
+                  <value>true</value>
+                </then>
+                <else>
+                  <value>false</value>
+                </else>  
+              </if>
+            </expression>
             <function name="write">
                  <parameter variable="file java"/>
                  <parameter>package &domain;.&org;.&project;.ux;
@@ -420,7 +437,7 @@ public class </parameter>
         @Override
         protected boolean callAsAjaxOnly() {
 		return </parameter>
-                <parameter/>
+                <parameter variable="ajax true"/>
                 <parameter>;
 	}
 }</parameter>
@@ -539,6 +556,7 @@ public class </parameter>
          // TODO return value from e-mail model object, for example mo.subject
          // if a subject is a part of text resource, then code like below can be used            
 		return getResourceBundle(mo). getString(&quot;subject&quot;);
+         // Note that mailer expects text .properties resources under /serv subdirectory of text
 	}
 
 	@Override
@@ -568,8 +586,9 @@ public class </parameter>
         @Override
 	protected void updateStatus(</parameter>
 	          <parameter variable="JDO name"/>
-                  <parameter>  mo) {
+                  <parameter>  mo/*, Throwable err*/) {
         // TODO update status that given e-mail has been sent and has to be removed from mailing queue
+        // Implement also a version with Throwable parammeter if an error requires different status update
         }
 
 	@Override
