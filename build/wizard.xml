@@ -98,7 +98,7 @@ public class </parameter>
      <!-- TODO decide to normalize component name to lower case here -->
      <expression name="block type">
        <function name="ask">
-          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal, a - attach [f]? </parameter>
+          <parameter>Enter UX block type f - Form, t - Tabular, q - SQLTabular, l - Sign in, p - Portal, a - attach, o - other [f]? </parameter>
           <parameter>f</parameter>
        </function>
      </expression>
@@ -372,7 +372,110 @@ public class </parameter>
                 <parameter variable="tablr templ"></parameter>
            </function>
         </block>
+
+        <block type="case" value="t">
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter>package &domain;.&org;.&project;.ux;
+
+import java.util.Collection;
+import org.aldan3.model.ProcessException;
+import org.aldan3.data.DOService;
+import org.aldan3.data.DODelegator;
+import org.aldan3.model.DataObject;
+import org.aldan3.annot.DataRelation;
+import com.beegman.webbee.block.Tabular;
+
+import &domain;.&org;.&project;.model.</parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model;
+public class </parameter>
+                 <parameter variable="name cap"/>
+                 <parameter> extends Tabular&lt;Collection&lt;</parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter>&gt;, </parameter>
+                 <parameter variable="proj cap"/>
+                 <parameter>Model&gt; {
+	protected Collection&lt; </parameter>
+                 <parameter variable="JDO name"/>
+                 <parameter> &gt; getTabularData(long pos, int size) {
+		DOService dos = getAppModel().getDOService();
+		try {
+			// TODO get search attributes
+			return dos
+					.getObjectsByQuery(
+							"select ... from ...", pos, size);
+		} catch (ProcessException e) {
+			log("", e);
+		}
+		return null;
+	}
+}
+</parameter>
+           </function>
+           <function name="write">
+                <parameter variable="file"/>
+                <parameter>&lt;style&gt;
+table {
+color: #333;
+font-family: Helvetica, Arial, sans-serif;
+width: 80%;
+border-collapse:
+collapse; border-spacing: 0;
+}
+
+td, th {
+border: 1px solid transparent; /* No more visible border */
+height: 30px;
+transition: all 0.3s;  /* Simple transition for hover effect */
+}
+
+th {
+background: #DFDFDF;  /* Darken header a bit */
+font-weight: bold;
+}
+
+td {
+background: #FAFAFA;
+text-align: center;
+}
+
+/* Cells in even rows (2,4,6...) are one color */
+tr:nth-child(even) td { background: #F1F1F1; }  
+
+/* Cells in odd rows (1,3,5...) are another (excludes header cells)  */
+tr:nth-child(odd) td { background: #FEFEFE; } 
+
+tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
+&lt;/style&gt;
+
+&lt;div class="form_header"&gt;@label.title@&lt;/div&gt;
+&lt;table&gt;
+&lt;tr&gt;
+   &lt;th&gt;@label.col1@&lt;/th&gt;
+   &lt;th&gt;@label.col2@&lt;/th&gt;
+&lt;/tr&gt;
+@model(
+   &lt;tr&gt;
+      &lt;td&gt;@element.get*(col1)*@&lt;/td&gt;
+      &lt;td&gt;@element.get*(col2)*@&lt;/td&gt;
+   &lt;/tr&gt;
+)@
+&lt;/table&gt;</parameter>
+           </function>
+
+        </block>
         <block type="case" value="p">
+           <echo>Creation of this type of a component isn't implemented yet</echo>
+        </block>
+        <block type="case" value="o">
+           <expression name="block type">
+              <function name="ask">
+                 <parameter>Enter base building block class name com.beegman.webbee.block [Gadjet]? </parameter>
+                 <parameter>com.beegman.webbee.block.Gadjet</parameter>
+              </function>
+           </expression>
+           <echo>Creation of this type of a component isn't implemented yet</echo>
         </block>
         <block type="case" value="l">
             <expression name="ajax login">
