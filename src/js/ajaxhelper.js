@@ -275,11 +275,11 @@ function formValues2String(form) {
 		var el = form.elements[i];
 		if (el.type) {
 			var value = null;
-
+			// TODO add missed types as tel, month, week, day, date, time, datetime ...
 			if (el.type == 'text' || el.type == 'textarea'
 					|| el.type == 'password' || el.type == 'file'
 					|| el.type == 'button' || el.type == 'reset'
-					|| el.type == 'submit') {
+					|| el.type == 'submit' || el.type == 'number') {
 				if (el.disabled == false)
 					value = el.value;
 			} else if (el.type == 'hidden') {

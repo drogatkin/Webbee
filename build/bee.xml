@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
  <!DOCTYPE bee PUBLIC "-//Dmitriy Rogatkin//DTD Bee Project Builder 1.0//EN"
-    "http://knitknot.info/DTD/bee.dtd" [
+    "https://raw.githubusercontent.com/drogatkin/7Bee/master/bee.dtd" [
       <!ENTITY env SYSTEM "./env.xml">
       <!ENTITY project "webbee">
       <!ENTITY build_directory "build/out">
@@ -727,7 +727,7 @@ DEBUG=1
        </expression>
        <variable name="conf header">&lt;?xml version="1.0"?&gt;
  &lt;!DOCTYPE bee PUBLIC "-//Dmitriy Rogatkin//DTD Bee Project Builder 1.0//EN"
-    "http://knitknot.info/DTD/bee.dtd" [
+    "https://raw.githubusercontent.com/drogatkin/7Bee/master/bee.dtd" [
       &lt;!ENTITY env SYSTEM "./env.xml"&gt;
       &lt;!ENTITY project "</variable>
        <expression variable="conf header">

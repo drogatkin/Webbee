@@ -73,7 +73,7 @@ public class Attach<A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object getModel(){ //try {
-		attachId = null;
+		attachId = null; // just in case if getId() fails
 		attachId = getId();
 		if (attachId == null) {
 			try {
@@ -96,7 +96,7 @@ public class Attach<A extends AppModel> extends BaseBlock<A> {
 			return null;
 		}
 		downloadRequest = false;
-		HashMap pageMap = new HashMap();
+		HashMap<String, Object> pageMap = new HashMap<String, Object>();
 		pageMap.put("divid", getParameterValue("divid", "??", 0));
 		pageMap.put("name", getParameterValue("name", "??", 0));
 		pageMap.put("target", getParameterValue("target", "??", 0));
