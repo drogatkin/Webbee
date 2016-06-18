@@ -49,7 +49,7 @@ public class SchemaCreator {
 							Log.l.debug("Can't drop table for "+ts+" :"+pe);
 						}
 					ts.createTable(dos, update);
-					Log.l.debug("Created "+(update?"or altered ":"")+"table for: " + modelClass);
+					Log.l.debug("Created "+(update?"or altered ":"")+" table for: " + modelClass);
 				} catch (IllegalArgumentException ie) {
 					// skip 
 					//Log.l.error("", ie);
@@ -69,7 +69,7 @@ public class SchemaCreator {
 		ArrayList<File> dirs = new ArrayList<File>();
 		while (resources.hasMoreElements()) {
 			URL resource = resources.nextElement();
-			//System.err.printf("Added resource %s%n", resource);
+			// System.err.printf("Added resource %s%n", resource);
 			// TODO make it more robust and actually check for jar protocol
 			String resourceFileName = resource.getFile();
 			int qp = resourceFileName.indexOf('!');

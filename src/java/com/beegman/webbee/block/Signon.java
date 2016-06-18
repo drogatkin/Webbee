@@ -92,6 +92,11 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object doControl() {
+		if (isSigned()) {
+			if (callAsAjaxOnly())
+				return processsignonDisplayCall();
+			return null;
+		}
 		AppModel appModel = getAppModel();
 		Auth auth = appModel.getAuth();
 		fill(auth);
@@ -204,7 +209,7 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 		}
 		//throw new IllegalStateException("Session isn't created yet");
 		session.setAttribute(SESS_USER_ID, auth.get(auth.getUserKeyName()));
-		session.setAttribute(Constant.Variable.PAGE_TITLE, auth.get(auth.getFullUserNameFieldName()));
+		session.setAttribute(Variable.PAGE_TITLE, auth.get(auth.getFullUserNameFieldName()));
 		return true;
 	}
 

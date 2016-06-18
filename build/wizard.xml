@@ -220,7 +220,7 @@ public class </parameter>
                  <parameter> jdo) {
 		DODelegator&lt;</parameter>
                  <parameter variable="JDO name"/>
-                 <parameter>&gt; djdo = jdo.id &lt;= 0?new DODelegator&lt;&gt;(jdo, null, "", "id"):new DODelegator&lt;&gt;(jdo, null, "", "");
+                 <parameter>&gt; djdo = jdo.id &lt;= 0?new DODelegator&lt;&gt;(jdo, null, "", "id");
 		try {
 			getAppModel().getDOService().addObject(djdo, "id", jdo.id &lt;= 0 ? null : djdo);
 			log("c/u %d", null, jdo.id);
@@ -533,8 +533,8 @@ public class </parameter>
 
 	@Override
         public String getsignonDisplayViewName() {
-              // TODO customize the method to return .json view
-		return super.getViewName();
+              // TODO customize the method to return .json view, Perspective can be used insted of gadget
+		return "gadget/login.json";
 	}
 
         @Override

@@ -5,6 +5,7 @@
 package com.beegman.webbee.util;
 
 import java.io.CharArrayWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	private Properties headers;
 
 	protected SendMail mailer;
-	
+
 	private Thread mthread;
 
 	public Mailer(A model) {
@@ -93,7 +94,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	 * Signals to the service to stop working
 	 * 
 	 */
-	public void deactivate() {		
+	public void deactivate() {
 		mthread.interrupt();
 		active = false;
 		mthread = null;
@@ -110,8 +111,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		headers.put("Mime-Version", "1.0");
 		headers.put("Content-Type", String.format("multipart/mixed; boundary=\"%s\"", getBoundary()));
 		headers.put("X-Mailer", "WebBee app blocks framework");
-		Properties mailProp = 
-		appModel.fillConfigProperties("smtp_config");
+		Properties mailProp = appModel.fillConfigProperties("smtp_config");
 		mailer = new SendMail(mailProp);
 	}
 
@@ -259,40 +259,44 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		w.write(RN);
 		Map<String, Object> images = getImages(mo);
 		if (images != null)
-			for (String name : images.keySet()) {
-				w.write(MARKER); // relative part -->
-				w.write(getBoundary());
-				w.write(REL_PART);
-				w.write(RN);
-				w.write("Content-ID: <");
-				w.write(name);
-				w.write(">");
-				w.write(RN);
-				w.write("Content-Type: ");
-				w.write(getContentType(name));
-				w.write("; name=\"");
-				Object image = images.get(name);
-				if (image instanceof File)
-					w.write(((File) image).getName());
-				else
+			try {
+				for (String name : images.keySet()) {
+					w.write(MARKER); // relative part -->
+					w.write(getBoundary());
+					w.write(REL_PART);
+					w.write(RN);
+					w.write("Content-ID: <");
 					w.write(name);
-				w.write('"');
-				w.write(RN);
-				w.write("Content-Disposition: inline");
-				w.write(RN);
-				w.write("Content-Transfer-Encoding: base64");
-				w.write(RN);
-				w.write(RN);
-				if (image instanceof File) {
-					w.write(streamToBase64(new FileInputStream((File) image)));
-				} else if (image instanceof byte[]) {
-					w.write(Base64Codecs.base64Encode((byte[]) image));
-				} else if (image instanceof URL) {
-					w.write(streamToBase64(((URL) image).openStream()));
-				} else if (image instanceof InputStream) {
-					w.write(streamToBase64((InputStream) image));
+					w.write(">");
+					w.write(RN);
+					w.write("Content-Type: ");
+					w.write(getContentType(name));
+					w.write("; name=\"");
+					Object image = images.get(name);
+					if (image instanceof File)
+						w.write(((File) image).getName());
+					else
+						w.write(name);
+					w.write('"');
+					w.write(RN);
+					w.write("Content-Disposition: inline");
+					w.write(RN);
+					w.write("Content-Transfer-Encoding: base64");
+					w.write(RN);
+					w.write(RN);
+					if (image instanceof File) {
+						w.write(streamToBase64(new FileInputStream((File) image)));
+					} else if (image instanceof byte[]) {
+						w.write(Base64Codecs.base64Encode((byte[]) image));
+					} else if (image instanceof URL) {
+						w.write(streamToBase64(((URL) image).openStream()));
+					} else if (image instanceof InputStream) {
+						w.write(streamToBase64((InputStream) image));
+					}
+					w.write(RN);
 				}
-				w.write(RN);
+			} finally {
+				disposeImages(images, mo);
 			}
 		w.write(MARKER); // end of relative parts <--
 		w.write(getBoundary());
@@ -305,6 +309,20 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		w.write(MARKER);
 		w.write(RN);
 		mailer.send(getFrom(mo), getTo(mo), getSubject(mo), w.toString(), headers);
+	}
+
+	protected void disposeImages(Map<String, Object> images, T mo) {
+		if (images != null) {
+			//images.values().forEach(action);
+			for (Object img : images.values()) {
+				if (img instanceof Closeable)
+					try {
+						((Closeable) img).close();
+					} catch (Exception e) {
+
+					}
+			}
+		}
 	}
 
 	/**
@@ -336,22 +354,21 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	protected TimeZone getTimeZone(T mo) {
 		return null;
 	}
-	
+
 	protected ResourceBundle getResourceBundle(final T mo) {
-		return appModel.getTextResource(getResourcePath(mo),
-				new ResourceManager.LocalizedRequester() {
+		return appModel.getTextResource(getResourcePath(mo), new ResourceManager.LocalizedRequester() {
 			@Override
 			public Locale getLocale() {
-				 return Mailer.this.getLocale(mo);
-			 }
-		      
+				return Mailer.this.getLocale(mo);
+			}
+
 			@Override
-		    public String getEncoding() {
+			public String getEncoding() {
 				return getCharSet(mo);
 			}
 
 			@Override
-		    public TimeZone getTimeZone() {
+			public TimeZone getTimeZone() {
 				return Mailer.this.getTimeZone(mo);
 			}
 		});
@@ -416,23 +433,24 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	protected String getContentType(String name) {
 		return "image/jpeg";
 	}
-	
+
 	protected String getResourcePath(T mo) {
-		return getResourceNameSpace()+this.getClass().getSimpleName().toLowerCase();
+		return getResourceNameSpace() + this.getClass().getSimpleName().toLowerCase();
 	}
-	
+
 	protected String getResourceNameSpace() {
 		return "serv/";
 	}
 
-	/** returns limitation in attachment size. It can't be more than  2 ^ 32
+	/**
+	 * returns limitation in attachment size. It can't be more than 2 ^ 32
 	 * 
 	 * @return
 	 */
 	protected int getMaxAttachmentSize() {
 		return MAX_IMAGE_SIZE * 1024;
 	}
-	
+
 	/**
 	 * allows to modify or add more data in e-mail compose model <br>
 	 * 
@@ -469,8 +487,10 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	protected void updateStatus(T mo) {
 
 	}
-	
-	/** implement the method if updating status when error happened required to be different
+
+	/**
+	 * implement the method if updating status when error happened required to
+	 * be different
 	 * 
 	 * @param mo
 	 * @param e

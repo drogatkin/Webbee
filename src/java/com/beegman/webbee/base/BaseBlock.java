@@ -476,8 +476,11 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 			public void fill(Field f) {
 				// log( "Getting:"+f, null);
 				String type = f.getType();
+				String name = f.getWebId();
+				if (name == null || name.isEmpty())
+				   name = f.getName();
 				sdo.modifyField(f,
-						BaseBlock.this.getObjectParameterValue(f.getName(), null, 0,
+						BaseBlock.this.getObjectParameterValue(name, null, 0,
 								type == null || type.indexOf("char") >= 0 ? false : true));
 			}
 		});
