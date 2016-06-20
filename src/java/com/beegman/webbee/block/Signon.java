@@ -208,7 +208,8 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 			return false;
 		}
 		//throw new IllegalStateException("Session isn't created yet");
-		session.setAttribute(SESS_USER_ID, auth.get(auth.getUserKeyName()));
+		session.setAttribute(SESS_USER_NAME, auth.get(auth.getUserKeyName()));
+		session.setAttribute(SESS_USER_ID, auth.getPrincipal());
 		session.setAttribute(Variable.PAGE_TITLE, auth.get(auth.getFullUserNameFieldName()));
 		return true;
 	}

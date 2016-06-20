@@ -111,6 +111,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	public static final String CONFIG_PERSPECTIVE_SEPARATOR = "perspective_separator";
 
 	public static final String SESS_USER_ID = "wb#userid";
+    
+        public static final String SESS_USER_NAME = "wb#username";
 
 	protected Config configCache;
 
