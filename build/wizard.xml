@@ -220,10 +220,10 @@ public class </parameter>
                  <parameter> jdo) {
 		DODelegator&lt;</parameter>
                  <parameter variable="JDO name"/>
-                 <parameter>&gt; djdo = jdo.id &lt;= 0?new DODelegator&lt;&gt;(jdo, null, "", "id");
+                 <parameter>&gt; djdo = new DODelegator&lt;&gt;(jdo, null, "", "id");
 		try {
 			getAppModel().getDOService().addObject(djdo, "id", jdo.id &lt;= 0 ? null : djdo);
-			log("c/u %d", null, jdo.id);
+			log("c/u %s", null, ""+jdo.id);
 			navigation = "</parameter>
                  <parameter variable="name cap"/>
                  <parameter>?id="+jdo.id; // TODO set a desired target page after successful operation
