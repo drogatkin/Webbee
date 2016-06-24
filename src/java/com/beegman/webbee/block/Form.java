@@ -75,9 +75,9 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected String getSubmitPage() {
-		if (navigation == null)
-			return req.getContextPath();
-		// TODO make it behavior configured
+		if (navigation == null) 
+			return req.getContextPath() == null || req.getContextPath().length() == 0?"/":req.getContextPath();
+			// TODO make it behavior configur
 		return navigation;
 	}
 
