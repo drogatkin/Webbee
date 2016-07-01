@@ -737,7 +737,10 @@ DEBUG=1
              <value>"&gt;
       &lt;!ENTITY build_directory "./build"&gt;
       &lt;!ENTITY source_directory "src/java"&gt;
-      &lt;!ENTITY build_file "&amp;project;.jar"&gt; 
+      &lt;!ENTITY build_file "&amp;project;.jar"&gt;
+      &lt;!ENTITY mobile "</value>
+             <value variable="mobile"/>
+             <value>"&gt;
       &lt;!ENTITY domain "</value>
              <value variable="project domain"/>
              <value>"&gt;
@@ -802,7 +805,7 @@ DEBUG=1
                    </block>
                    <block type="case" value="ora">
                        <expression>
-                         <value>Modify me and add driver downloaded from http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html&lt;/variable&gt;
+                         <value>&gt;Modify me and add driver downloaded from http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html&lt;/variable&gt;
 </value>
                        </expression>
                    </block>

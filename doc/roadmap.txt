@@ -1,0 +1,1 @@
+1. Multiselect like http://demos.telerik.com/kendo-ui/multiselect/index
