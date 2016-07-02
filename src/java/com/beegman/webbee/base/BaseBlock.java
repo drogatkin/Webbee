@@ -21,7 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.aldan3.data.SimpleDataObject;
+import org.aldan3.model.DataObject;
 import org.aldan3.data.util.Filler;
 import org.aldan3.model.Field;
 import org.aldan3.servlet.BasePageService;
@@ -472,7 +472,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		return frontController.getProperty(name, def);
 	}
 
-	protected void fill(final SimpleDataObject sdo) {
+	protected DataObject fill(final DataObject sdo) {
 		fillDataObject(sdo, new Filler() {
 			@Override
 			public void fill(Field f) {
@@ -486,6 +486,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 								type == null || type.indexOf("char") >= 0 ? false : true));
 			}
 		});
+		return sdo;
 	}
 
 	protected boolean isSigned() {

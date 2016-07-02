@@ -551,8 +551,23 @@ CommonBehaviorClass=</parameter>
          <parameter>.model.util.</parameter>
          <parameter variable="C project name"/>
          <parameter>Behavior
-
-#perspective_separator=/
+</parameter>
+         <parameter>
+            <expression> 
+            <if>
+               <expression>
+                  <operator name="neq">
+                      <value>y</value>
+                      <value variable="mobile"/>
+                  </operator>
+               </expression>
+               <then>
+                  <value>#</value>
+               </then>
+             </if>
+            </expression>
+          </parameter>
+          <parameter>perspective_separator=/
 
 #stationary=
 
