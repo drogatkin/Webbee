@@ -19,9 +19,9 @@ public class ActivityMonitor implements ServletRequestListener, ServletContextLi
 	@Override
 	public void requestDestroyed(ServletRequestEvent sre) {
 		HttpSession sess = ((HttpServletRequest) sre.getServletRequest()).getSession(false);
-if (sess != null) {
-	
-}
+		if (sess != null) {
+
+		}
 	}
 
 	@Override
@@ -43,13 +43,16 @@ if (sess != null) {
 	@Override
 	public void sessionDidActivate(HttpSessionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void sessionWillPassivate(HttpSessionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
+	
+	// TODO create Activity data object, and then gather activity information
+	// in it, and then call monitor function with possible persistance
 
 }

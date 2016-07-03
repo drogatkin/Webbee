@@ -11,10 +11,11 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.aldan3.model.Log;
+import org.aldan3.model.ServiceProvider;
 
 import com.beegman.webbee.model.AppModel;
 
-public class Cron <T, A extends AppModel> {
+public class Cron <T, A extends AppModel> implements ServiceProvider {
 	public static final String NAME = "##cron";
 	protected A appModel;
 	ScheduledThreadPoolExecutor executor;
@@ -24,6 +25,16 @@ public class Cron <T, A extends AppModel> {
 		appModel = m;
 		executor = initExecutor();
 		schedule();
+	}
+	
+	@Override
+	public String getPreferredServiceName() {
+		return getClass().getName();
+	}
+
+	@Override
+	public Object getServiceProvider() {
+		return this;
 	}
 	
 	protected ScheduledThreadPoolExecutor initExecutor() {
