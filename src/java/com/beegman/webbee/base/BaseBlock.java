@@ -245,6 +245,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 
 	@Override
 	protected boolean isAllowed(boolean override) throws ServletException {
+		if (isBanned())
+			return false;
 		if (super.isAllowed(override))
 			return true;
 		// log("IsAllowed("+override+") = false, so sa called", null);
