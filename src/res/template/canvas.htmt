@@ -83,7 +83,7 @@
 <body onload="init()">
 <div id="container">
 <table width="100%" border=0 class="top_bar">
-  <tr><td align="left" width="*"><div class="logo"><a href="@contextpath@" style="text-decoration: inherit;color:inherit;">@app_name@</a></div></td>
+  <tr><td align="left" width="*"><div class="logo"><a href="@contextpath@/" style="text-decoration: inherit;color:inherit;">@app_name@</a></div></td>
   <td>@%stationary@</td>
   <!-- top button line -->
      <td align="right" width="50%">
