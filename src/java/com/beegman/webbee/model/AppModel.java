@@ -23,6 +23,7 @@ import org.aldan3.data.util.SimpleField;
 import org.aldan3.model.Log;
 import org.aldan3.model.TemplateProcessor;
 import org.aldan3.servlet.Constant;
+import org.aldan3.servlet.FrontController;
 import org.aldan3.servlet.Main;
 import org.aldan3.util.ResourceException;
 import org.aldan3.util.ResourceManager;
@@ -57,6 +58,8 @@ public class AppModel extends Registry implements Serializable,
 	private DataSource datasource;
 
 	private DOService doService;
+	
+	private Properties config;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -81,6 +84,7 @@ public class AppModel extends Registry implements Serializable,
 				}
 			};
 		}
+		config = FrontController.loadProperties(servletContext.getInitParameter(Constant.IP_PROPERTIES), servletContext, getClass().getClassLoader());
 		datasourceName = servletContext.getInitParameter("model_datasource");
 		if (datasourceName != null && datasourceName.length() > 0)
 			try {
@@ -188,6 +192,8 @@ public class AppModel extends Registry implements Serializable,
 	}
 
 	public Properties getBaseConfig() {
+		if (config != null)
+			return config;
 		return (Properties) servletContext.getAttribute(getServletName()
 				+ CONFIG_ATTR_SUFFX);
 	}

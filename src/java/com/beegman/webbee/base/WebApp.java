@@ -19,14 +19,18 @@ public class WebApp extends Main {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext sc = getServletContext();
-		sc.setAttribute(getServletName() + AppModel.CONFIG_ATTR_SUFFX, getProperties());
-		sc.setAttribute(getServletName() + AppModel.FRONTCTRL_ATTR_SUFFX, this);
+		ServletContext sc = config.getServletContext();
 		AppModel appModel = (AppModel) sc.getAttribute(AppModel.WEBAPP_MODEL);
 		if (appModel != null) {
+			properties = appModel.getBaseConfig();
+		}
+		super.init(config);
+		sc.setAttribute(getServletName() + AppModel.CONFIG_ATTR_SUFFX, getProperties());
+		sc.setAttribute(getServletName() + AppModel.FRONTCTRL_ATTR_SUFFX, this);
+		
+		if (appModel != null) {
 			commonBehavior = appModel.getCommonBehavior(); 
-					appModel.notifyStart();
+			appModel.notifyStart();
 		} else 
 			applyDefaultCommonBehavior();
 		//System.err.println("ctx attr "+getTemplateEngineAttributeName() );
