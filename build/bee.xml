@@ -13,7 +13,7 @@
       ]>
 <!-- 
    Build script file used for "WebBee" project
-   Copyright (c) 2008-2015 Dmitriy Rogatkin    -->
+   Copyright (c) 2008-2016 Dmitriy Rogatkin    -->
 
 <bee name="&project;" type="project" dir="..">
   &env;
@@ -217,7 +217,7 @@
 
        <expression variable="model class">
            <operator name="append">
-             <value>// Webbee (C) 2015 Dmitriy Rogatkin
+             <value>// Webbee (C) 2016 Dmitriy Rogatkin
 ///////   application model class   //////////
 // TODO modify the file for the application purpose
 package </value>
@@ -260,7 +260,9 @@ public class </value>
 	
 	@Override
 	protected String getServletName() {
-		return "Webbee servlet";
+		return "</value>
+             <value variable="project name"/> 
+             <value> servlet";
 	}
  
 	@Override
@@ -377,7 +379,7 @@ public class </value>
        </expression>
        <function name="write">
          <parameter variable="wrk file"/>
-         <parameter>// Webbee (C) 2015 Dmitriy Rogatkin
+         <parameter>// Webbee (C) 2016 Dmitriy Rogatkin
 ///////   application common behavior class   //////////
 // TODO modify the file for the application behavior purpose
 package </parameter>
@@ -675,6 +677,12 @@ DEBUG=1
         <parameter variable="project name"/>
         <parameter>&lt;/param-value&gt;
 	&lt;/context-param&gt;
+        &lt;context-param&gt;
+		&lt;param-name&gt;properties&lt;/param-name&gt;
+		&lt;param-value&gt;/WEB-INF/config/</parameter>
+        <parameter variable="project name"/>
+        <parameter>.properties&lt;/param-value&gt;
+        &lt;/context-param&gt;
 	&lt;listener&gt;
 		&lt;listener-class></parameter>
           <parameter variable="project domain"/>
@@ -690,16 +698,20 @@ DEBUG=1
                 &lt;servlet-name&gt;Webbee servlet&lt;/servlet-name&gt;
 		&lt;description&gt;Webbee main servlet&lt;/description&gt;
 		&lt;servlet-class&gt;com.beegman.webbee.base.WebApp&lt;/servlet-class&gt;
+		&lt;!--
 		&lt;init-param>
 			&lt;param-name&gt;properties&lt;/param-name&gt;
 			&lt;param-value&gt;/WEB-INF/config/</parameter>
           <parameter variable="project name"/>
           <parameter>.properties&lt;/param-value&gt;
 		&lt;/init-param&gt;
+		--&gt;
 		&lt;async-supported>true&lt;/async-supported&gt;
 	&lt;/servlet&gt;
 	&lt;servlet-mapping&gt;
-		&lt;servlet-name&gt;Webbee servlet&lt;/servlet-name&gt;
+		&lt;servlet-name&gt;</parameter>
+          <parameter variable="project name"/>
+          <parameter> servlet&lt;/servlet-name&gt;
 		&lt;url-pattern&gt;/webbee/*&lt;/url-pattern&gt;
 	&lt;/servlet-mapping&gt;
 	&lt;welcome-file-list&gt;

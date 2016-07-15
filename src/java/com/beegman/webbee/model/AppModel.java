@@ -53,13 +53,13 @@ public class AppModel extends Registry implements Serializable,
 
 	protected ServletContext servletContext;
 
-	private String datasourceName;
+	protected String datasourceName;
 
-	private DataSource datasource;
+	protected DataSource datasource;
 
-	private DOService doService;
+	protected DOService doService;
 	
-	private Properties config;
+	protected Properties config;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
