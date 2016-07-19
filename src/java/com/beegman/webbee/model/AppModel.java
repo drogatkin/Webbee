@@ -5,6 +5,7 @@
 package com.beegman.webbee.model;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -28,6 +29,7 @@ import org.aldan3.servlet.Main;
 import org.aldan3.util.ResourceException;
 import org.aldan3.util.ResourceManager;
 import org.aldan3.util.ResourceManager.ResourceType;
+import org.aldan3.util.Stream;
 
 import com.beegman.webbee.base.BaseBehavior;
 import com.beegman.webbee.base.BaseBlock;
@@ -187,10 +189,22 @@ public class AppModel extends Registry implements Serializable,
 		return NAME;
 	}
 
-	public String getInitParameter(String name) {
-		return servletContext.getInitParameter(name);
+	/** gets init parameter either for app deployment descriptor or config file
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public String getInitParameter(String name) {		
+		String result = servletContext==null?null:servletContext.getInitParameter(name);
+		if (result == null)
+			result = getBaseConfig().getProperty(name);
+		return result;
 	}
 
+	/** gets config properties either directly, or from context attribute
+	 * 
+	 * @return
+	 */
 	public Properties getBaseConfig() {
 		if (config != null)
 			return config;
@@ -261,19 +275,22 @@ public class AppModel extends Registry implements Serializable,
 	}
 	
 	public Properties fillConfigProperties(String configName) {
-		Properties result = new Properties(); 
-		
+		Properties result = new Properties();
+
 		InputStream is = null;
 		try {
-			result.load(is = getResourceAsStream(getInitParameter(configName)));
-		} catch (Exception e) {
-			Log.l.error("Can't read config: " + getInitParameter(configName), e);
-		} finally {
 			try {
-				if (is != null)
-					is.close();
+				is = getResourceAsStream(getInitParameter(configName));
 			} catch (Exception e) {
+				Log.l.error("Can't read config resource: " + getInitParameter(configName), e);
 			}
+			if (is == null)
+				is = new FileInputStream(getInitParameter(configName));
+			result.load(is);
+		} catch (Exception e) {
+			Log.l.error("Can't read config file: " + getInitParameter(configName), e);
+		} finally {
+			Stream.close(is);
 		}
 		return result;
 	}

@@ -54,7 +54,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 
 	private Object monitor;
 
-	private Properties headers;
+	protected Properties headers;
 
 	protected SendMail mailer;
 
@@ -181,6 +181,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	protected void sendMail(T mo) throws IOException, ProcessException {
 		// TODO consider e-mail content generation using servlet calling by
 		// getDispatcher
+		// TODO use composer, for example MIMEMessage
 		TemplateProcessor tp = appModel.getTemplateProcessor();
 		if (tp == null)
 			throw new ProcessException("Template processor isn't available yet");
