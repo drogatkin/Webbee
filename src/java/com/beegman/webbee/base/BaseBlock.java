@@ -492,14 +492,9 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	}
 
 	protected boolean isSigned() {
-		try {
-			if (isAllowed(false)) {
-				HttpSession s = req.getSession(false);
-				if (s != null && s.getAttribute(SESS_USER_ID) != null)
-					return true;
-			}
-		} catch (ServletException e) {
-		}
+		HttpSession s = req.getSession(false);
+		if (s != null && s.getAttribute(SESS_USER_ID) != null)
+			return true;
 		return false;
 	}
 
