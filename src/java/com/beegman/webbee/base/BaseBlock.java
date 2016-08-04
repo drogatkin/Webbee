@@ -35,6 +35,7 @@ import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.model.Appearance;
 import com.beegman.webbee.model.Config;
 import com.beegman.webbee.model.UIEvent;
+import com.beegman.webbee.model.UserInfo;
 import com.beegman.webbee.util.AsyncUpdater;
 import com.beegman.webbee.util.History;
 import com.beegman.webbee.util.PageRef;
@@ -113,6 +114,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	public static final String SESS_USER_ID = "wb#userid";
     
         public static final String SESS_USER_NAME = "wb#username";
+        
+    	public static final String SESS_USER_INFO = "wb#userinfo";
 
 	protected Config configCache;
 
@@ -234,13 +237,17 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		// Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Nexus One Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
 		//
 		// TODO force mobile mode from session
-		if ("yes".equals(getConfigValue(CONFIG_MOBILLE_SUPPORT, null)) && userAgent != null
-				&& (userAgent.indexOf("Mobile") > 0 || userAgent.indexOf("RIM Tablet OS") > 0 || userAgent.indexOf("Silk") > 0) && userAgent.indexOf("(KHTML, like Gecko)") > 0 || forceMobile()) {
+		if ("yes".equals(getConfigValue(CONFIG_MOBILLE_SUPPORT, null)) && isMobile()) {
 			appearance = Appearance.mobile; // TODO check for Appearance.tablet
 		} else
 			appearance = null;
 		//appearance = Appearance.mobile;
 		modelMerge = null;
+	}
+	
+	protected boolean isMobile() {
+		return userAgent != null
+				&& (userAgent.indexOf("Mobile") > 0 || userAgent.indexOf("RIM Tablet OS") > 0 || userAgent.indexOf("Silk") > 0) && userAgent.indexOf("(KHTML, like Gecko)") > 0 || forceMobile();		
 	}
 
 	@Override
@@ -492,10 +499,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	}
 
 	protected boolean isSigned() {
-		HttpSession s = req.getSession(false);
-		if (s != null && s.getAttribute(SESS_USER_ID) != null)
-			return true;
-		return false;
+		return WebApp.commonBehavior.isSigned(req);
 	}
 
 	public ResourceBundle getNamedResource(String name) throws ResourceException {
@@ -630,6 +634,10 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	 */
 	protected PopupInfo getPopupInfo() {
 		return null;
+	}
+	
+	protected UserInfo getUserInfo() {
+		return WebApp.commonBehavior.getUserInfo(req);
 	}
 
 	protected void banAccess(int duration) {

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.beegman.webbee.base.BaseBlock;
-import com.beegman.webbee.base.WebApp;
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.util.AjaxHandlers;
 

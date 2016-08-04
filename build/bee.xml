@@ -975,7 +975,7 @@ DEBUG=1
               driverClassPath=&quot;Application&quot;
               url=&quot;jdbc:mysql://localhost:3306/</parameter>
                <parameter variable="project name"/>
-              <parameter>?autoReconnect=true&amp;amp;zeroDateTimeBehavior=convertToNull&quot;
+              <parameter>?autoReconnect=true&amp;amp;zeroDateTimeBehavior=convertToNull&amp;amp;characterEncoding=UTF-8&amp;amp;useUnicode=yes&quot;
               validationQuery=&quot;select 1&quot;
               maxActive=&quot;10&quot;
               maxIdle=&quot;4&quot;/&gt;

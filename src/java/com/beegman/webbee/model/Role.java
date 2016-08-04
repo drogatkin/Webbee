@@ -5,7 +5,7 @@
 package com.beegman.webbee.model;
 
 public class Role {
-	enum Access {
+	enum Activity {
 		RAED, MODIFY, CREATE, DELETE, PRINT, EXECUTE
 	};
 

@@ -274,6 +274,10 @@ public class AppModel extends Registry implements Serializable,
 		return new BaseBehavior ();
 	}
 	
+	public <T> T inject(T obj) {
+		return obj;
+	}
+	
 	public Properties fillConfigProperties(String configName) {
 		Properties result = new Properties();
 

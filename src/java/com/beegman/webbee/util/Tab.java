@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class Tab extends PageRef {
 	PageRef[] menu;
+	String [] extra;
 
 	public Tab(String service, String help) {
 		anchor = service;
@@ -24,6 +24,10 @@ public class Tab extends PageRef {
 		anchor = service;
 		this.description = help;
 		this.title = title;
+	}
+	
+	public String[] getExtra() {
+		return extra;
 	}
 
 	/** Creates tabs component array from localized resource
@@ -52,6 +56,10 @@ public class Tab extends PageRef {
 				result[i] = new Tab(tabComps[0], tabComps[1]);
 			else if (tabComps.length == 3)
 				result[i] = new Tab(tabComps[0], tabComps[2], tabComps[1]);
+			else if (tabComps.length > 3) {
+				result[i] = new Tab(tabComps[0], tabComps[2], tabComps[1]);
+				result[i].extra = Arrays.copyOfRange(tabComps, 3, tabComps.length);
+			}
 		}
 		return result;
 	}
