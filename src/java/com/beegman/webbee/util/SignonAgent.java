@@ -22,5 +22,5 @@ public interface SignonAgent<T extends AppModel> {
 	 * @param appModel
 	 * @return
 	 */
-	boolean signon(HttpServletRequest req, T appModel);
+	boolean signon(HttpServletRequest req, T appModel); // TODO passing model not required, it can be injecteds
 }

@@ -454,6 +454,30 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		return WebApp.commonBehavior.isPublic;
 	}
 
+	
+	@Override
+	protected Object doControl() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object getModel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getSubmitPage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected boolean isAllowedGet() {
+		return WebApp.commonBehavior.isGetAllowed;
+	}
+
 	@Override
 	public Object getServiceProvider() {
 		return this;

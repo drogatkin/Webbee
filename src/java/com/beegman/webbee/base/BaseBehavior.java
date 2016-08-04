@@ -26,6 +26,8 @@ import com.beegman.webbee.model.UserInfo;
  *
  */
 public class BaseBehavior<T extends AppModel> {
+	
+
 	public BaseBehavior() {
 		multiThread = true;
 		isPublic = false;
@@ -34,6 +36,7 @@ public class BaseBehavior<T extends AppModel> {
 		canCache = false;
 		useBreadCrumbs = true;
 		ignoreSession = false;
+		isGetAllowed = true;
 	}
 
 	protected boolean multiThread;
@@ -46,6 +49,8 @@ public class BaseBehavior<T extends AppModel> {
 	protected boolean noErrorMapWrap;
 
 	protected boolean useBreadCrumbs;
+	
+	protected boolean isGetAllowed;
 
 	protected String unauthorizedView;
 
