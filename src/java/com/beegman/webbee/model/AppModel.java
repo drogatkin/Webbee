@@ -85,6 +85,7 @@ public class AppModel extends Registry implements Serializable,
 								+ String.format(msg, params), ex);
 				}
 			};
+			ResourceManager.setLogger(Log.l);
 		}
 		config = FrontController.loadProperties(servletContext.getInitParameter(Constant.IP_PROPERTIES), servletContext, getClass().getClassLoader());
 		datasourceName = servletContext.getInitParameter("model_datasource");
