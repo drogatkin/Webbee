@@ -97,4 +97,32 @@ public class Barcode2d<A extends AppModel> extends Stream<A> {
 		public int format = BarCode2D.PDF417_INVERT_BITMAP;
 	}
 
+	/* Older algorithm which is possibly faster
+	 * 
+	 * 			int[] barcode = new int[bitsw * bitsh * BITSIZE * BITSIZE];
+			int b = 0;
+			BufferedImage bi = new BufferedImage(bitsw * BITSIZE, bitsh * BITSIZE, BufferedImage.TYPE_INT_RGB);//try{
+			for (int k = 0; k < bits.length; ++k) {
+				for (int m = 0; m < 8; m++) {
+					barcode[b] = (bits[k] & masks[m]) == masks[m] ? 0xffffff : 0;
+					//System.err.print(barcode[b]==0?' ':'*');
+					for (int rf = 0; rf < BITSIZE; rf++) {
+						for (int rs = rf==0?1:0; rs < BITSIZE; rs++) {
+							barcode[b + (rs * bitsw * BITSIZE) + rf] = barcode[b];
+						}
+					}
+					b += BITSIZE;
+					if ((b%(bitsw * BITSIZE)) == 0) {
+						b += bitsw * BITSIZE * (BITSIZE - 1);
+						break;
+					}
+				}
+
+				if (b >= barcode.length)
+					break;
+			}
+			bi.setRGB(0, 0, bitsw * BITSIZE, bitsh * BITSIZE, barcode, 0, bitsw * BITSIZE);
+
+	 */ 
+	
 }
