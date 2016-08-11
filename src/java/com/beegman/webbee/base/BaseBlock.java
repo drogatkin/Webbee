@@ -242,12 +242,22 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		} else
 			appearance = null;
 		//appearance = Appearance.mobile;
+		req.setAttribute("BaseBlock",  this);
 		modelMerge = null;
 	}
 	
 	protected boolean isMobile() {
 		return userAgent != null
 				&& (userAgent.indexOf("Mobile") > 0 || userAgent.indexOf("RIM Tablet OS") > 0 || userAgent.indexOf("Silk") > 0) && userAgent.indexOf("(KHTML, like Gecko)") > 0 || forceMobile();		
+	}
+	
+	protected boolean isMobileApp() {
+		return WebApp.commonBehavior.isMobileApp(req);
+	}
+	
+	@Override
+	protected boolean isAjax(String pi) {
+		return super.isAjax(pi) || isMobileApp();
 	}
 
 	@Override

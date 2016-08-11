@@ -100,4 +100,10 @@ public class BaseBehavior<T extends AppModel> {
 		result.defineField(new SimpleField(BaseBlock.SESS_USER_NAME));
 		return result;
 	}
+	
+	public boolean isMobileApp(HttpServletRequest req) {
+		
+		return false;
+	}
+	
 }
