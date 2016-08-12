@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class Tab extends PageRef {
@@ -35,32 +36,51 @@ public class Tab extends PageRef {
 	 * @param resource
 	 * @return
 	 */
-	public static Tab[] createTabsFromResource(ResourceBundle resource) {
+	public static Tab[] createTabsFromResource(ResourceBundle resource, String ... roles) {
 		Enumeration<String> ke = resource.getKeys();
 		ArrayList<String> keys = new ArrayList<String>(10);
 		while(ke.hasMoreElements())
 			keys.add(ke.nextElement());
 		Collections.sort(keys);
-		String[] tabEntries = new String[keys.size()];
-		keys.toArray(tabEntries);
-
-		Tab[] result = new Tab[tabEntries.length];
-		for (int i = 0; i < tabEntries.length; i++) {
-			String tabEntry = resource.getString(tabEntries[i]);
-			String tabComps[] = tabEntry.split(",");
-			if (tabComps.length == 0)
-				result[i] = new Tab(tabEntry, tabEntry);
+		ArrayList <Tab> tabs = new ArrayList<Tab> (keys.size());
+		/*Pattern p = null;
+		if (DataConv.hasValue(filterExp))
+			p =
+		Pattern.compile(filterExp); */
+		HashSet<String> rolesSet = null;
+		if (roles != null && roles.length > 0) 
+			rolesSet = new HashSet<String>(Arrays.asList(roles));
+		
+		for(String key:keys) {
+			String tabComps[] = resource.getString(key).split(",");
+			if (tabComps.length > 3) {
+				String[] extra = Arrays.copyOfRange(tabComps, 3, tabComps.length);
+				boolean isRole = false;
+				
+				if (rolesSet != null) {
+					for(String ro:extra) {
+						if (rolesSet.contains(ro)) {
+							isRole = true;
+							break;
+						}
+					}
+				} else
+					isRole = true;
+				//System.err.printf("Looking %s in %s%n", Arrays.toString(extra), rolesSet, isRole);
+				if (isRole) {
+					Tab t =  new Tab(tabComps[0], tabComps[2], tabComps[1]);
+					t.extra = extra;
+					tabs.add(t);
+				}
+			} else if (tabComps.length == 0)
+				tabs.add( new Tab(key, key) );
 			else if (tabComps.length == 1)
-				result[i] = new Tab(tabComps[0], tabComps[0]);
+				tabs.add( new Tab(tabComps[0], tabComps[0]));
 			else if (tabComps.length == 2)
-				result[i] = new Tab(tabComps[0], tabComps[1]);
+				tabs.add( new Tab(tabComps[0], tabComps[1]));
 			else if (tabComps.length == 3)
-				result[i] = new Tab(tabComps[0], tabComps[2], tabComps[1]);
-			else if (tabComps.length > 3) {
-				result[i] = new Tab(tabComps[0], tabComps[2], tabComps[1]);
-				result[i].extra = Arrays.copyOfRange(tabComps, 3, tabComps.length);
-			}
+				tabs.add( new Tab(tabComps[0], tabComps[2], tabComps[1]));
 		}
-		return result;
+		return tabs.toArray(new Tab[tabs.size()]);
 	}
 }
