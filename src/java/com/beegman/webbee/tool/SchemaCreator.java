@@ -61,7 +61,14 @@ public class SchemaCreator {
 		}
 	}
 
-	private static Class<?>[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+	/** Lists all classes from a cpecified package
+	 * 
+	 * @param packageName
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
+	public static Class<?>[] getClasses(String packageName) throws ClassNotFoundException, IOException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		assert classLoader != null;
 		String path = packageName.replace('.', '/');
