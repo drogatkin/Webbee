@@ -670,7 +670,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		return null;
 	}
 	
-	protected UserInfo getUserInfo() {
+	public UserInfo getUserInfo() {
 		return WebApp.commonBehavior.getUserInfo(req);
 	}
 

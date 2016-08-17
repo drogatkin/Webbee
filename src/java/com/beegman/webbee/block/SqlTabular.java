@@ -13,7 +13,6 @@ import java.util.TreeMap;
 
 import org.aldan3.annot.DataRelation;
 import org.aldan3.data.util.Filter;
-import org.aldan3.model.Coordinator;
 import org.aldan3.model.DOFactory;
 import org.aldan3.model.DataObject;
 import org.aldan3.model.ProcessException;
@@ -21,8 +20,7 @@ import org.aldan3.util.Sql;
 
 import com.beegman.webbee.model.AppModel;
 // TODO rename to Sqltabular
-public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabular<Collection<D>, A> implements
-		Coordinator {
+public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabular<Collection<D>, A> {
 
 	@Override
 	protected Collection<D> getTabularData(long pos, int size) {
@@ -46,7 +44,7 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 		Class filterClasses[] = dr.filters();
 		for (Class<Filter> filterClass : filterClasses) {
 			try {
-				Filter filter = filterClass.newInstance();
+				Filter filter = getAppModel().inject(filterClass.newInstance());
 				paramsMap.put(filter.getName(), Sql.toSqlValue(filter.getValue(this), getAppModel()
 						.getDOService().getInlineDatePattern()));
 			} catch (Exception e) {
@@ -82,16 +80,6 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 			modelInsert(key, pv);
 		return Sql.toSqlValue(pv, getAppModel().getDOService()
 				.getInlineDatePattern());
-	}
-
-	@Override
-	public Object getModel(String name) {
-		return null;
-	}
-
-	@Override
-	public Object getService(String name) {
-		return SqlTabular.this;
 	}
 
 	protected boolean doPreserveKeys() {
