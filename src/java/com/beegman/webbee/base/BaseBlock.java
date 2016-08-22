@@ -191,6 +191,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		// TODO use appearances
 		if (appearance == null || appearance == Appearance.full)
 			return null;
+		// TODO add separator in view name calculation
 		return appearance.name() + getConfigValue(CONFIG_PERSPECTIVE_SEPARATOR, "");
 	}
 
@@ -236,10 +237,12 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		// Mozilla/5.0 (iPod; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.0.2 Mobile/9A5248d Safari/6533.18.5
 		// Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Nexus One Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
 		//
-		// TODO force mobile mode from session
+		// TODO force mobile mode from session		
 		if ("yes".equals(getConfigValue(CONFIG_MOBILLE_SUPPORT, null)) && isMobile()) {
 			appearance = Appearance.mobile; // TODO check for Appearance.tablet
-		} else
+		} else if (isMobileApp()) 
+			appearance = Appearance.json;
+		else // TODO how easier customize appearance?
 			appearance = null;
 		//appearance = Appearance.mobile;
 		req.setAttribute("BaseBlock",  this);
