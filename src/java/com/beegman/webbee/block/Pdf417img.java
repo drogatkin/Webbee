@@ -9,11 +9,9 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import org.aldan3.util.BarCode2D;
 import org.aldan3.util.Pdf417;
 import org.aldan3.util.Pdf417.Symbol;
 
-import com.beegman.webbee.block.Barcode2d.BarCodeAttributes;
 import com.beegman.webbee.model.AppModel;
 
 public class Pdf417img<A extends AppModel> extends Stream<A> {

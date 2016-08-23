@@ -43,7 +43,7 @@ public class Barcode2d<A extends AppModel> extends Stream<A> {
 			int byteW = (bitsw + 7) / 8;
 			for (int r = 0; r < bitsh; r++) {
 				for (int c = 0; c < bitsw; c++) {
-					int bm = c % 8;
+					int bm = 7 - c % 8;
 					int bp = c / 8;
 					putDot(barcode, bitsw * dotW, c, r, dotW, dotH,
 							(bits[r * byteW + bp] & masks[bm]) != 0 ? 0xffffff : 0);
