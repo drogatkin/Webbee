@@ -103,9 +103,9 @@ public class SchemaCreator {
 				if (file.isDirectory()) {
 					assert !file.getName().contains(".");
 					classes.addAll(findClasses(file, packageName + "." + file.getName()));
-				} else if (file.getName().endsWith(".class")) {
+				} else if (file.getName().endsWith(".class") && file.getName().indexOf('$') < 0) { // no inner classes
 					classes.add(Class.forName(packageName + '.'
-							+ file.getName().substring(0, file.getName().length() - 6)));
+							+ file.getName().substring(0, file.getName().length() - 6)/*, true, Thread.currentThread().getContextClassLoader()*/));
 				}
 			}
 		} else if (directory.isFile()) { // try it as jar
@@ -116,7 +116,7 @@ public class SchemaCreator {
 			while(entries.hasMoreElements()) {
 				JarEntry entry = entries.nextElement();
 				if (!entry.isDirectory()) {
-					if (entry.getName().endsWith(".class") &&  entry.getName().startsWith(packagePath)) {
+					if (entry.getName().endsWith(".class") &&  entry.getName().startsWith(packagePath) && entry.getName().indexOf('$') < 0) {
 						String className =  entry.getName().substring(pl+1, entry.getName().length() -6);
 						//System.err.printf("Entry %s directory %s%n", entry.getName(), className);
 						if (className.indexOf('/') < 0)
