@@ -9,7 +9,6 @@ import org.aldan3.annot.DataRelation;
 import org.aldan3.data.DODelegator;
 import org.aldan3.data.util.DataObjectWrapper;
 import org.aldan3.data.util.Filter;
-import org.aldan3.model.Coordinator;
 import org.aldan3.model.DataObject;
 import org.aldan3.model.ProcessException;
 
@@ -18,7 +17,7 @@ import com.beegman.webbee.model.Appearance;
 import com.beegman.webbee.util.PageRef;
 
 // TODO rename to Sqlform
-public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordinator {
+public class SqlForm<T, A extends AppModel> extends Form<T, A> {
 
 	@Override
 	protected T loadModel(T model) {
@@ -31,7 +30,7 @@ public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordi
 		if (keyString.length() > 0)
 			try {
 				if (model instanceof DataObject == false)
-					dataObject = new DODelegator(model, getTableName(dr.table(), model), "", keyString);
+					dataObject = new DODelegator<T>(model, getTableName(dr.table(), model), "", keyString);
 				getAppModel().getDOService().getObjectLike(dataObject);
 			} catch (ProcessException e) {
 				modelInsert(Variable.ERROR, ""+e); // localized standard error messaging
@@ -75,7 +74,7 @@ public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordi
 			if (model instanceof DataObject) {
 				dataObject = (DataObject) model; // TODO use a wrapper with exclusion
 			} else {
-				dataObject = new DODelegator(model, getTableName(dr.table(), model), "", null);
+				dataObject = new DODelegator<T>(model, getTableName(dr.table(), model), "", null);
 			}
 			dataObject = massageDO(dataObject);
 			// TODO create a pattern with inclusion  ...
@@ -165,16 +164,6 @@ public class SqlForm<T, A extends AppModel> extends Form<T, A> implements Coordi
 		if (ld > 0)
 			return result.substring(ld + 1);
 		return result;
-	}
-
-	@Override
-	public Object getModel(String name) {
-		return null;
-	}
-
-	@Override
-	public Object getService(String name) {
-		return this;
 	}
 
 }

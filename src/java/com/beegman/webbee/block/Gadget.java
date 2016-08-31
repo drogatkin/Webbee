@@ -6,6 +6,7 @@ package com.beegman.webbee.block;
 
 import java.util.HashMap;
 
+import org.aldan3.annot.RequiresOverride;
 import org.aldan3.model.TemplateProcessor;
 
 import com.beegman.webbee.base.BaseBlock;
@@ -57,6 +58,7 @@ public class Gadget<G, A extends AppModel> extends BaseBlock<A> {
 	 * 
 	 * @return
 	 */
+	@RequiresOverride
 	protected G getGadgetData() {
 		return null;
 	}

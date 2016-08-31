@@ -7,6 +7,7 @@ package com.beegman.webbee.block;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,6 +21,26 @@ import org.aldan3.util.Sql;
 
 import com.beegman.webbee.model.AppModel;
 // TODO rename to Sqltabular
+
+/** this class generates a collection of JDO objects based on used query in DataRelation
+ * 
+ * @author dmitriy
+ *
+ * @param <D>
+ * @param <A>
+ * 
+ * <p>
+ * Important: keys get directly used for getting request parameters and populating in a query.
+ * It can generates a SQL injection problem. To address that either request a data conversion in a query itself.
+ * Note that all request parameters get sanitized to present valid SQL inside of ''.
+ * A key name can be defined as name:type. In this case type can be check and sanitized. The following types are allowed:
+ * <ul>
+ *   <li>date
+ *   <li>number
+ * </ul>  
+ * 
+ * 
+ */
 public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabular<Collection<D>, A> {
 
 	@Override
@@ -39,8 +60,10 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 				return result;
 			}}); 
 		
-		for (String key : dr.keys())//{
-			paramsMap.put(key, getFieldSQLData(key)); //log("putting %s:%s", null, key, getFieldSQLData(key));}
+		for (String key : dr.keys()) {
+			KeyAndType kat = KeyAndType.parse(key);
+			paramsMap.put(kat.key, getFieldSQLData(kat.key, kat.type));
+		}			 
 		Class filterClasses[] = dr.filters();
 		for (Class<Filter> filterClass : filterClasses) {
 			try {
@@ -70,7 +93,7 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 		return null;
 	}
 
-	private String getFieldSQLData(String key) {
+	private String getFieldSQLData(String key, String type) {
 		Object pv = getObjectParameterValue(key, "", -1, false);
 		if (pv != null && pv.getClass().isArray()) {
 			if (((Object[])pv).length == 1)
@@ -78,11 +101,43 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 		}
 		if (doPreserveKeys()) 
 			modelInsert(key, pv);
+		switch(type) {
+		case "number":
+			if (! (pv instanceof Number)) {
+			    if (pv.toString().matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))
+			    	throw new IllegalArgumentException("Expected "+pv+" a number");
+			}
+			break;
+		case "date":
+			if (!(pv instanceof Date)) {
+				
+			}
+			break;
+		}
 		return Sql.toSqlValue(pv, getAppModel().getDOService()
 				.getInlineDatePattern());
 	}
 
 	protected boolean doPreserveKeys() {
 		return false;
+	}
+	
+	static class KeyAndType {
+		String key;
+		
+		String type;
+
+		public static KeyAndType parse(String s) {
+			KeyAndType res = new KeyAndType();
+			int sp = s.indexOf(':');
+			if (sp > 0) {
+				res.key = s.substring(0, sp);
+				res.type = s.substring(sp+1);
+			} else {
+				res.key = s;
+				res.type = "";
+			}
+			return res;
+		}
 	}
 }
