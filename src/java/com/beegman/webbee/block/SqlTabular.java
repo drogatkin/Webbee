@@ -101,18 +101,15 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 		}
 		if (doPreserveKeys()) 
 			modelInsert(key, pv);
-		switch(type) {
-		case "number":
+		if("number".equals(type)) {
 			if (! (pv instanceof Number)) {
-			    if (pv.toString().matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"))
-			    	throw new IllegalArgumentException("Expected "+pv+" a number");
+			    if (!pv.toString().matches("[+-]?([0-9]*\\.?[0-9]+|[0-9]+\\.?[0-9]*)([eE][+-]?[0-9]+)?"))
+			    	throw new IllegalArgumentException("Expected '"+pv+"' as a number");
 			}
-			break;
-		case "date":
+		} else if( "date".equals(type)) {
 			if (!(pv instanceof Date)) {
 				
 			}
-			break;
 		}
 		return Sql.toSqlValue(pv, getAppModel().getDOService()
 				.getInlineDatePattern());
