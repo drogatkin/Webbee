@@ -26,7 +26,7 @@ public class Gadget<G, A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object getModel() {
-		HashMap<String, Object> gadgetModel = new HashMap();
+		HashMap<String, Object> gadgetModel = new HashMap<String, Object>();
 		gadgetModel.put(MODEL, getGadgetData());
 		return gadgetModel;
 	}
@@ -53,13 +53,25 @@ public class Gadget<G, A extends AppModel> extends BaseBlock<A> {
 		return super.getTemplateProcessor(view);
 	}
 
+	/** override this methof to generate gadget data
+	 * 
+	 * @return
+	 */
 	protected G getGadgetData() {
 		return null;
+	}
+	
+	/** override this method is gadget should return something different than JSON
+	 * 
+	 * @return
+	 */
+	protected String getType() {
+		return ".json";
 	}
 
 	@Override
 	protected String getViewName() {
-		return "gadget/"+getResourceName()+".json";
+		return "gadget/"+getResourceName()+getType();
 	}
 
 	@Override
