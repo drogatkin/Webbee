@@ -7,6 +7,8 @@ package com.beegman.webbee.block;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.aldan3.annot.RequiresOverride;
+
 import com.beegman.webbee.base.BaseBlock;
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.util.AjaxHandlers;
@@ -84,6 +86,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 	 * 
 	 * @return
 	 */
+	@RequiresOverride
 	protected T getFormModel() {
 		return null;
 	}

@@ -54,7 +54,7 @@ public class DODelegatorEx<T> extends DODelegator<T> {
 				Log.l.debug("The field %s was claimed as data wasn't in a fields list and ignored", field);
 		}
 		if (only.isEmpty())
-			throw new IllegalArgumentException("No one of specified fileds belongs to  data object");
+			throw new IllegalArgumentException("No one of specified fields belongs to the data object");
 		if (keys != null) {
 			selectedData = new HashSet<String>();
 			st = new StringTokenizer(keys, ",");
@@ -63,7 +63,7 @@ public class DODelegatorEx<T> extends DODelegator<T> {
 				if (fieldsMap.containsKey(field))
 					selectedData.add(field);
 				else
-					Log.l.debug("The field %s was claimed as key wasn't in fields list and ignored", field);
+					Log.l.debug("The field %s was claimed as a key wasn't in fields list and ignored", field);
 			}
 		}
 		fieldsMap = only;

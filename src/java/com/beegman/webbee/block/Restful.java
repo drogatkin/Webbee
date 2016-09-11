@@ -6,38 +6,24 @@ package com.beegman.webbee.block;
 
 import java.util.HashMap;
 
+import org.aldan3.annot.RequiresOverride;
+
 import com.beegman.webbee.base.BaseBlock;
 import com.beegman.webbee.model.AppModel;
 
-public class Restful<M, A extends AppModel> extends Form <M, A>{
-	
-	public enum restful_op  {Create, Read, Update, Delete};
+public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
+
+	public enum restful_op {
+		Create, Read, Update, Delete
+	};
 
 	transient protected restful_op op;
-	
+
 	transient protected String key;
 	transient protected String source;
 	transient protected String object;
 	transient int returnCode;
-	
-	protected M doREST(M model) {
-		errorMsg = "";
-		switch(op) {
-		case Update:
-			storeModel(model);  
-			return model;
-			case Read:
-				return loadModel(model);
-			case Create:
-				return getFormModel();
-			case Delete:
-				return deleteModel(model);
-		default:
-			break;
-		}
-		return null;
-	}
-	
+
 	@Override
 	protected void start() {
 		super.start();
@@ -61,7 +47,7 @@ public class Restful<M, A extends AppModel> extends Form <M, A>{
 	protected boolean useLabels() {
 		return false;
 	}
-	
+
 	@Override
 	protected String getCanvasView() {
 		return null;
@@ -69,15 +55,52 @@ public class Restful<M, A extends AppModel> extends Form <M, A>{
 
 	@Override
 	protected Object doControl() {
-		throw new UnsupportedOperationException("Here is no controller for RESTFul services") ;
+		throw new UnsupportedOperationException("Here is no controller for RESTFul services");
 	}
 
 	@Override
 	protected Object getModel() {
-		M model = getFormModel();
-		HashMap pageModel = new HashMap(10);
-		pageModel.put(MODEL,  doREST(model));
+		Object result = null;
+		switch (op) {
+		case Update:
+			result = storeModel(null);
+		case Read:
+			result = loadModel(null);
+		case Create:
+			result = storeModel(readModel());
+		case Delete:
+			result = deleteModel(null);
+		default:
+			break;
+		}
+		if (noTemplate()) {
+			return result;
+		}
+		HashMap<String, Object> pageModel = new HashMap<String, Object>(10);
+		pageModel.put(MODEL, result);
 		return pageModel;
+	}
+
+	protected I newModel() {
+		return null;
+	}
+	
+	@RequiresOverride
+	protected O loadModel(I in) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@RequiresOverride
+	protected O storeModel(I in) {
+
+		return null;
+	}
+
+	@RequiresOverride
+	protected I readModel() {
+
+		return null;
 	}
 
 	@Override
@@ -85,11 +108,12 @@ public class Restful<M, A extends AppModel> extends Form <M, A>{
 		return navigation;
 	}
 
-	protected M deleteModel(M model) {
-		return model;
+	@RequiresOverride
+	protected O deleteModel(I in) {
+		return null;
 	}
-	
-	protected String getKey() {
+
+	protected String getKeyParameterName() {
 		return "id";
 	}
 }
