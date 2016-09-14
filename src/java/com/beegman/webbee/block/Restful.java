@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.aldan3.annot.FormField;
 import org.aldan3.annot.RequiresOverride;
@@ -48,10 +49,34 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 			op = restful_op.Create;
 		else if ("DELETE".equals(m))
 			op = restful_op.Delete;
+		parseOperationAttributes();
+		returnCode = HttpServletResponse.SC_OK;
+	}
+
+	protected void parseOperationAttributes() {
+		object = null;
+		key = null;
+		source = null;
 		String restReq = req.getPathInfo();
 		if (restReq != null && restReq.length() > 0) {
 			String[] reqParams = restReq.split("/");
-		}
+			switch(reqParams.length) {
+			case 1:
+				key = reqParams[0];
+				break;
+			case 2:
+				object = reqParams[0];
+				key = reqParams[1];
+				break;
+			default:
+				log("Warning: request parameters are more (%d) than parsed", null, reqParams.length);
+			case 3:
+				source = reqParams[0];
+				object = reqParams[2];
+				key = reqParams[1];
+				break;	
+			}
+		}	
 	}
 
 	@Override
@@ -84,6 +109,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 		default:
 			break;
 		}
+		resp.setStatus(returnCode);
 		if (noTemplate()) {
 			return result;
 		}
@@ -92,6 +118,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 		return pageModel;
 	}
 
+	@RequiresOverride
 	protected I newModel() {
 		return null;
 	}
