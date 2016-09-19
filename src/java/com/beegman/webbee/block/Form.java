@@ -23,10 +23,10 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 	protected Object doControl() {
 		disableValidCascading = false;
 		errorMsg = "";
-		T model = getFormModel();
-		fillModel(model);
+		T model = fillModel(getFormModel());
+		// TODO using side effect isn't good - errorMsg
 		if (errorMsg.length() == 0) {
-			Object errorResult = postValidate(model);
+			Object errorResult = postValidate(model);  // postValidate can skip storing data
 			if (errorResult instanceof String) {
 				errorMsg = (String) errorResult;
 				if (errorMsg.length() == 0) {
@@ -49,7 +49,7 @@ public class Form<T, A extends AppModel> extends BaseBlock<A> {
 		}
 		if(noTemplate())
 			return errorMsg;
-		HashMap pageModel = new HashMap(10);
+		HashMap<String, Object> pageModel = new HashMap<String, Object>(10);
 		// TODO add method for model redisplay preparation, like cleaning password fields
 		// sanitize(model);
 		// TODO postValidate has to do above
