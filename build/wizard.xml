@@ -714,7 +714,7 @@ public class </parameter>
 	          <parameter variable="JDO name"/>
                   <parameter>  mo/*, Throwable err*/) {
         // TODO update status that given e-mail has been sent and has to be removed from mailing queue
-        // Implement also a version with Throwable parammeter if an error requires different status update
+        // Implement also a version with Throwable parameter if an error requires a different status update
         }
 
 	@Override

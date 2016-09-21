@@ -27,6 +27,7 @@ public class Gadget<G, A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object getModel() {
+		// TODO create model, prefill with parameters, and then return transformed
 		HashMap<String, Object> gadgetModel = new HashMap<String, Object>();
 		gadgetModel.put(MODEL, getGadgetData());
 		return gadgetModel;

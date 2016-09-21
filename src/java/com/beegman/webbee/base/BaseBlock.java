@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aldan3.model.DataObject;
+import org.aldan3.data.DOService;
 import org.aldan3.data.util.Filler;
 import org.aldan3.model.Field;
 import org.aldan3.servlet.BasePageService;
@@ -131,6 +132,10 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		return (T) frontController.getAttribute(AppModel.WEBAPP_MODEL);
 	}
 
+	public DOService jdo() {
+		return getAppModel().getDOService();
+	}
+	
 	protected SignonAgent getSignonAgent() {
 		return (SignonAgent) frontController.getAttribute(Config.SIGNON_AGENT);
 	}
