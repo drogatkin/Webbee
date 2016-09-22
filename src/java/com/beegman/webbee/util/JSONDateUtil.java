@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.aldan3.app.Env;
 
 public class JSONDateUtil {
-	SimpleDateFormat JSONISO_8601_FMT = Env.getJavaVersion() > 7?new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH):
+	SimpleDateFormat JSONISO_8601_FMT = //Env.getJavaVersion() > 7?new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH):
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZ", Locale.ENGLISH);
 
 	public Date parse(String jds) throws ParseException {
