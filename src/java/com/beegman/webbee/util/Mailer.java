@@ -53,9 +53,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	private boolean active;
 
 	private Object monitor;
-
-	protected Properties headers;
-
+	
 	protected SendMail mailer;
 
 	private Thread mthread;
@@ -106,11 +104,6 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	 * 
 	 */
 	protected void initMailEngine() {
-		headers = new Properties();
-		headers.put("To", UNDIS_RECIP);
-		headers.put("Mime-Version", "1.0");
-		headers.put("Content-Type", String.format("multipart/mixed; boundary=\"%s\"", getBoundary()));
-		headers.put("X-Mailer", "WebBee app blocks framework");
 		Properties mailProp = appModel.fillConfigProperties("smtp_config");
 		mailer = new SendMail(mailProp);
 	}
@@ -179,6 +172,7 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 	}
 
 	protected void sendMail(T mo) throws IOException, ProcessException {
+		Properties headers = prepareHeaders(mo);
 		// TODO consider e-mail content generation using servlet calling by
 		// getDispatcher
 		// TODO use composer, for example MIMEMessage
@@ -310,6 +304,21 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		w.write(MARKER);
 		w.write(RN);
 		mailer.send(getFrom(mo), getTo(mo), getSubject(mo), w.toString(), headers);
+	}
+
+	/** override to customize headers
+	 * 
+	 * @param mo
+	 * @return
+	 */
+	protected Properties prepareHeaders(T mo) {
+		Properties headers = new Properties();
+		headers.put("To", UNDIS_RECIP);
+		headers.put("Mime-Version", "1.0");
+		headers.put("Content-Type", String.format("multipart/mixed; boundary=\"%s\"", getBoundary()));
+		headers.put("X-Mailer", "WebBee app blocks framework");
+		headers.setProperty("Cc", getCc(mo));
+		return headers;
 	}
 
 	protected void disposeImages(Map<String, Object> images, T mo) {
