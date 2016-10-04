@@ -72,6 +72,7 @@ public class BaseBehavior<T extends AppModel> {
 				if (uid != null) {
 					ui = createUserInfo();
 					ui.modifyField(BaseBlock.SESS_USER_ID, uid);
+					ui.modifyField(UserInfo.ROLE, s.getAttribute("role"));
 					s.setAttribute(BaseBlock.SESS_USER_INFO, ui);
 				}
 			}
@@ -98,11 +99,11 @@ public class BaseBehavior<T extends AppModel> {
 		UserInfo result = new UserInfo();
 		result.defineField(new SimpleField(BaseBlock.SESS_USER_ID));
 		result.defineField(new SimpleField(BaseBlock.SESS_USER_NAME));
+		result.defineField(new SimpleField(UserInfo.ROLE));
 		return result;
 	}
 	
 	public boolean isMobileApp(HttpServletRequest req) {
-		
 		return false;
 	}
 	

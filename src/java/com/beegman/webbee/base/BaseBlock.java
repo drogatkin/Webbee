@@ -31,6 +31,7 @@ import org.aldan3.util.DataConv;
 import org.aldan3.util.ResourceException;
 import org.aldan3.util.ResourceManager;
 import org.aldan3.web.ui.widget;
+import org.aldan3.annot.Access;
 
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.model.Appearance;
@@ -272,11 +273,32 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	protected boolean isAllowed(boolean override) throws ServletException {
 		if (isBanned())
 			return false;
-		if (super.isAllowed(override))
-			return true;
-		// log("IsAllowed("+override+") = false, so sa called", null);
-		SignonAgent sa = getSignonAgent();
-		return sa != null && sa.signon(req, getAppModel());
+		Access access = getClass().getAnnotation(Access.class);
+		if (access == null || access.roles().length == 0) {
+			if (super.isAllowed(override))
+				return true;
+			// log("IsAllowed("+override+") = false, so sa called", null);
+			SignonAgent sa = getSignonAgent();
+			return sa != null && sa.signon(req, getAppModel());
+		} else {
+			UserInfo ui = getUserInfo();
+			String role = null;
+			if (ui != null)
+				role = (String) ui.get(UserInfo.ROLE);
+			if (role == null) {
+				SignonAgent sa = getSignonAgent();
+				if (sa != null)
+					sa.signon(req, getAppModel());
+				ui = getUserInfo();
+				if (ui != null)
+					role = (String) ui.get(UserInfo.ROLE);
+			}
+			if (role != null)
+				for (String r : access.roles())
+					if (role.indexOf(r) >= 0)
+						return true;
+			return false;
+		}
 	}
 
 	@Override

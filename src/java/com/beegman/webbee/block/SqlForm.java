@@ -45,7 +45,7 @@ public class SqlForm<T, A extends AppModel> extends Form<T, A> {
 			try {
 				Class<Filter> filterClass = filterClasses[l];
 				Filter filter = filterClass.newInstance();
-				dataObject.modifyField(ret[l] = filter.getName(), filter.getValue(this));
+				dataObject.put(ret[l] = filter.getName(), filter.getValue(this));
 			} catch (Exception e) {
 				log("", e);
 			}
