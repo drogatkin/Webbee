@@ -317,7 +317,8 @@ public class Mailer<T, A extends AppModel> implements ServiceProvider, Runnable 
 		headers.put("Mime-Version", "1.0");
 		headers.put("Content-Type", String.format("multipart/mixed; boundary=\"%s\"", getBoundary()));
 		headers.put("X-Mailer", "WebBee app blocks framework");
-		headers.setProperty("Cc", getCc(mo));
+		if (getCc(mo) != null)
+			headers.setProperty("Cc", getCc(mo));
 		return headers;
 	}
 
