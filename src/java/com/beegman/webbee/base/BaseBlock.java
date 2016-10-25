@@ -400,6 +400,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 				PageRef[] links = app.getTopBarLinks(this);
 				if (tabs != null)
 					mapModel.put(TOPLINKS, links);
+				req.setAttribute(AppModel.WEBAPP_MODEL, app);
 			} else
 				mapModel.put(APP_NAME, getConfigValue(APP_NAME, "Unnamed"));
 			mapModel.put(ACTION, getPreferredServiceName());
