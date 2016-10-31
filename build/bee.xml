@@ -695,7 +695,9 @@ DEBUG=1
           <parameter>Model&lt;/listener-class&gt;
 	&lt;/listener&gt;
 	&lt;servlet&gt;
-                &lt;servlet-name&gt;Webbee servlet&lt;/servlet-name&gt;
+                &lt;servlet-name&gt;</parameter>
+          <parameter variable="project name"/>
+          <parameter> servlet&lt;/servlet-name&gt;
 		&lt;description&gt;Webbee main servlet&lt;/description&gt;
 		&lt;servlet-class&gt;com.beegman.webbee.base.WebApp&lt;/servlet-class&gt;
 		&lt;!--
@@ -928,7 +930,6 @@ DEBUG=1
               validationQuery=&quot;select 1&quot;
               maxActive=&quot;3&quot;
               maxIdle=&quot;2&quot;/&gt;
-&lt;/Context&gt;
 </parameter>
             </function>
           </block>
@@ -957,7 +958,6 @@ DEBUG=1
               validationQuery=&quot;select 1 from dual&quot;
               maxActive=&quot;3&quot;
               maxIdle=&quot;2&quot;/&gt;
-&lt;/Context&gt;
 </parameter>
             </function>
           </block>
@@ -979,11 +979,16 @@ DEBUG=1
               validationQuery=&quot;select 1&quot;
               maxActive=&quot;10&quot;
               maxIdle=&quot;4&quot;/&gt;
-&lt;/Context&gt;
 </parameter>
             </function>
           </block>
        </switch>
+       <function name="writea">
+            <parameter variable="wrk file"/>
+            <parameter>
+&lt;/Context&gt;
+</parameter>
+       </function>
        <if>
           <expression>
              <operator name="eq">
