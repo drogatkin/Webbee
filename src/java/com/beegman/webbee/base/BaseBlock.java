@@ -422,7 +422,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	 * @param mapModel
 	 */
 	protected void addExtraHeader(Map mapModel, boolean ajaxView) {
-		if (ajaxView == false)
+               // TODO reconsider the method since it can be added using either behavior or config
+		if (ajaxView == false && getConfigValue("headextra", null) == null )
 			mapModel.put("headextra", "insert/headextra.htmt");
 	}
 
