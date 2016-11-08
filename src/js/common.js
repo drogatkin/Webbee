@@ -96,3 +96,18 @@ function message(key) {
 	}
 	getElement('status').innerHTML = key;
 }
+
+var ajax = {
+   put: function(req) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('PUT', req.url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+         if (xhr.status === 200) {
+            req.success(JSON.parse(xhr.responseText));
+         } else if (typeof req.fail === 'function')
+            req.fail( xhr.status )
+      }
+      xhr.send(JSON.stringify(req.payload));
+   }
+}
