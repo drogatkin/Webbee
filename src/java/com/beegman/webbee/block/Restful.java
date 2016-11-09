@@ -10,10 +10,13 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletResponse;
 
 import org.aldan3.annot.FormField;
@@ -102,17 +105,22 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 		switch (op) {
 		case Update:
 			result = storeModel(null);
+			break;
 		case Read:
 			result = loadModel(null);
+			break;
 		case Create:
 			result = storeModel(readModel());
+			break;
 		case Delete:
 			result = deleteModel(null);
+			break;
 		default:
 			break;
 		}
 		resp.setStatus(returnCode);
 		if (noTemplate()) {
+			log("return %s", null, result);
 			return result;
 		}
 		HashMap<String, Object> pageModel = new HashMap<String, Object>(10);
@@ -219,15 +227,80 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 		}
 	}
 
-	private Object fillArray(JsonArray jsonArray, Class<?> componentType, boolean cs) {
+	protected Object fillArray(JsonArray jsonArray, Class<?> componentType, boolean cs) {
 		Object[] res = (Object[]) Array.newInstance(componentType, jsonArray.size());
 		for (int k = 0; k < res.length; k++)
 			if (componentType.isPrimitive()) {
-				
+
 			} else if (componentType == String.class)
 				res[k] = jsonArray.getString(k);
 			else
 				fillPojo(res[k], jsonArray.getJsonObject(k));
 		return res;
+	}
+
+	// TODO migrate the methods in JSON operating util class
+	protected JsonArrayBuilder toJsonArr(Object objs) {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		if (objs instanceof String[]) {
+			String[] sa = (String[]) objs;
+			for (String s : sa)
+				jab.add(s);
+		}
+		return jab;
+	}
+
+	protected String toJson(Object pojo, boolean reverse, String... fieldNames) {
+		JSONDateUtil du = null;
+		JsonObjectBuilder ob = Json.createObjectBuilder();
+
+		HashSet<String> ks = new HashSet<String>();
+		for (String s : fieldNames)
+			ks.add(s);
+		for (Field f : pojo.getClass().getFields()) {
+			FormField a = f.getAnnotation(FormField.class);
+			String name = f.getName();
+			if (a != null) {
+				if (ks.contains(name) ^ reverse)
+					continue;
+				if (!a.formFieldName().isEmpty())
+					name = a.formFieldName();
+			} else
+				continue;
+			try {
+				Class<?> type = f.getType();
+				if (type == String.class) {
+					ob.add(name, DataConv.objectToString(f.get(pojo)));
+				} else if (type == int.class) {
+					ob.add(name, f.getInt(pojo));
+				} else if (type == boolean.class) {
+					ob.add(name, f.getBoolean(pojo));
+				} else if (type == long.class) {
+					ob.add(name, f.getLong(pojo));
+				} else if (type == float.class) {
+					ob.add(name, f.getFloat(pojo));
+				} else if (type == double.class) {
+					ob.add(name, f.getDouble(pojo));
+				} else if (type == Date.class) {
+					if (du == null)
+						du = new JSONDateUtil();
+					if (f.get(pojo) != null)
+						ob.add(name, du.toJSON((Date) f.get(pojo)));
+				} else if (type.isArray()) {
+					if (type.getComponentType() == String.class)
+						ob.add(name, toJsonArr(f.get(pojo)));
+					else
+						log("Unsupported type for %s for %s", null, type.getComponentType(), name);
+				} else {
+					log("Unsupported type for %s for %s", null, type, name);
+				}
+			} catch (Exception e) {
+				if (e instanceof IllegalArgumentException)
+					throw (IllegalArgumentException) e;
+				log("A problem in filling JSON object", e);
+			}
+		}
+		return ob.build().toString();
+
 	}
 }
