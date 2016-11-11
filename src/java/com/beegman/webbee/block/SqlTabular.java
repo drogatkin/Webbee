@@ -48,7 +48,7 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 		DataRelation dr = getClass().getAnnotation(DataRelation.class);
 		if (dr == null)
 			throw new RuntimeException("No DataRelation is defined, the operation isn't possible");
-		String query = dr.query();
+		String query = getQuery(dr.query());
 		// TODO it can be resource name and look for actual query in resource for db portability
 		TreeMap<String, String> paramsMap = new TreeMap<String, String> (new Comparator<String>() {
 
@@ -64,8 +64,8 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 			KeyAndType kat = KeyAndType.parse(key);
 			paramsMap.put(kat.key, getFieldSQLData(kat.key, kat.type));
 		}			 
-		Class filterClasses[] = dr.filters();
-		for (Class<Filter> filterClass : filterClasses) {
+		
+		for (Class<? extends Filter> filterClass : dr.filters()) {
 			try {
 				Filter filter = getAppModel().inject(filterClass.newInstance());
 				paramsMap.put(filter.getName(), Sql.toSqlValue(filter.getValue(this), getAppModel()
@@ -87,6 +87,15 @@ public class SqlTabular<D extends DataObject, A extends AppModel> extends Tabula
 			log("", e);
 		}
 		return new ArrayList<D>();
+	}
+
+	/** this method allows customize query
+	 * 
+	 * @param query
+	 * @return
+	 */
+	protected String getQuery(String query) {
+		return query;
 	}
 
 	protected DOFactory getDOFactory() {
