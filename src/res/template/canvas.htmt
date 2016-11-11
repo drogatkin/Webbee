@@ -16,14 +16,15 @@
          min-height:100%;
          position:absolute;
          height:100%;
-         width:98%;
-         top:0;left:2%
+         width:100%;
+         top:0;left:0;
+         background:#dddddf;
         }
         #footer {
           position:absolute;
           bottom:0;
-          width:98%;
-          background:#ffffff;
+          width:100%;
+          background:#ddffdd;
           /*height:4em;*/
         }
         #status {
@@ -42,12 +43,16 @@
            cursor:pointer;
            }
        #payload {
-        position:absolute;
-        top:13%;
-        height:85%;
-        width:100%;
+        //position:absolute;
+        //top:10%;
+        height:100%;
+        width:90%;
         padding-top:0.5em;
-       overflow:auto
+        padding-left:1.5em;
+        padding-right:1.5em;
+        overflow:auto;
+        margin:auto;
+        background:#ffffff;
        }
        #modal_background {
          position: absolute;
@@ -61,7 +66,10 @@
 	     display: none;
 	     opacity: 0.40;
 	     filter: alpha(opacity=40)
-     }  
+       }
+       #search {
+         background: #ffffff url(@contextpath@/image/filter.gif) no-repeat; padding-left:25px;
+       }  
        /* ]]> */-->
   </style>
   <style type="text/css">
@@ -83,11 +91,21 @@
 <body onload="init()">
 <div id="container">
 <table width="100%" border=0 class="top_bar">
-  <tr><td align="left" width="*"><div class="logo"><a href="@contextpath@/" style="text-decoration: inherit;color:inherit;">@app_name@</a></div></td>
-  <td>@%stationary@</td>
-  <!-- top button line -->
-     <td align="right" width="50%">
-  @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
+  <tr>
+     <td align="left" width="*"><div class="logo"><a href="@contextpath@/" style="text-decoration: inherit;color:inherit;">
+       @logo{
+       @""(@app_name@)@
+       @(<img src="@contextpath@@logo@" title="@app_name@">)@}@</a></div>
+     </td>
+     <td>@%stationary@</td>
+     @search(
+         <td style="text-align:right;margin-right:2em">
+            <input name="@name@" type="text" id="search" value="@value@" placeholder="@commonlabels.search@">
+         </td>
+     )@  
+     <!-- top button line -->     
+     <td align="right">
+        @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
         >@element.getTitle*()*@</div>)@
       </td></tr>
 </table>
