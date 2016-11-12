@@ -76,6 +76,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	public static final String TARGET_PAGE = "referer";
 
 	public static final String PAGINATION = "pageinfo";
+	
+	public static final String SEARCH_BLOCK = "search_block";
 
 	public static final String ID = "id";
 

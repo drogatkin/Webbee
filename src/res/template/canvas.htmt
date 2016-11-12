@@ -10,7 +10,6 @@
      <!--/* <![CDATA[ */
           @@import url(@contextpath@/css/base.css);
             BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 11px; }
-         body {height:100%}
          P {margin:0.2em 1em 0.1em 1em}
         #container {
          min-height:100%;
@@ -45,7 +44,7 @@
        #payload {
         //position:absolute;
         //top:10%;
-        height:100%;
+        height:90%;
         width:90%;
         padding-top:0.5em;
         padding-left:1.5em;
@@ -98,11 +97,9 @@
        @(<img src="@contextpath@@logo@" title="@app_name@">)@}@</a></div>
      </td>
      <td>@%stationary@</td>
-     @search(
-         <td style="text-align:right;margin-right:2em">
-            <input name="@name@" type="text" id="search" value="@value@" placeholder="@commonlabels.search@">
-         </td>
-     )@  
+      <td style="text-align:right;margin-right:2em">
+          @%search_block@
+     </td>
      <!-- top button line -->     
      <td align="right">
         @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
