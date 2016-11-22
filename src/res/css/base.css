@@ -6,7 +6,7 @@
         padding-right: 1em; padding-left: 1em;
     }
 .logo {font-family: 'Arial Black'; font-size: large; color: #FFFFFF;}  
-.navi_hist_bar { font-weight: bold; background:#FFFFFF}
+.navi_hist_bar { font-weight: bold; background:#FFFFFF;padding-top:2px;padding-bottom:2px;}
 
 label {display:block; position:relative;padding:2px 5px 2px;font-weight:bolder;margin:3px 4px 3px} 
 

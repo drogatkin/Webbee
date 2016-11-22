@@ -98,6 +98,11 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 	protected Object doControl() {
 		throw new UnsupportedOperationException("Here is no controller for RESTFul services");
 	}
+	
+	@Override
+	protected boolean isAjax(String pi) {
+		return true;
+	}
 
 	@Override
 	protected Object getModel() {
@@ -113,7 +118,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 			result = storeModel(readModel());
 			break;
 		case Delete:
-			result = deleteModel(null);
+			result = deleteModel(readModel());
 			break;
 		default:
 			break;

@@ -47,17 +47,18 @@ function getFormField(el_name, form_name) {
 		return document.forms[0].elements[el_name];
 	}
 }
+
 function centerElement(el)  {
 	  var left=0, top=0;
 	  if( self.pageYOffset ) {
-	  left = self.pageXOffset;
-	  top = self.pageYOffset;
+	    left = self.pageXOffset;
+	     top = self.pageYOffset;
 	  } else if( document.documentElement && document.documentElement.scrollTop ) {
-	  left = document.documentElement.scrollLeft;
-	  top = document.documentElement.scrollTop;
+	    left = document.documentElement.scrollLeft;
+	    top = document.documentElement.scrollTop;
 	  } else if( document.body ) {
-	  left = document.body.scrollLeft;
-	  top = document.body.scrollTop;
+	     left = document.body.scrollLeft;
+	     top = document.body.scrollTop;
 	  } 
 	  
 	  el.style.left = Math.max((left + (getWindowWidth() - el.offsetWidth) / 2), 0) + 'px';
@@ -98,16 +99,57 @@ function message(key) {
 }
 
 var ajax = {
+   noaccesscode:403,
+
+   noaccessredirect:'/',
+
    put: function(req) {
+	   var self = this
       var xhr = new XMLHttpRequest();
       xhr.open('PUT', req.url);
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-         if (xhr.status === 200) {
-            req.success(JSON.parse(xhr.responseText));
-         } else if (typeof req.fail === 'function')
-            req.fail( xhr.status )
+      xhr.onload = function () {
+    	  self.processResponse(xhr,req) 
       }
       xhr.send(JSON.stringify(req.payload));
+   },
+
+   get: function(req) {
+	   var self = this
+	   var xhr = new XMLHttpRequest();
+	      xhr.open('GET', req.url);
+	      xhr.onload = function () {
+	    	  self.processResponse(xhr,req) 
+	      }
+	      xhr.send();
+   },
+   
+   dele: function(req) {
+	   // TODO think of reusing put
+	   var self = this
+	      var xhr = new XMLHttpRequest();
+	      xhr.open('DELETE', req.url);
+	      xhr.setRequestHeader('Content-Type', 'application/json');
+	      xhr.onload = function () {
+	    	  self.processResponse(xhr,req) 
+	      }
+	      xhr.send(JSON.stringify(req.payload));
+   }, 
+   
+   processResponse: function (xhr,req) {
+       if (xhr.status === 200) {
+    	   if (req.respType && req.respType == 'html')
+    		   req.success(xhr.responseText)
+    	   else	
+           try {
+        	   req.success(JSON.parse(xhr.responseText));
+           } catch(e) {
+              if (typeof req.fail === 'function')
+                  req.fail( xhr.status, e )
+           }
+        } else if (this.noaccesscode === xhr.status &&  this.noaccessredirect) {
+           window.location = this.noaccessredirect
+        } else if (typeof req.fail === 'function')
+           req.fail( xhr.status )
    }
 }
