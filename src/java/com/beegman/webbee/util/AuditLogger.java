@@ -12,7 +12,7 @@ import org.aldan3.model.ServiceProvider;
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.model.Audit;
 
-public class AuditLogger<A extends AppModel, T extends Audit<A>> implements ServiceProvider {
+public class AuditLogger<A extends AppModel, T extends Audit<A>> implements ServiceProvider<AuditLogger<A, T>> {
 	public static final String NAME = "##AuditLogger"; 
 
 	private AppModel appModel;
@@ -22,12 +22,12 @@ public class AuditLogger<A extends AppModel, T extends Audit<A>> implements Serv
 	}
 	
 	public void log(long obj, int type, char op, long by) throws ProcessException {
-		T audit = (T) new Audit(appModel);
+		T audit = (T) new Audit(appModel); // TODO make it factory
 		audit.object = obj;
 		audit.operation = op;
 		audit.by_requester = by;
 		audit.type = type;
-		appModel.getDOService().addObject(new DODelegator(audit, null, "id,stamp", null));
+		appModel.getDOService().addObject(new DODelegator<T>(audit, null, "id,stamp", null));
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class AuditLogger<A extends AppModel, T extends Audit<A>> implements Serv
 	}
 
 	@Override
-	public Object getServiceProvider() {
+	public AuditLogger<A, T> getServiceProvider() {
 		return this;
 	}
 

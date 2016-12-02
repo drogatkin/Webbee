@@ -12,7 +12,7 @@ import com.beegman.webbee.model.AppModel;
  * @param <A>
  */
 public abstract  class GenericService<S extends ServiceProvider, A extends AppModel>  implements ServiceProvider<S>, Runnable  {
-	enum ServStat {running, stopped, suspended, failed, paused };
+	public enum ServStat {running, stopped, suspended, failed, paused };
 	
 	protected A appModel;
 	
