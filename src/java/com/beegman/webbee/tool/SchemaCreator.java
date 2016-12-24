@@ -76,12 +76,13 @@ public class SchemaCreator {
 		ArrayList<File> dirs = new ArrayList<File>();
 		while (resources.hasMoreElements()) {
 			URL resource = resources.nextElement();
-			// System.err.printf("Added resource %s%n", resource);
-			// TODO make it more robust and actually check for jar protocol
 			String resourceFileName = resource.getFile();
+			//System.err.printf("Added resource %s -> %s%n", resource, resourceFileName);
 			int qp = resourceFileName.indexOf('!');
-			if (qp > 0 && resourceFileName.startsWith("file:/"))
-				resourceFileName = resourceFileName.substring(6, qp);
+			if (qp > 0 && resourceFileName.startsWith("file:")) {
+				resourceFileName = resourceFileName.substring(0, qp);
+				resourceFileName = new URL(resourceFileName).getFile();
+			} // TODO check for possibly other protocols
 			dirs.add(new File(resourceFileName));
 		}
 		ArrayList<Class> classes = new ArrayList<Class>();
@@ -92,10 +93,10 @@ public class SchemaCreator {
 	}
 
 	private static ArrayList<Class> findClasses(File directory, String packageName) throws ClassNotFoundException, IOException {
-		//System.err.printf("List files from %s%n", directory);
+		//System.err.printf("List files from %s -> %b%n", directory, directory.exists());
 		ArrayList<Class> classes = new ArrayList<Class>();
 		if (!directory.exists()) {
-			return classes;
+			return classes; // TODO think of an exception
 		}
 		if (directory.isDirectory()) {
 			File[] files = directory.listFiles();
@@ -124,7 +125,8 @@ public class SchemaCreator {
 					}
 				}				
 			}
-		}
+		} else 
+			throw new IOException("Can't access "+directory);
 		return classes;
 	}
 
