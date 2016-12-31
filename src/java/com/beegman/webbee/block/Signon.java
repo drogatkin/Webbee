@@ -116,7 +116,7 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 		Map model = processsignonDisplayCall();
 		model.put(VAR_LOGIN, auth.get(auth.getPrincipalFieldName())); // TODO use resource
 		model.put(Variable.ERROR, getResourceString("failed_login", String.format(getResourceString("err_signon",
-				"%s can't sign you in. Possibly login and password provided not matching"), appModel
+				"%s can't sign you in. Possibly login and password are not matching"), appModel
 				.getAppName())));
 		return model;
 	}
