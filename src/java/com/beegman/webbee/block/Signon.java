@@ -236,7 +236,7 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 	@Override
 	protected boolean isSigned() {
 		boolean result = super.isSigned();
-		log("Signed:" + result, null);
+		log("Is signed:" + result, null);
 		if (result)
 			return result;
 		persistentSignon();
