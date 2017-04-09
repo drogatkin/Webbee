@@ -273,15 +273,13 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 
 	@Override
 	protected boolean isAllowed(boolean override) throws ServletException {
-		if (isBanned())
-			return false;
 		Access access = getClass().getAnnotation(Access.class);
 		if (access == null || access.roles().length == 0) {
 			if (super.isAllowed(override))
-				return true;
+				return !isBanned();
 			// log("IsAllowed("+override+") = false, so sa called", null);
 			SignonAgent sa = getSignonAgent();
-			return sa != null && sa.signon(req, getAppModel());
+			return sa != null && sa.signon(req, getAppModel()) && !isBanned();
 		} else {
 			UserInfo ui = getUserInfo();
 			String role = null;
@@ -298,7 +296,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 			if (role != null)
 				for (String r : access.roles())
 					if (role.indexOf(r) >= 0)
-						return true;
+						return !isBanned();
 			return false;
 		}
 	}
