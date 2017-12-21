@@ -1,4 +1,4 @@
-<echo>Welcome to Webbee component creation wizard</echo>
+<echo>Welcome to the  Webbee component creation wizard</echo>
 <expression name="comp type">
   <function name="ask">
      <parameter>Enter type of component d - for JDO, u - for web, r - REST, s - for service [d]? </parameter>
@@ -577,7 +577,7 @@ public class </parameter>
            </expression>
            <function name="write">
              <parameter variable="file"/>
-             <parameter>%'insert/signon.json'</parameter>
+             <parameter>@%'insert/signon.json'@</parameter>
            </function> 
           <!-- TODO generate login specific resource  failed_login= -->   
         </block>
