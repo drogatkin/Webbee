@@ -16,6 +16,7 @@ import org.aldan3.model.ServiceProvider;
 import com.beegman.webbee.model.AppModel;
 
 public class Cron <T, A extends AppModel> implements ServiceProvider {
+	// TODO add a task type
 	public static final String NAME = "##cron";
 	protected A appModel;
 	ScheduledThreadPoolExecutor executor;

@@ -570,7 +570,7 @@ public class </parameter>
            </function>  
            <expression name="file">
              <operator name="append">
-               <value>src/res/view/insert</value>
+               <value>src/res/view/insert/</value>
                <value variable="comp name"/>
                <value>.html</value>  <!-- TODO ext depends on login type -->
              </operator>
