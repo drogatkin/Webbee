@@ -246,11 +246,13 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		// Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Nexus One Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
 		//
 		// TODO force mobile mode from session		
-		if ("yes".equals(getConfigValue(CONFIG_MOBILLE_SUPPORT, null)) && isMobile()) {
-			appearance = Appearance.mobile; // TODO check for Appearance.tablet
+		if (isBackgroundCall()) {
+		    appearance = Appearance.background;
 		} else if (isMobileApp()) 
 			appearance = Appearance.json;
-		else // TODO how easier customize appearance?
+	    else if ("yes".equals(getConfigValue(CONFIG_MOBILLE_SUPPORT, null)) && isMobile()) {
+			appearance = Appearance.mobile; // TODO check for Appearance.tablet
+	    } else // TODO how easier customize appearance?
 			appearance = null;
 		//appearance = Appearance.mobile;
 		req.setAttribute("BaseBlock",  this);
@@ -266,9 +268,14 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 		return WebApp.commonBehavior.isMobileApp(req);
 	}
 	
+	protected boolean isBackgroundCall() {
+		
+		return "true".equals(getStringParameterValue(Constant.Form.BACKGROUND, null, 0));
+	}
+	
 	@Override
 	protected boolean isAjax(String pi) {
-		return super.isAjax(pi) || isMobileApp();
+		return super.isAjax(pi) || isMobileApp() || isBackgroundCall();
 	}
 
 	@Override
