@@ -822,13 +822,13 @@ DEBUG=1
                 <switch variable="db code">
                    <block type="case" value="h2">
                        <expression>
-                         <value> type=&quot;repo_artifact&quot;&gt;maven:com.h2database:h2:1.4.189&lt;/variable&gt;
+                         <value> type=&quot;repo_artifact&quot;&gt;maven:com.h2database:h2:1.4.200&lt;/variable&gt;
 </value>
                        </expression>
                    </block>
                    <block type="case" value="my">
                        <expression>
-                         <value> type=&quot;repo_artifact&quot;&gt;maven:mysql:mysql-connector-java:5.1.39&lt;/variable&gt;
+                         <value> type=&quot;repo_artifact&quot;&gt;maven:mysql:mysql-connector-java:8.0.22&lt;/variable&gt;
 </value>
                        </expression>
                    </block>
