@@ -65,7 +65,7 @@
 </head>
 <body onload="init();">
 <form name="attach" method="POST" action="@action@?upload=1" id="attach" enctype="multipart/form-data">
-   <input type="file" name="browsefile" onchange="notifyAndSubmit()">
+   <input type="file" name="browsefile" accept=".docx,.pdf,.doc,.txt,.rtf" onchange="notifyAndSubmit()">
    <input type="hidden" name="submit.x" value="1">
    <input type="hidden" name="divid" value="@divid@">
    <input type="hidden" name="name" value="@name@">
