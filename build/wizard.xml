@@ -199,8 +199,28 @@ import com.beegman.webbee.block.Form;
 import &domain;.&org;.&project;.model.</parameter>
                  <parameter variable="proj cap"/>
                  <parameter>Model;
-import &domain;.&org;.&project;.model.</parameter>
-                 <parameter variable="JDO name"/>
+ </parameter>
+                 <parameter>
+		            <expression> 
+		            <if>
+		               <expression>
+		                  <operator name="eq">
+		                      <value>DataObject</value>
+		                      <value variable="JDO name"/>
+		                  </operator>
+		               </expression>
+		               <then>
+		                  <value>import org.aldan3.model.DataObject</value>
+		               </then>
+		               <else>
+		                  <operator name="append">
+		                      <value>import &domain;.&org;.&project;.model.</value>
+		                      <value variable="JDO name"/>
+		                  </operator>    
+		               </else>
+		             </if>
+		            </expression>
+		         </parameter>
                  <parameter>;
 
 public class </parameter>

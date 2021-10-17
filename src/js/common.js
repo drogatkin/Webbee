@@ -1,6 +1,6 @@
 // $Id: common.js,v 1.7 2013/04/24 05:57:50 cvs Exp $
 // JavaScript tool and utilities
-// Copyright (c) 2005-2006 Dmitriy Rogatkin
+// Copyright (c) 2005-2021 Dmitriy Rogatkin
 // All rights reserved.
 
 
@@ -98,6 +98,20 @@ function message(key) {
 	getElement('status').innerHTML = key;
 }
 
+
+function loadInnerPage(base, anchor, res) {
+   var url = base+anchor.substring(1)
+    var payloadDiv =  document.querySelector(res)
+   if (payloadDiv) {
+	  ajax['get']({url:url,respType:'html',
+    	  success: function(html) {
+	         payloadDiv.innerHTML = html
+             // TODO probably update title and other state indicators
+	      }
+      })
+   }
+}
+
 var ajax = {
    noaccesscode:403,
 
@@ -138,7 +152,7 @@ var ajax = {
    
    processResponse: function (xhr,req) {
        if (xhr.status === 200) {
-    	   if (req.respType && req.respType == 'html')
+    	   if (req.respType && req.respType === 'html')
     		   req.success(xhr.responseText)
     	   else	
            try {

@@ -32,6 +32,7 @@ import org.aldan3.util.ResourceException;
 import org.aldan3.util.ResourceManager;
 import org.aldan3.web.ui.widget;
 import org.aldan3.annot.Access;
+import org.aldan3.model.TemplateProcessor;
 
 import com.beegman.webbee.model.AppModel;
 import com.beegman.webbee.model.Appearance;
@@ -106,6 +107,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	public static final String CONFIG_PUBLIC_CANVAS = "public_canvas";
 
 	public static final String CONFIG_VIEWEXT = "viewext";
+	
+	public static final String CONFIG_SPA = "SPA";
 
 	public static final String CONFIG_PUBLIC_HOME = "public_home";
 
@@ -271,6 +274,11 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	protected boolean isBackgroundCall() {
 		
 		return "true".equals(getStringParameterValue(Constant.Form.BACKGROUND, null, 0));
+	}
+	
+	protected boolean isSPA() {
+		// whem SPA ,  url looks like - host:port/app#servant?.....
+		return "true".equals(getConfigValue(CONFIG_SPA, "false"));
 	}
 	
 	@Override
@@ -531,10 +539,13 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	public Object getServiceProvider() {
 		return this;
 	}
-
+	
 	@Override
 	protected String getCanvasView() {
 		// TODO select canvas by appearance
+		// TODO how to reload page at change from public to private for SPA
+		if (isSPA())
+			return null;
 		String pref = getPerspective();
 		if (pref == null)
 			return getConfigValue(isPublic() ? CONFIG_PUBLIC_CANVAS : CONFIG_CANVAS, "canvas")

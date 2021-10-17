@@ -9,7 +9,7 @@
   <style type="text/css">
      <!--/* <![CDATA[ */
           @@import url(@contextpath@/css/base.css);
-            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 11px; }
+            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 12px; }
          P {margin:0.2em 1em 0.1em 1em}
         #container {
          min-height:100%;
@@ -80,13 +80,18 @@
       function goto(loc) {
          document.location='@contextpath@@request.getServletPath*()*@/'+loc;
       }
+      @SPA{@true(
+      window.onhashchange = function() {
+          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload')
+      }
+      )@}@
   </script>
   <script>
      @%'insert/headjs.htmt'@
   </script>
   @%headextra@
 </head>
-<body onload="init()">
+<body onload="init()"> <!-- TODO init may not work for SPA, reconsider the functionality -->
 <div id="container">
 <table width="100%" border=0 class="top_bar">
   <tr>
@@ -106,7 +111,7 @@
       </td></tr>
 </table>
 <!-- tabs (todo use insert) -->
-<div id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</div>
+<div id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@SPA{@true(#)@}@@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</div>
 <div class="navi_hist_bar">
 @history(
   @history.iterator*()*(

@@ -188,8 +188,8 @@ public class Signon<A extends AppModel> extends BaseBlock<A> {
 		return false;
 	}
 
-	/** This methods allows to check brutal login discover attempts and bring CAPCHA
-	 *  or completely block access
+	/** This methods allows to check brutal login discover attempts and bring CAPTCHA
+	 *  or completely blocks an access
 	 * @return
 	 */
 	protected boolean eligable() {

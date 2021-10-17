@@ -163,6 +163,13 @@
                  <parameter>y</parameter>
            </function>
        </expression>
+       
+       <expression name="SPA">
+           <function name="ask">
+                 <parameter>Is the application a single  page [y]?</parameter>
+                 <parameter>y</parameter>
+           </function>
+       </expression>
        <expression name="use dropdown">
            <function name="ask">
                  <parameter>Will your application use dropdowns [y]?</parameter>
@@ -494,6 +501,42 @@ public class Schemainit extends Systemsetup&lt;Setup, </parameter>
 }
 </parameter>
                </function>
+               
+               <expression name="wrk file">
+                    <operator name="append">
+                      <value variable="project directory"/>
+                      <value>/</value>
+                      <value value="src/java/"/>
+                      <value variable="project domain"/>
+                      <value>/</value>
+                      <value variable="org path"/>
+                      <value>/</value>
+                      <value variable="project name"/>
+                      <value>/ux/Home.java</value>
+                  </operator>
+               </expression>
+               <function name="write">
+                  <parameter variable="wrk file"/>
+                  <parameter>package </parameter>
+                  <parameter variable="project domain"/>
+                  <parameter>.</parameter>
+                  <parameter variable="org name"/>
+                  <parameter>.</parameter>
+                  <parameter variable="project name"/>
+                  <parameter>.ux;
+                  
+import org.aldan3.model.ProcessException;
+import org.aldan3.data.DODelegator;
+import com.beegman.webbee.block.Spa;
+import com.walletwizz.bookshelf.model.BookshelfModel;
+
+public class Home extends Spa&lt;</parameter>
+               <parameter variable="C project name"/>
+                  <parameter>Model&gt; {
+}
+                 </parameter>
+               </function>
+               
                 <expression name="wrk file">
                     <operator name="append">
                       <value variable="project directory"/>
@@ -582,6 +625,43 @@ CommonBehaviorClass=</parameter>
 #public_canvas=
 
 </parameter>
+          <parameter>
+            <expression> 
+            <if>
+               <expression>
+                  <operator name="neq">
+                      <value>y</value>
+                      <value variable="SPA"/>
+                  </operator>
+               </expression>
+               <then>
+                  <value>#</value>
+               </then>
+             </if>
+            </expression>
+          </parameter>
+          <parameter>SPA=true
+          
+</parameter>
+          <parameter>
+            <expression> 
+            <if>
+               <expression>
+                  <operator name="neq">
+                      <value>y</value>
+                      <value variable="SPA"/>
+                  </operator>
+               </expression>
+               <then>
+                  <value>#</value>
+               </then>
+             </if>
+            </expression>
+          </parameter>
+          <parameter>DefaultServant=Home
+          
+</parameter>
+          
          <parameter>
             <expression> 
             <if>
