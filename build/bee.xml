@@ -956,7 +956,23 @@ DEBUG=1
          <parameter variable="project name"/>
          <parameter>/webbee/&quot;&gt;Click here&lt;/a&gt; to access( append UI service name) &lt;br/&gt;&lt;a href=&quot;/</parameter>
          <parameter variable="project name"/>
-         <parameter>/webbee/Schemainit&quot;&gt;Prepare schema&lt;/a&gt; 
+         <parameter>/webbee/</parameter>
+         <parameter>
+            <expression> 
+            <if>
+               <expression>
+                  <operator name="eq">
+                      <value>y</value>
+                      <value variable="SPA"/>
+                  </operator>
+               </expression>
+               <then>
+                  <value>#</value>
+               </then>
+             </if>
+            </expression>
+         </parameter>
+         <parameter>Schemainit&quot;&gt;Prepare schema&lt;/a&gt; 
       &lt;/body&gt;
 &lt;/html&gt;
          </parameter>
