@@ -113,6 +113,30 @@ function loadInnerPage(base, anchor, res) {
    }
 }
 
+function submitPage(base, anchor, res) {
+	const url = base+anchor.substring(1)
+	const frm = document.querySelector(res) || document.querySelector('form')
+	const xhr = new XMLHttpRequest()
+	
+	const fd = new FormData( frm )
+
+    // Define what happens on successful data submission
+    xhr.addEventListener( "load", function(event) {
+      alert( event.target.responseText )
+    } )
+
+    // Define what happens in case of error
+    xhr.addEventListener( "error", function( event ) {
+      alert( 'Oops! Something went wrong.' )
+    } )
+
+    // Set up our request
+    xhr.open( "POST", url );
+
+    // The data sent is what the user provided in the form
+    xhr.send( fd );
+}
+
 var ajax = {
    noaccesscode:403,
 

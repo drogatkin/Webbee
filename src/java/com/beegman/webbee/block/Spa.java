@@ -1,6 +1,8 @@
 package com.beegman.webbee.block;
 
 import com.beegman.webbee.base.BaseBlock;
+import com.beegman.webbee.base.WebApp;
+
 import org.aldan3.model.TemplateProcessor;
 import org.aldan3.servlet.Constant;
 import com.beegman.webbee.model.AppModel;
@@ -18,6 +20,12 @@ public class Spa<A extends AppModel> extends BaseBlock<A> {
 	
 	@Override
 	protected boolean isSPA() {
+		return false;
+	}
+	
+	@Override
+	protected
+	boolean useLabels() {
 		return false;
 	}
 	

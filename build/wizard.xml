@@ -285,12 +285,13 @@ public class </parameter>
 
 &lt;form name="</parameter>
                <parameter variable="comp name"/>
-               <parameter>" method="POST"&gt;
+               <parameter>" method="POST" @SPA{@true(onsubmit="event.preventDefault(); submitPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#book')")@}@&gt;
 &lt;div&gt;&lt;div&gt;@label.name@&lt;/div&gt;@.ui.field*(name,java.lang.Object^@model@)*@&lt;/div&gt;
 &lt;div&gt;&lt;div&gt;@label.description@&lt;/div&gt;@.ui.field*(description,java.lang.Object^@model@)*@&lt;/div&gt;
 
 &lt;hr&gt; 
 @.ui.field*(id,java.lang.Object^@model@)*@
+@SPA{@true(&lt;input type="hidden" name="submit.x" value="1"&gt;)@}@
 &lt;input type="submit" name="submit" value="@commonlabels.submit@"&gt;
 &lt;/form&gt;</parameter>
             </function>
