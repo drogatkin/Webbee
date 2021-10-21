@@ -122,7 +122,8 @@ function submitPage(base, anchor, res) {
 
     // Define what happens on successful data submission
     xhr.addEventListener( "load", function(event) {
-      alert( event.target.responseText )
+     // alert( event.target.responseText )
+      location.hash = '#'+ event.target.responseText
     } )
 
     // Define what happens in case of error

@@ -259,6 +259,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 			appearance = null;
 		//appearance = Appearance.mobile;
 		req.setAttribute("BaseBlock",  this);
+		if (isSPA())
+			req.setAttribute(Constant.Request.ATTR_USE_HASH,  Boolean.TRUE);
 		modelMerge = null;
 	}
 	
@@ -283,7 +285,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	
 	@Override
 	protected boolean isAjax(String pi) {
-		return super.isAjax(pi) || isMobileApp() || isBackgroundCall();
+		return super.isAjax(pi) || isMobileApp() || isBackgroundCall() ; //|| isSPA();
 	}
 
 	@Override
