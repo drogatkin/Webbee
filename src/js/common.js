@@ -128,7 +128,8 @@ function submitPage(base, anchor, res) {
 
     // Define what happens in case of error
     xhr.addEventListener( "error", function( event ) {
-      alert( 'Oops! Something went wrong.' )
+      if (defaultErrorHandlers && defaultErrorHandlers.submitError && typeof defaultErrorHandlers.submitError === "function")
+          defaultErrorHandlers.submitError(event) // instanceof Function
     } )
 
     // Set up our request
