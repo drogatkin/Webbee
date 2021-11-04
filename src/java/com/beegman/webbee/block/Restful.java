@@ -96,7 +96,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 
 	@Override
 	protected Object doControl() {
-		throw new UnsupportedOperationException("Here is no controller for RESTFul services");
+		throw new UnsupportedOperationException("Here is no controll for RESTFul services");
 	}
 	
 	@Override

@@ -1175,7 +1175,7 @@ to deploy and test the applicaiton</value>
        <parameter value="-classpath"/>
        <parameter variable="class path"/>
        <parameter value="-source"/>
-       <parameter value="1.6"/>
+       <parameter variable="comp target"/>
        <parameter value="-target"/>
        <parameter variable="comp target"/>
        <parameter value="-d"/>comp target
@@ -1225,7 +1225,7 @@ to deploy and test the applicaiton</value>
            </function>
     </dependency>
 
-    <task name="jar_do" code="sun.tools.jar.Main">
+    <task name="jar_do" code="sun.tools.jar.Main" tool="jar">
        <parameter>
           <expression>
             <if>
