@@ -528,7 +528,15 @@ public class Schemainit extends Systemsetup&lt;Setup, </parameter>
 import org.aldan3.model.ProcessException;
 import org.aldan3.data.DODelegator;
 import com.beegman.webbee.block.Spa;
-import com.walletwizz.bookshelf.model.BookshelfModel;
+import </parameter>
+                  <parameter variable="project domain"/>
+                  <parameter>.</parameter>
+                  <parameter variable="org name"/>
+                  <parameter>.</parameter>
+                  <parameter variable="project name"/>
+                  <parameter>.model.</parameter>
+                  <parameter variable="C project name"/>
+                  <parameter>Model;
 
 public class Home extends Spa&lt;</parameter>
                <parameter variable="C project name"/>
