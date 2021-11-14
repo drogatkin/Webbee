@@ -7,14 +7,14 @@ import com.beegman.webbee.model.AppModel;
 
 public class Conversational<I, O, A extends AppModel> extends Restful<I,O,A> {
 	
-	protected O exchange(I ask) {
+	protected O process(I ask) {
 	return null;	
 	}
 	
 	@Override
 	protected Object getModel() {
-		Object result = storeModel(readModel());
-		
+		Object result = process(readModel());
+		//log("result: %s", null, result);
 		resp.setStatus(returnCode);
 		if (noTemplate()) {
 			log("return %s", null, result);

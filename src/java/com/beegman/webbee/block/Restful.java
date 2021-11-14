@@ -56,6 +56,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 			op = restful_op.Delete;
 		parseOperationAttributes();
 		returnCode = HttpServletResponse.SC_OK;
+		//log("Op: %s", null, op);
 	}
 
 	protected void parseOperationAttributes() {
@@ -180,7 +181,7 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 		return "id";
 	}
 
-	protected void fillPojo(Object pojo, JsonObject json) {
+	protected <T > T fillPojo(T pojo, JsonObject json) {
 		for (Field f : pojo.getClass().getFields()) {
 			FormField ff = f.getAnnotation(FormField.class);
 			if (ff == null)
@@ -230,15 +231,16 @@ public class Restful<I, O, A extends AppModel> extends BaseBlock<A> {
 				log("Couldn't populate value to %s", e, n);
 			}
 		}
+		return pojo;
 	}
 
-	protected Object fillArray(JsonArray jsonArray, Class<?> componentType, boolean cs) {
-		Object[] res = (Object[]) Array.newInstance(componentType, jsonArray.size());
+	protected <T> T[] fillArray(JsonArray jsonArray, Class<?> componentType, boolean cs) {
+		T[] res = (T[]) Array.newInstance(componentType, jsonArray.size());
 		for (int k = 0; k < res.length; k++)
 			if (componentType.isPrimitive()) {
 
 			} else if (componentType == String.class)
-				res[k] = jsonArray.getString(k);
+				((String[])res)[k] = jsonArray.getString(k);
 			else
 				fillPojo(res[k], jsonArray.getJsonObject(k));
 		return res;
