@@ -107,7 +107,9 @@ function loadInnerPage(base, anchor, res) {
     	  success: function(html) {
 	         payloadDiv.innerHTML = html
              // TODO probably update title and other state indicators
-             document.querySelector('form').action=url
+             const innerForm = document.querySelector('form')
+             if (innerForm)
+                 innerForm.action=url
 	      }
       })
    }

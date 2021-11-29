@@ -31,6 +31,9 @@
 
       )@
 
+         if (typeof extra_actions === 'function')
+              extra_actions('', '@request.getContextPath*()*@')
+
       }
 
       function notifyTimeout() {
