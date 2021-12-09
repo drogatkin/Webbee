@@ -286,9 +286,14 @@ public class </value>
                      }
                      
                      @Override
-		     protected int getInsertUpdateVariant() {
-		          return 2;
-		     }
+				     protected int getInsertUpdateVariant() {
+				          return 2;
+				     }
+				     
+		             @Override
+                     protected String modifyColumn () {
+                 		return " ALTER ";
+                     }
 </value>
                    </block>
                    <block type="case" value="my">
