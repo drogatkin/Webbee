@@ -5,44 +5,42 @@
 
       // TODO provide init section in page include
       function init() {
-         //alert(window.location.href);
+         //alert(window.location.href)
          if (!formName)
-             formName = '@pageservicename@'; // defined in form.js
+             formName = '@pageservicename@' // defined in form.js
          // TODO check for ending '/'
-         baseServURI = '@request.getContextPath*()*@'+ '@request.getServletPath*()*@' + '/';// + formName;
-         //alert(baseServURI);
-         initializeFieldsHandlers();
-         initialCascading();
+         baseServURI = '@request.getContextPath*()*@'+ '@request.getServletPath*()*@' + '/';// + formName
+         //alert(baseServURI)
+         initializeFieldsHandlers()
+         initialCascading()
          if (typeof initFields == 'function')
-         	initFields();
+         	initFields()
          if (gadgetHandlers != undefined)
             for (var g in gadgetHandlers)
-               gadgetHandlers[g]();
-               
+               gadgetHandlers[g]()
+         if (typeof extra_actions === 'function')
+              extra_actions('', '@request.getContextPath*()*@')  
+              
          @SPA{@true(
 	      if (window.location.hash) {
 	          loadInnerPage('@contextpath@@request.getServletPath*()*@/', window.location.hash, '#payload')
 	      }
 	    )@}@
 
-      @$session( var session_timeout = (0 + @request.getSession*()*.getMaxInactiveInterval*()*@-60)*1000;
-        if ( session_timeout > 0)
-          setTimeout('notifyTimeout()', session_timeout);
-
-      )@
-
-         if (typeof extra_actions === 'function')
-              extra_actions('', '@request.getContextPath*()*@')
-
+	      @$session( var session_timeout = (0 + @request.getSession*()*.getMaxInactiveInterval*()*@-60)*1000
+	        if ( session_timeout > 0)
+	          setTimeout('notifyTimeout()', session_timeout)
+	
+	      )@
       }
 
       function notifyTimeout() {
         if (confirm('@commonlabels.notify_timeout@')) {
            makeGenericAjaxCall(baseServURI+formName+'/ajax/Cascading', null, true, function(res) {
-                setTimeout('notifyTimeout()', session_timeout);
-           });
+                setTimeout('notifyTimeout()', session_timeout)
+           })
         } else {
             if('@logoff@')
-              goto('@logoff@');
+              goto('@logoff@')
         }
       }
