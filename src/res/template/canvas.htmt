@@ -9,7 +9,7 @@
   <style type="text/css">
      <!--/* <![CDATA[ */
           @@import url(@contextpath@/css/base.css);
-            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 12px; }
+            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 1.025em; }
          P {margin:0.2em 1em 0.1em 1em}
         #container {
          min-height:100%;
@@ -91,7 +91,7 @@
   </script>
   @%headextra@
 </head>
-<body onload="init()"> <!-- TODO init may not work for SPA, reconsider the functionality -->
+<body onload="init()">
 <div id="container">
 <table width="100%" border=0 class="top_bar">
   <tr>
@@ -102,7 +102,7 @@
      </td>
      <td style="text-align:center">@%stationary@</td>
       <td style="text-align:right;margin-right:2em">
-          @%search_block@
+          @%search_block@ <!-- such inserts are global for SPA and should be handled in JS instead -->
      </td>
      <!-- top button line -->     
      <td align="right">

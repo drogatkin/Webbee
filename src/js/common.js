@@ -99,7 +99,7 @@ function message(key) {
 }
 
 
-function loadInnerPage(base, anchor, res) {
+function loadInnerPage(base, anchor, res, cusfun) {
    var url = base+anchor.substring(1)
     var payloadDiv =  document.querySelector(res)
    if (payloadDiv) {
@@ -110,6 +110,8 @@ function loadInnerPage(base, anchor, res) {
              const innerForm = document.querySelector('form')
              if (innerForm)
                  innerForm.action=url
+             if(cusfun && typeof cusfun === 'function')
+                 cusfun()
 	      }
       })
    }
