@@ -10,17 +10,17 @@
 
 label {display:block; position:relative;padding:2px 5px 2px;font-weight:bolder;margin:3px 4px 3px} 
 
-.tiny_center {text-align:center; font-size:8px;}
+.tiny_center {text-align:center; font-size:10pt;}
 
-.form_header, .sub_header { font-family:Segoe UI, Tahoma,Verdana,Arial,sans-serif; font-size:12pt;}
+.form_header, .sub_header { font-family:Segoe UI, Tahoma,Verdana,Arial,sans-serif; font-size:18pt;}
 
-.sub_header, H4 { display:block; font-size:11pt; font-weight:bold; color:#333333}
+.sub_header, H4 { display:block; font-size:14pt; font-weight:bold; color:#333333}
 
 .req_mark {display:inline; color: #EE2222; font-size:xx-small; vertical-align:top;} 
 
 .alert_msg {color:#EE1111; background-color:#FFAAAA;}
 
-.portlet_header {background-color:#9999DD; color:#EEEEFF; font-size:12pt;width:auto}
+.portlet_header {background-color:#9999DD; color:#EEEEFF; font-size:14pt;width:auto}
 
 .f_lbl {font-size:9pt; font-weight:bold;padding-top:0.5em; color:#333333}
 
