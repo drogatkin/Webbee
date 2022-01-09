@@ -577,7 +577,7 @@ public class </parameter>
 
 	@Override
         public String getsignonDisplayViewName() {
-              // TODO customize the method to return .json view, Perspective can be used insted of gadget
+              // TODO customize the method to return .json view, Perspective can be used instead of a gadget
 		return "gadget/login.json";
 	}
 
