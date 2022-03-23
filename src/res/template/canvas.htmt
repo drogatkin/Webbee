@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head profile="http://www.w3.org/2005/10/profile">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" 
       type="image/ico" 
       href="@contextpath@/favicon.ico">
@@ -111,7 +112,7 @@
       </td></tr>
 </table>
 <!-- tabs (todo use insert) -->
-<div id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@SPA{@true(#)@}@@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</div>
+<nav id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@SPA{@true(#)@}@@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</nav>
 <div class="navi_hist_bar">
 @history(
   @history.iterator*()*(

@@ -153,7 +153,7 @@
        </expression>
        <expression name="db code">
            <function name="ask">
-                 <parameter>Provide database type used, one of h2, ora, my, hado, none [ora]?</parameter>
+                 <parameter>Provide a used database type, one of h2, ora, my, mongo, none [ora]?</parameter>
                  <parameter>ora</parameter>
            </function>
        </expression>
@@ -957,6 +957,7 @@ DEBUG=1
          <parameter>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
    &lt;head&gt;
+      &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
       &lt;title&gt;Welcome to </parameter>
          <parameter variable="C project name"/>
          <parameter>&lt;/title&gt; 

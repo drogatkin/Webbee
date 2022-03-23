@@ -33,7 +33,10 @@ a.reg_ref:hover {color:black;text-decoration:underline;font-weight:bold}
 a.reg_ref:link {color:black;text-decoration:none}
 a.reg_ref:active {color:black;text-decoration:none}
 
-div#tabs {background:#DDFDDF}
+nav#tabs {background:#DDFDDF}
+nav {
+	list-style:none;
+}
 div#tab {display:inline;margin:3px 0.5em 3px 0.5em;}
 a.atab:visited {color:#333333}
 a.atab:hover {color:#DDDDDD;text-decoration:underline}
