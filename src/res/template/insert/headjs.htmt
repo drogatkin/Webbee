@@ -19,7 +19,7 @@
             for (var g in gadgetHandlers)
                gadgetHandlers[g]()
          if (typeof extra_actions === 'function')
-              extra_actions('', '@request.getContextPath*()*@')  
+              extra_actions(location.protocol === 'https:'?'s':'', '@request.getContextPath*()*@')  
               
          @SPA{@true(
 	      if (window.location.hash) {
