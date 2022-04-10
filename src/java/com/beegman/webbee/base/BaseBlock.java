@@ -403,7 +403,8 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 			mapModel.put(SERVICE_NAME, getPreferredServiceName());
 			req.setAttribute(SERVICE_NAME, getPreferredServiceName());
 			// }
-			mapModel.put(Variable.PAGE_TITLE, getTitle());
+			if (!mapModel.containsKey(Variable.PAGE_TITLE))
+				mapModel.put(Variable.PAGE_TITLE, getTitle());
 			Locale locale = getLocale();
 			if (locale == null)
 				locale = Locale.getDefault(); // TODO override from config
