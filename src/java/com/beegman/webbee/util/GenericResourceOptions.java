@@ -19,7 +19,6 @@ import org.aldan3.util.ResourceException;
 import org.aldan3.util.ResourceManager;
 
 import com.beegman.webbee.model.AppModel;
-import com.beegman.webbee.util.Option;
 
 @OptionMap(valueMap = "id")
 public class GenericResourceOptions implements FieldFiller<Collection<DataObject>, Coordinator> {
