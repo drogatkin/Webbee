@@ -1,5 +1,10 @@
 # Webbee
-Web application building blocks Aldan3 based
+A Web application building blocks Aldan3 based
+
+# How it differs from Node.js and Next.js
+Although The WebBee can use a server side page rendering and a client side page rendering (
+Music-barrel a good example when the two technologies coexist), the server side rendering is
+preferable. So the WebBee is more like Next.js from this point view.
 
 # Getting started
 Most of RAD tools provide tons of documentation to help people use them. Therefore considering that using tools without reading all documentation hardly possible, rapid aspect is very questionable. Webbee isn't an exception. However Webbee has certain benefits allowing starting a little faster. Therefore you won't find __Hello World__ example, instead of that you can create a new app in matter of seconds.
