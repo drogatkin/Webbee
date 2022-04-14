@@ -10,15 +10,51 @@
   <style type="text/css">
      <!--/* <![CDATA[ */
           @@import url(@contextpath@/css/base.css);
-            BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 1.025em; }
-         P {margin:0.2em 1em 0.1em 1em}
+         BODY, TD, FONT, INPUT, SELECT, TEXTAREA { font-family: Lucida Grande,Verdana,Arial; font-size: 1.25em; }
+         body {
+		    display: -webkit-flex; /* Safari 6.1+ */
+		    display: -ms-flex; /* IE 10 */ 
+		    display: flex;
+		    -webkit-flex-direction: column; /* Safari 6.1+ */
+		    -ms-flex-direction: column; /* IE 10 */
+		    flex-direction: column;
+		    -webkit-justify-content: space-between; /* Safari 6.1+ */
+		    -ms-justify-content: space-between; /* IE 10 */
+		    justify-content: space-between; /* Header top, footer bottom */
+		    height: 100vh;  /* Fill viewport height */
+		    max-height:100%;
+	 	}
+		html { max-height:100%;}
+		main {
+		    -webkit-flex: 1 0 0; /* Safari 6.1+ */
+		    -ms-flex: 1 0 0; /* IE 10 */
+		    flex: 1 0 0; /* Grow to fill space */
+		    overflow-y: auto; /* Add scrollbar */
+		    height: 100%; /* Needed to fill space in IE */
+		    background:#eeeeee;
+		    width:90%;
+		    padding-top:0.5em;
+	        padding-left:1.5em;
+	        padding-right:1.5em;
+	        margin:auto;
+		}
+		header, footer {
+		    -webkit-flex: 0 0 auto; /* Safari 6.1+ */
+		    -ms-flex: 0 0 auto; /* IE 10 */
+		    flex: 0 0 auto;
+		}
+		footer {
+		    background:#ddffdd;
+		}			
+            
+         P {margin:0.2em 1em 0.1em 1em}  
         #container {
-         min-height:100%;
+         max-height:100%;
          position:absolute;
-         height:100%;
+         height:98%;
          width:100%;
          top:0;left:0;
-         background:#dddddf;
+         background:#eeeeee;
         }
         #footer {
           position:absolute;
@@ -95,38 +131,38 @@
   @%headextra@
 </head>
 <body onload="init()">
-<div id="container">
-<table width="100%" border=0 class="top_bar">
-  <tr>
-     <td align="left" width="*"><div class="logo"><a href="@contextpath@/" style="text-decoration: inherit;color:inherit;">
-       @logo{
-       @""(@app_name@)@
-       @(<img src="@contextpath@@logo@" title="@app_name@">)@}@</a></div>
-     </td>
-     <td style="text-align:center">@%stationary@</td>
-      <td style="text-align:right;margin-right:2em">
-          @%search_block@ <!-- such inserts are global for SPA and should be handled in JS instead -->
-     </td>
-     <!-- top buttons line -->     
-     <td align="right">
-        @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
-        >@element.getTitle*()*@</div>)@
-      </td></tr>
-</table>
-<!-- tabs (todo use insert) -->
-<nav id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@SPA{@true(#)@}@@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</nav>
-<div class="navi_hist_bar">
-@history(
-  @history.iterator*()*(
-<a class="reg_ref" href="@element.getUrl*()*@">@element.getTitle*()*@</a>&gt;)@)@</div>
-<div id="payload">
-@%request.INNER_VIEW@
-</div>
-<div id="footer">
-<div id="status"><span id="err_txt">@error@</span><div id="close_btn" onclick="getElement('status').style.visibility = 'hidden'">x</div></div>
-<!-- use include of copyright -->
-@%copyright@&nbsp;<!--<img src="Avatar" border="0" alt="@commonlabels.avatar@">-->
-</div>
-</div>
+<header>
+	<table width="100%" border=0 class="top_bar">
+	  <tr>
+	     <td align="left" width="*"><div class="logo"><a href="@contextpath@/" style="text-decoration: inherit;color:inherit;">
+	       @logo{
+	       @""(@app_name@)@
+	       @(<img src="@contextpath@@logo@" title="@app_name@">)@}@</a></div>
+	     </td>
+	     <td style="text-align:center">@%stationary@</td>
+	      <td style="text-align:right;margin-right:2em">
+	          @%search_block@ <!-- such inserts are global for SPA and should be handled in JS instead -->
+	     </td>
+	     <!-- top buttons line -->     
+	     <td align="right">
+	        @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
+	        >@element.getTitle*()*@</div>)@
+	      </td></tr>
+	</table>
+	<!-- tabs (todo use insert) -->
+	<nav id="tabs">@tabs(<div id="tab" title="@element.getDescription*()*@"><a class="atab" href="@SPA{@true(#)@}@@element.getAnchor*()*@">@element.getTitle*()*@</a></div>)@</nav>
+	<div class="navi_hist_bar">
+		@history(
+		  @history.iterator*()*(
+		<a class="reg_ref" href="@element.getUrl*()*@">@element.getTitle*()*@</a>&gt;)@)@</div>
+</header>
+<main>
+	@%request.INNER_VIEW@
+</main>
+<footer>
+	<div id="status"><span id="err_txt">@error@</span><div id="close_btn" onclick="getElement('status').style.visibility = 'hidden'">x</div></div>
+	<!-- use include of copyright -->
+	@%copyright@&nbsp;<!--<img src="Avatar" border="0" alt="@commonlabels.avatar@">-->
+</footer>
 </body>
 </html>
