@@ -26,6 +26,9 @@
           width:100%;
           background:#ddffdd;
           /*height:4em;*/
+          display:flex;
+          justify-content:center;
+          align-items:center;
         }
         #status {
              padding-left:10em;
@@ -43,16 +46,15 @@
            cursor:pointer;
            }
        #payload {
-        /*position:absolute;
-        top:10%;*/
-        height:89%;
         width:90%;
+        flex: 1 0 0; /* Grow to fill space */
+        overflow-y: auto; /* Add scrollbar */
+        height: 100%;
         padding-top:0.5em;
         padding-left:1.5em;
         padding-right:1.5em;
-        overflow:auto;
         margin:auto;
-        background:#ffffff;
+        background:#eeeeee;
        }
        #modal_background {
          position: absolute;
@@ -105,7 +107,7 @@
       <td style="text-align:right;margin-right:2em">
           @%search_block@ <!-- such inserts are global for SPA and should be handled in JS instead -->
      </td>
-     <!-- top button line -->     
+     <!-- top buttons line -->     
      <td align="right">
         @toplinks(<div class="bar_button" title="@element.getDescription*()*@" onclick="goto('@element.getAnchor*()*@')" 
         >@element.getTitle*()*@</div>)@
