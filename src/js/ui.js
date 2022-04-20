@@ -36,9 +36,10 @@ function updateUI() {
 							}
 					}
 				}
+				updateUI();
 			} else if (request.status == 403 || request.status == 404) 
 				return;
-			updateUI();
+			// old
 		}
 		
 	};

@@ -28,7 +28,7 @@
 		main {
 		    -webkit-flex: 1 0 0; /* Safari 6.1+ */
 		    -ms-flex: 1 0 0; /* IE 10 */
-		    flex: 1 0 0; /* Grow to fill space */
+		    flex: auto; /* Grow to fill space */
 		    overflow-y: auto; /* Add scrollbar */
 		    height: 100%; /* Needed to fill space in IE */
 		    background:#eeeeee;
@@ -47,7 +47,7 @@
 		    background:#ddffdd;
 		}			
             
-         P {margin:0.2em 1em 0.1em 1em}  
+        P {margin:0.2em 1em 0.1em 1em}  
         #container {
          max-height:100%;
          position:absolute;
@@ -72,9 +72,9 @@
              background:#fee;@error{
              @""(display:none;)@
              @(
-             background-image:url(@request.getContextPath*()*@/image/exclam.gif);
-             background-repeat:no-repeat;
-             padding-left:2em;)@}@
+	             background-image:url(@request.getContextPath*()*@/image/exclam.gif);
+	             background-repeat:no-repeat;
+	             padding-left:2em;)@}@
         }
         #close_btn {
            float:right;
