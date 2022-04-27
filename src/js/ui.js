@@ -1,5 +1,7 @@
 var handlerUrl
-
+var updateDelay = 1000
+var maxDelay = 120 * 1000
+      
 function updateUI() {
 	if (!handlerUrl || handlerUrl == '')
 		handlerUrl = './ajax/Asyncupdate'
@@ -22,7 +24,7 @@ function updateUI() {
 							+ request.responseText)()
 					} catch(e) {
 						// can't parse
-						return;
+						return
 					}
 					for ( var i in uievents) {
 						var uie = uievents[i]
@@ -37,10 +39,17 @@ function updateUI() {
 					}
 				}
 				
-			} else if (request.status == 403 || request.status == 404 || request.status === 0 ||
-			    request.status >= 500) 
+			} else if (request.status == 403 || request.status == 404) 
 				return
+			else {
+	            setTimeout(updateUI, updateDelay)
+                    if (updateDelay < maxDelay)
+	              updateDelay *= 2	
+              return
+			} // 
+				
 			updateUI()
+			updateDelay = 1000
 		}	
 	}
 	request.send(null)
@@ -51,5 +60,5 @@ function releaseUI() {
 		     function(res) {
 		         if(res == 'ok')
 		         ;
-		     });
+		     })
 }
