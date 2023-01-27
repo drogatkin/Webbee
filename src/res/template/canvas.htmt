@@ -157,7 +157,9 @@
 		<a class="reg_ref" href="@element.getUrl*()*@">@element.getTitle*()*@</a>&gt;)@)@</div>
 </header>
 <main>
+	<div id="payload">
 	@%request.INNER_VIEW@
+	</div>
 </main>
 <footer>
 	<div id="status"><span id="err_txt">@error@</span><div id="close_btn" onclick="getElement('status').style.visibility = 'hidden'">x</div></div>
