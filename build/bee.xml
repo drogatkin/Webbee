@@ -13,7 +13,7 @@
       ]>
 <!-- 
    Build script file used for "WebBee" project
-   Copyright (c) 2008-2021 Dmitriy Rogatkin    -->
+   Copyright (c) 2008-2023 Dmitriy Rogatkin    -->
 
 <bee name="&project;" type="project" dir="..">
   &env;
@@ -709,6 +709,28 @@ DEBUG=1
          <parameter>@%'canvas.htmt'@
 </parameter>
        </function>
+       <if>
+           <expression>
+               <operator name="eq">
+                   <value>y</value>
+                   <value variable="mobile"/>
+               </operator>
+           </expression>
+           <then>
+          	 <expression name="wrk file">
+		          <operator name="append">
+		                 <value variable="project directory"/>
+		                 <value>/</value>
+		                 <value value="src/res/view/mobile/canvas.html"/>
+		          </operator>
+		       </expression>
+		       <function name="write">
+		         <parameter variable="wrk file"/>
+		         <parameter>@%'mobile/canvas.htmt'@
+</parameter>
+              </function>
+           </then>
+       </if>
        <expression name="wrk file">
           <operator name="append">
                  <value variable="project directory"/>

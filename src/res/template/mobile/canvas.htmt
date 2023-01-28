@@ -23,6 +23,11 @@
       function goto(loc) {
          document.location='@contextpath@@request.getServletPath*()*@/'+loc;
       }
+      @SPA{@true(
+      window.onhashchange = function() {
+          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload')
+      }
+      )@}@
   </script>
   <script>
      @%'insert/headjs.htmt'@
@@ -32,6 +37,8 @@
 <body onload="init()">
 <div id="status" onclick="getElement('status').style.visibility = 'hidden'" style="color:#ED0000">@error@</div>
 <div style="width:100%;text-align:right">@toplinks(<a href="javascript:void(0)" onclick="goto('@element.getAnchor*()*@')">@element.getTitle*()*@</a>&nbsp;|)@&nbsp;@%stationary@</div>
-@%request.INNER_VIEW@
+<div id="payload">
+	@%request.INNER_VIEW@
+</div>
 </body>
 </html>
