@@ -777,21 +777,46 @@ DEBUG=1
              </block>
           </switch>
        </expression>
+       <variable name="data source"/>
+       <variable name="data source ref"/>
+       <if>
+           <expression>
+               <operator name="neq">
+                   <value variable="db name"/>
+                   <value></value>
+               </operator>
+           </expression>
+           <then>
+              <expression name="data source">
+                 <value>
+    &lt;context-param&gt;
+		&lt;param-name&gt;model_datasource&lt;/param-name&gt;
+		&lt;param-value>jdbc/${db name}/${project name}&lt;/param-value&gt;
+	&lt;/context-param&gt;
+                 </value>
+              </expression>
+              <expression name="data source ref">
+                 <value>
+    &lt;resource-ref&gt;
+		&lt;res-ref-name&gt;java:comp/env/jdbc/${db name}/${project name}&lt;/res-ref-name&gt;
+		&lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+		&lt;res-auth&gt;Container&lt;/res-auth&gt;
+	&lt;/resource-ref&gt;
+                  </value>
+              </expression>
+          </then>
+       </if>   
+       
        <function name="write">
-         <parameter variable="wrk file"/>
+         <parameter variable="wrk file"/> <!-- do not add data source when not used and resource-ref as well-->
          <parameter>&lt;web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="true"&gt;
 
-	&lt;context-param&gt;
-		&lt;param-name&gt;model_datasource&lt;/param-name&gt;
-		&lt;param-value>jdbc/</parameter>
-        <parameter variable="db name"/>
-        <parameter>/</parameter>
-        <parameter variable="project name"/>
-        <parameter>&lt;/param-value&gt;
-	&lt;/context-param&gt;
+</parameter>
+        <parameter variable="data source"/>
+        <parameter>
         &lt;context-param&gt;
 		&lt;param-name&gt;properties&lt;/param-name&gt;
 		&lt;param-value&gt;/WEB-INF/config/</parameter>
@@ -834,15 +859,9 @@ DEBUG=1
 	&lt;welcome-file-list&gt;
 		&lt;welcome-file&gt;index.html&lt;/welcome-file&gt;
 	&lt;/welcome-file-list&gt;
-	&lt;resource-ref&gt;
-		&lt;res-ref-name&gt;java:comp/env/jdbc/</parameter>
-        <parameter variable="db name"/>
-        <parameter>/</parameter>
-        <parameter variable="project name"/>
-        <parameter>&lt;/res-ref-name&gt;
-		&lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
-		&lt;res-auth&gt;Container&lt;/res-auth&gt;
-	&lt;/resource-ref&gt;
+	</parameter>
+        <parameter variable="data source ref"/>
+        <parameter>
 &lt;/web-app&gt;
            </parameter>
         </function>
