@@ -1,13 +1,13 @@
 <echo>Welcome to the  Webbee component creation wizard</echo>
 <expression name="comp type">
   <function name="ask">
-     <parameter>Enter type of component d - for JDO, u - for web, r - REST, s - for service [d]? </parameter>
+     <parameter>Enter type of a component d - for JDO, u - for web, r - REST, s - for service [d]? </parameter>
      <parameter>d</parameter>
   </function>
 </expression>
 <expression name="comp name">
   <function name="ask">
-     <parameter>Enter name of component? </parameter>
+     <parameter>Enter name of the component? </parameter>
      <parameter></parameter>
   </function>
 </expression>
@@ -610,7 +610,7 @@ public class </parameter>
   <block type="case" value="s">
      <expression name="serv type">
        <function name="ask">
-          <parameter>Enter base service type m - mailer, c - CRON [m]? </parameter>
+          <parameter>Enter base service type m - mailer, c - CRON, g - generic [m]? </parameter>
           <parameter>m</parameter>
        </function>
      </expression>
@@ -621,6 +621,19 @@ public class </parameter>
             <value>.java</value>
          </operator>
       </expression>
+     <expression name="serv prelude">
+        <value>
+///// Webbee (C) 2023 D Rogatkin   ////////////
+//// TODO modify the file for required functionality
+/*  Do not forget to activate the service in model class as below
+     void initServices() {
+         ...
+         register(new ${comp name}(this));
+         ...
+     }    
+*/
+        </value>
+     </expression>
      <switch variable="serv type">
          <block type="case" value="m">
              <expression name="JDO name">
@@ -637,18 +650,10 @@ public class </parameter>
              </expression>
              <function name="write">
                  <parameter variable="file java"/>
-                 <parameter>///// Webbee (C) D Rogatkin   ////////////
-//// TODO modify the file for required functionality
-/*  Do not forget to activate the service in model class as below
-     void initServices() {
-         ...
-         register(new </parameter>
-                  <parameter variable ="comp name"></parameter>
-                  <parameter>(this));
-         ...
-     }    
-    SMTP connection attributes can be specified in a property file referenced by smtp_config 
-*/                     
+                 <parameter variable="serv prelude"/>
+                 <parameter>   
+/////    SMTP connection attributes can be specified in a property file referenced by smtp_config 
+                  
 package &domain;.&org;.&project;.serv;
 import java.util.Collection;
 import java.util.HashMap;
@@ -749,7 +754,75 @@ public class </parameter>
             </function>	
          </block>
          <block type="case" value="c">
-             
+             <expression name="proc name">
+		       <function name="ask">
+		          <parameter>Enter a name of a class of a periodic running process [Object]? </parameter>
+		          <parameter>Object</parameter>
+		       </function>
+		     </expression>
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter variable="serv prelude"/>
+                 <parameter>
+package &domain;.&org;.&project;.serv;
+import java.util.Collection;
+import java.util.HashMap;
+import org.aldan3.model.DataObject;
+import org.aldan3.model.ProcessException;
+import com.beegman.webbee.util.Cron;
+import &domain;.&org;.&project;.model.*;
+import &domain;.&org;.&project;.model.${proj cap}Model; 
+public class ${comp name} extends Cron&lt;${proc name}, ${proj cap}Model&gt; implements Runnable {
+	
+	public ${comp name}(${proj cap}Model model) {
+		super(model);
+		
+	}
+	
+	public void run() {
+	    // main processing loop
+	}
+}
+                 </parameter>
+             </function>   
+         </block>
+         <block type="case" value="g">
+             <function name="write">
+                 <parameter variable="file java"/>
+                 <parameter variable="serv prelude"/>
+                 <parameter>
+package &domain;.&org;.&project;.serv;
+import java.util.Collection;
+import java.util.HashMap;
+import org.aldan3.model.DataObject;
+import org.aldan3.model.ProcessException;
+import &domain;.&org;.&project;.model.*;
+import &domain;.&org;.&project;.model.${proj cap}Model; 
+import org.aldan3.model.ServiceProvider;                
+public class ${comp name} implements ServiceProvider {
+    ${proj cap}Model appModel;
+
+    public ${comp name}(${proj cap}Model m) {
+		appModel = m;
+		initServ();
+	}
+	
+	protected void initServ() {
+	   // init code for your service
+	}
+	
+	@Override
+	public String getPreferredServiceName() {
+		return getClass().getName();
+	}
+
+	@Override
+	public Object getServiceProvider() {
+		return this;
+	}
+}
+                 </parameter>
+             </function>
          </block>
          </switch>
   </block>
