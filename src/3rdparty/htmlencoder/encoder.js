@@ -142,7 +142,7 @@ Encoder = {
 			en = en || true;
 			// do we convert to numerical or html entity?
 			if(en){
-				s = s.replace(/\'/g,"&#39;"); //no HTML equivalent as &apos is not cross browser supported
+				s = s.replace(/\'/g,"&apos;"); //no HTML equivalent as &apos is not cross browser supported
 				s = s.replace(/\"/g,"&quot;");
 				s = s.replace(/</g,"&lt;");
 				s = s.replace(/>/g,"&gt;");
