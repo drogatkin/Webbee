@@ -466,7 +466,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	}
 
 	protected boolean forceMobile() {
-		return false;		
+		return WebApp.commonBehavior.mobileOnly;		
 	}
 	
 	@Override
