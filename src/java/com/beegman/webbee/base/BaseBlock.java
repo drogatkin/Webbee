@@ -266,7 +266,7 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	
 	protected boolean isMobile() {
 		return userAgent != null
-				&& (userAgent.indexOf("Mobile") > 0 || userAgent.indexOf("RIM Tablet OS") > 0 || userAgent.indexOf("Silk") > 0) && userAgent.indexOf("(KHTML, like Gecko)") > 0 || forceMobile();		
+				&& (userAgent.indexOf("Mobile") > 0 || userAgent.indexOf("RIM Tablet OS") > 0 || (userAgent.indexOf("Silk") > 0 && userAgent.indexOf("Android") > 0)) && userAgent.indexOf("(KHTML, like Gecko)") > 0 || forceMobile();		
 	}
 	
 	protected boolean isMobileApp() {
