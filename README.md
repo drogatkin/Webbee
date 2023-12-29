@@ -1,15 +1,15 @@
 # Webbee
-A Web application building blocks Aldan3 based
+A Web application building blocks using Aldan3
 
-# How it differs from Node.js and Next.js
-Although The WebBee can use a server side page rendering and a client side page rendering (
-Music-barrel a good example when the two technologies coexist), the server side rendering is
-preferable. So the WebBee is more like Next.js from this point view.
+## How it differs from other frameworks?
+The WebBee gives an opportunity to use a server or client side rendering including a hybrid approach.
+It mostly utilizes native system rendering capabilities than artificially created ones as in the React.
+It's an extremely light weight and flexible.
 
-# Getting started
+## Getting started
 Most of RAD tools provide tons of documentation to help people use them. Therefore considering that using tools without reading all documentation hardly possible, rapid aspect is very questionable. Webbee isn't an exception. However Webbee has certain benefits allowing starting a little faster. Therefore you won't find __Hello World__ example, instead of that you can create a new app in matter of seconds.
 
-## Application anatomy
+### Application anatomy
 Every application defines one instance of Application Model object. Webbee provides access to this object from all other objects of the system. It provides from one side kind of singleton nature of the object, and from other side it isn't a singleton object. Next important component of the system is a front controller. It manages all external communications. Webbee defines only one servlet. All UI rendering is supported by MVC pattern with local or remote model piece. And finally a set of background services as on demand as scheduled can be created. Webbee considers any web application as some composition of building blocks holding certain functionality. The following blocks are considered:
 
 1. Form
@@ -22,10 +22,10 @@ Every application defines one instance of Application Model object. Webbee provi
 8. Portal
 9. Tree navigator
 10. Bar code
-12. Around dozen more and set keeps growing
+12. Around dozen more and the set keeps growing
 
 ### Create application
-Slip to a build directory and run script as below, and then answer new application wizard questions. 
+Switch to the build directory and run the script as below, and then answer new application wizard questions. 
 
 ```
 >bee create
@@ -39,7 +39,7 @@ Database type used, one of h2, ora, my, hado [ora]?h2
 
 Your application is ready now, you can switch to its directory and run `bee` to build a .war. 
 
-## Major object types
+### Major object types
 Webbee distinguishes the following fundamental objects
 
 1. data
