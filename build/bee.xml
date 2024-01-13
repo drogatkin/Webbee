@@ -813,7 +813,10 @@ DEBUG=1
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="true"&gt;
-
+&lt;description&gt;App ${project name}&lt;/description&gt;
+	&lt;!-- Set the default request and response character encodings to UTF-8.   --&gt;
+    &lt;request-character-encoding&gt;UTF-8&lt;/request-character-encoding&gt;
+    &lt;response-character-encoding&gt;UTF-8&lt;/response-character-encoding&gt;
 </parameter>
         <parameter variable="data source"/>
         <parameter>
