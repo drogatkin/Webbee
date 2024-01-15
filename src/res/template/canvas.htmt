@@ -70,7 +70,7 @@
              padding-left:10em;
              height:2em;
              background:#fee;@error{
-             @""(display:none;)@
+             @""(visibility:hidden;)@
              @(
 	             background-image:url(@request.getContextPath*()*@/image/exclam.gif);
 	             background-repeat:no-repeat;
@@ -121,7 +121,8 @@
       }
       @SPA{@true(
       window.onhashchange = function() {
-          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload')
+      	//if (!document.querySelector('a[name="'+location.hash+'"]'))
+          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload')  // can be called standard page onload function and change document.title = 
       }
       )@}@
   </script>
