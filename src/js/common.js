@@ -1,3 +1,5 @@
+var baseServURI;
+
 // $Id: common.js,v 1.7 2013/04/24 05:57:50 cvs Exp $
 // JavaScript tool and utilities
 // Copyright (c) 2005-2021 Dmitriy Rogatkin
@@ -117,10 +119,13 @@ function loadInnerPage(base, anchor, res, cusfun) {
    }
 }
 
-function submitPage(base, anchor, res) {
+function submitPage(base, anchor, res, massageData) {
 	const url = base+anchor.substring(1)
 	const frm = document.querySelector(res) || document.querySelector('form')
 	const xhr = new XMLHttpRequest()
+	
+	if(massageData && typeof massageData === 'function')
+       massageData()
 	
 	const fd = new FormData( frm )
 

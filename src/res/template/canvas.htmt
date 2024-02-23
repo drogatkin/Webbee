@@ -122,7 +122,7 @@
       @SPA{@true(
       window.onhashchange = function() {
       	//if (!document.querySelector('a[name="'+location.hash+'"]'))
-          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload')  // can be called standard page onload function and change document.title = 
+          loadInnerPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#payload', onLoadSPA)  // can be called standard page onload function and change document.title = 
       }
       )@}@
   </script>

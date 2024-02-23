@@ -13,6 +13,7 @@ Most of RAD tools provide tons of documentation to help people use them. Therefo
 
 ### Application anatomy
 Every application defines one instance of an Application Model object. Webbee provides access to this object from all other objects of the system.
+Dependency injection is used in most cases.
  It provides from one side kind of singleton nature of the object, and from other side it isn't a singleton object. Next important component of the system
   is the front controller. It manages all external communications. Webbee defines only one servlet. All UI rendering is supported by MVC pattern
    with a local or remote model piece. And finally a set of background services as on demand or scheduled can be created. Webbee considers any web
@@ -132,6 +133,52 @@ Now you are ready to test your first form _book_, issue URL `http://fedora-box:8
 
 You already have your application created in matter of one minute, however it doesn't do all functionality you may plan for it. 
 Adding the functionality isn't so complicated. Start with adding new fields in your book JDO. 
+
+
+## Using Rich Text edit fields
+
+Sometimes rich text content is important for text fields, for example, a description of a book can 
+include a bold or italic text, or other decoration elements. Webbee provides basic rich text capabilities in the case.
+
+First, the presentation annotation has to include the following attribute:
+
+    @DBField(size = 4000)
+	@FormField(presentSize = 68, presentRows = 6, presentType=FieldType.RichText)
+	public String description;
+	
+Now, you need to connect a rich text support library. Webbee uses **nicEdit**, but can be easily changed to
+use some other library. First, let's define the following template in the config file:
+
+>  headextra=insert/headextra.html
+
+Content of the new template can be defined as:
+
+```
+@%'insert/headextra.htmt'@
+<script src="@contextpath@/js/nicEdit.js" language="Javascript"></script>
+
+<script type="text/javascript">
+   //console.log('icons:' + nicEditorConfig.prototype.iconsPath)
+   nicEditorConfig.prototype.iconsPath = '../image/nicEditorIcons.gif'
+   const  onLoadSPA = function() {
+      nicEditors.allTextAreas()
+   }
+   
+   function applyRTE() {
+       for (const ed of nicEditors.editors) {
+          for (const ed2 of  ed.nicInstances)
+             ed2.saveContent()
+       }
+   }
+</script>
+```
+
+The file defines also two functions used for a conversion of textarea to a rich text field,
+and a function to convert the field back to a text form when the form content is stored. This
+implementation assumes that all multiline text fields are rich text. If a rich text can be fewer,
+ then the functions need to be pointed on that.
+ 
+ As you can see, Webbee is very flexible and customizable library.
 
 
 
