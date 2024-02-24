@@ -175,8 +175,12 @@ Content of the new template can be defined as:
 
 The file defines also two functions used for a conversion of textarea to a rich text field,
 and a function to convert the field back to a text form when the form content is stored. This
-implementation assumes that all multiline text fields are rich text. If a rich text can be fewer,
- then the functions need to be pointed on that.
+implementation assumes that all multiline text fields are a rich text. If a rich text field can be fewer,
+ then the functions need to be pointed on that. SPA configuration require also calling the conversion function
+ mentioned earlier. Although the call should be generated automatically by scaffolding,  it's worth to check:
+ 
+ 
+     <form name="book" method="POST" @SPA{@true(onsubmit="event.preventDefault(); submitPage('@contextpath@@request.getServletPath*()*@/', location.hash, '#book', applyRTE)")@}@>
  
  As you can see, Webbee is very flexible and customizable library.
 
