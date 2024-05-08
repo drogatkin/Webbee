@@ -161,7 +161,7 @@
 	@%request.INNER_VIEW@
 </main>
 <footer>
-	<div id="status"><span id="err_txt">@error@</span><div id="close_btn" onclick="getElement('status').style.visibility = 'hidden'">x</div></div>
+	<div id="status"><span id="err_txt">@.error@</span><div id="close_btn" onclick="getElement('status').style.visibility = 'hidden'">x</div></div>
 	<!-- use include of copyright -->
 	@%copyright@&nbsp;<!--<img src="Avatar" border="0" alt="@commonlabels.avatar@">-->
 </footer>
