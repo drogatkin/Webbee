@@ -1,4 +1,5 @@
 <div>@label.title@</div>
+<div id="error">@error@</div>
 <form name="systemsetup">
 <div>@label.model_package_name@ @.ui.field*(model_package_name,java.lang.Object^@model@)*@</div>
 <div>@label.discardExisting@ @.ui.check*(discardExisting,java.lang.Object^@model@)*@</div>
