@@ -119,9 +119,10 @@ function loadInnerPage(base, anchor, res, cusfun) {
    }
 }
 
-function submitPage(base, anchor, res, massageData) {
+function submitPage(base, anchor, res, massageData, errRes) {
 	const url = base+anchor.substring(1)
 	const frm = document.querySelector(res) || document.querySelector('form')
+	errRes = errRes || '#payload'
 	const xhr = new XMLHttpRequest()
 	
 	if(massageData && typeof massageData === 'function')
@@ -132,7 +133,12 @@ function submitPage(base, anchor, res, massageData) {
     // Define what happens on successful data submission
     xhr.addEventListener( "load", function(event) {
      // alert( event.target.responseText )
-      location.hash = '#'+ event.target.responseText
+	 	if(event.target.responseText.startsWith('#'))
+      		location.hash = event.target.responseText
+		else {
+			const innerp = document.querySelector(errRes)
+			innerp.innerHTML = event.target.responseText
+		}
     } )
 
     // Define what happens in case of error
