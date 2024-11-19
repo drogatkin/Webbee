@@ -1,0 +1,214 @@
+# a rustbee script to build a webbee based app 
+# it requires RustBee v 1.12.01 or better
+project =<name of the app>
+"build_directory" = ./bin
+source_directory ="src"
+doc_directory=doc
+build_file ="${project}.jar"
+war_file ="${project}.war"
+ domain ="<domain>"
+resources ="${domain}.${project}.resources"
+manifest file =""
+main_class= "${domain}.${project}.Main"
+TJWS_HOME=../TJWS2
+
+include(../rust_util/src/script/common-java.7b)
+
+websocket jar=${build_directory}/.temp_repo/javax.websocket-api-1.1.jar
+servlet jar=${build_directory}/.temp_repo/javax.servlet-api-4.0.1.jar
+
+aldan3_home="/home/dmitriy/projects/aldan3"
+aldan3=${aldan3_home}${~separator~}build${~separator~}aldan3.jar
+aldan3-jdo=${aldan3_home}-jdo${~separator~}build${~separator~}aldan3-jdo.jar
+webbee_home=/home/dmitriy/projects/Webbee
+webbee="${webbee_home}/build/out/webbee.jar"
+
+
+
+cp=${servlet jar}${~path_separator~}${websocket jar}${~path_separator~}${aldan3}${~path_separator~}${aldan3-jdo}${~path_separator~}${webbee}${~path_separator~}${build_directory}
+
+target clean {
+    dependency {true}
+    files(${build_directory}/${build_file}, ${build_directory}/${war_file}, ${build_directory}/${domain}/*.class/)
+    for file:~~ {
+    	rm (file)
+    }
+}
+
+target dep_dir {
+  dependency {
+     eq {
+        timestamp(${build_directory}${~separator~}.temp_repo)
+     }
+   }
+   display(Dir ${build_directory}${~separator~}.temp_repo -p)
+   mkdr (
+        -p,
+        ${build_directory}${~separator~}.temp_repo
+   )
+}
+
+target get_ext_deps {
+  dependency {
+    or{
+     eq {
+        timestamp(websocket jar)
+     }
+    eq {
+        timestamp(servlet jar)
+     }
+   }
+   }
+      if {
+       eq {
+          timestamp(websocket jar)
+       }
+       then {
+         display(Loading WS)
+         websocket_api="javax.websocket:javax.websocket-api:1.1":rep-maven
+         as_url(websocket_api)
+         exec wget (
+           ~~, 
+           -O,
+           websocket jar
+         )
+      }
+   }
+
+    if {
+       eq {
+          timestamp(servlet jar)
+       }
+       then {
+         servlet_api="javax.servlet:javax.servlet-api:4.0.1":rep-maven
+         as_url(servlet_api)
+         exec wget (
+           ~~, 
+           -O,
+           servlet jar
+         )
+      }
+   }
+}
+
+target compile:. {
+   dependency {
+       or {
+              newerthan(${source_directory}/.java,${build_directory}/.class)
+       }
+   }
+   dependency {
+          target(get_ext_deps)
+   }
+    display(Compiling Java nio src ...)
+   newerthan(${source_directory}/.java,${build_directory}/.class)
+   assign(main src,~~)
+   exec javac (
+     -d,
+     ${build_directory},
+    -classpath,
+     cp,
+     main src
+   )     
+	 if {
+	     neq(${~~}, 0)
+	     then {
+	        panic("Compilation error(s)")
+	     }
+	 }
+}
+
+target jar {
+      dependency {
+         anynewer(${build_directory}/${domain}/*,${build_directory}/${build_file})
+      }
+      dependency {
+          target(compile)
+      }
+     
+      display(Jarring ${build_file} ...)
+      keys=[-cf]
+      if {
+      	neq(manifest file,)
+      	then {
+      		array(-cfm, manifest file)
+      		assign(keys, ~~)
+      	}
+      }
+      exec jar (
+        keys,
+        ${build_directory}/${build_file},
+        -C,
+        ${build_directory},
+        ${domain}
+      )
+}
+
+target war {
+	dependency {
+          target(jar)
+   }
+   dependency {
+      or {
+       anynewer(src/view/*,${build_directory}/${war_file})
+       anynewer(src/html/*,${build_directory}/${war_file})
+       anynewer(src/cfg/*,${build_directory}/${war_file})
+       anynewer(src/js/*,${build_directory}/${war_file})
+       anynewer(${webbee_home}${~/~}src${~/~}*,${build_directory}/${war_file})
+       anynewer(bee.7b,${build_directory}/${war_file})
+     }
+   }
+   display(Preparing ${war_file} on ${~os~})
+   zip(${build_directory}${~/~}${war_file},
+   -B WEB-INF,src${~/~}res${~/~}cfg${~/~}web.xml,
+   -C WEB-INF/classes/${domain},${build_directory}${~/~}${domain},
+   -B WEB-INF/lib,${aldan3_home}${~/~}build${~/~}aldan3.jar,
+   -B WEB-INF/lib,${aldan3_home}-jdo${~/~}build${~/~}aldan3-jdo.jar,
+   -B WEB-INF/lib,${webbee},
+   -B WEB-INF/config,src${~/~}res${~/~}cfg${~/~}*.properties, 
+   -B WEB-INF, src${~/~}res${~/~}cfg${~/~}context.xml,
+   -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.html,
+   -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.txt,
+   -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.htm,
+   -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.htmt,
+   -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.json,
+   
+   -C WEB-INF/res/text,src{~/~}res{~/~}text{~/~}*.properties,
+   -B, src{~/~}res{~/~}html{~/~}*.jsp,
+   -B, src{~/~}res{~/~}html{~/~}*.html,
+   -B image,src${~/~}3rd_party${~/~}image${~/~}*.gif,
+   -B image,src${~/~}image${~/~}*.png,
+   -B image,src${~/~}image${~/~}*.jpg,
+   -B,src${~/~}image${~/~}favicon.ico,
+   -B js,src${~/~}js${~/~}*.js,
+   -B css,src${~/~}html${~/~}style.css,
+   -B,src${~/~}html${~/~}*.html,
+   -B,src${~/~}html${~/~}*.jsp,
+   -B,src${~/~}html${~/~}*.json,
+   -B js,src/3rd_party/js/*.js,
+   -B sound,src${~/~}sound${~/~}*.ogg,
+   -B js,src${~/~}3rd_party${~/~}ace${~/~}*.js,
+   # merging webbee
+   -B WEB-INF/text,${webbee_home}${~/~}src${~/~}res${~/~}text${~/~}*.properties,
+   -C WEB-INF/view,${webbee_home}${~/~}src${~/~}res${~/~}template${~/~}*.htmt,
+   -B js,${webbee_home}${~/~}src${~/~}js${~/~}*.js,
+   -B css,${webbee_home}${~/~}src${~/~}res${~/~}css${~/~}*.css,
+   -B image,${webbee_home}${~/~}src${~/~}res${~/~}image${~/~}*.gif
+   )
+}
+
+target deploy {
+	dependency {
+          target(war)
+   }
+   dependency {
+      or {
+       anynewer(${build_directory}${~/~}${war_file},${TJWS_HOME}/1.x/webapps/${war_file})
+       }
+    }
+    display(Deploying ${build_directory}/${war_file} ...)
+    cp(${build_directory}/${war_file},${TJWS_HOME}/1.x/webapps)
+}
+
+
+
