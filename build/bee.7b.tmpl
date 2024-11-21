@@ -1,21 +1,22 @@
 # a rustbee script to build a webbee based app 
-# it requires RustBee v 1.12.01 or better
-project =<name of the app>
-"build_directory" = ./bin
-source_directory ="src"
+# it requires RustBee v 1.12.03 or better
+
+project =<proj name>
+ domain =<domain>
+org=<org>
+
+"build_directory" = ./build
+source_directory ="src/java"
 doc_directory=doc
 build_file ="${project}.jar"
 war_file ="${project}.war"
- domain ="<domain>"
 resources ="${domain}.${project}.resources"
 manifest file =""
-main_class= "${domain}.${project}.Main"
+main_class= "${domain}.${org}.${project}.Main"
 TJWS_HOME=../TJWS2
 
 include(../rust_util/src/script/common-java.7b)
 
-websocket jar=${build_directory}/.temp_repo/javax.websocket-api-1.1.jar
-servlet jar=${build_directory}/.temp_repo/javax.servlet-api-4.0.1.jar
 
 aldan3_home="/home/dmitriy/projects/aldan3"
 aldan3=${aldan3_home}${~separator~}build${~separator~}aldan3.jar
@@ -23,9 +24,19 @@ aldan3-jdo=${aldan3_home}-jdo${~separator~}build${~separator~}aldan3-jdo.jar
 webbee_home=/home/dmitriy/projects/Webbee
 webbee="${webbee_home}/build/out/webbee.jar"
 
+JDBC_DRIVER="com.h2database:h2:2.3.232":rep-maven
+JSON_API_LIB="org.glassfish:javax.json:1.1.4":rep-maven
 
+websocket_api="javax.websocket:javax.websocket-api:1.1":rep-maven
+servlet_api="javax.servlet:javax.servlet-api:4.0.1":rep-maven
 
-cp=${servlet jar}${~path_separator~}${websocket jar}${~path_separator~}${aldan3}${~path_separator~}${aldan3-jdo}${~path_separator~}${webbee}${~path_separator~}${build_directory}
+JSON_API_LIB_JAR=none
+JDBC_DRIVER_JAR=none
+
+websocket jar=none
+servlet jar=none
+
+cp=.temp_repo${~/~}${servlet jar}${~path_separator~}.temp_repo${~/~}${websocket jar}${~path_separator~}${aldan3}${~path_separator~}${aldan3-jdo}${~path_separator~}${webbee}${~path_separator~}${build_directory}
 
 target clean {
     dependency {true}
@@ -38,54 +49,105 @@ target clean {
 target dep_dir {
   dependency {
      eq {
-        timestamp(${build_directory}${~separator~}.temp_repo)
+        timestamp(.temp_repo)
      }
    }
-   display(Dir ${build_directory}${~separator~}.temp_repo -p)
-   mkdr (
-        -p,
-        ${build_directory}${~separator~}.temp_repo
+   display(Dir .temp_repo)
+   mkd (
+        .temp_repo
    )
 }
 
+target dep_jar_name {
+    dependency{}  # dependency false executes the target but mark it as not evaluated
+    as_jar(JSON_API_LIB)
+    assign(JSON_API_LIB_JAR,~~)
+    as_jar(JDBC_DRIVER)
+    assign(JDBC_DRIVER_JAR,~~)
+    
+    as_jar(websocket_api)
+    assign(websocket jar,~~)
+    as_jar(servlet_apir)
+    assign(servlet jar,~~)
+}
+
 target get_ext_deps {
+  dependency{target(dep_jar_name)}
+  dependency{target(dep_dir)}
   dependency {
     or{
-     eq {
-        timestamp(websocket jar)
-     }
-    eq {
-        timestamp(servlet jar)
-     }
+         eq {
+            timestamp(.temp_repo${~/~}${websocket jar})
+         }
+        eq {
+            timestamp(.temp_repo${~/~}${servlet jar})
+        }
+        eq {
+            timestamp(.temp_repo${~/~}${JSON_API_LIB_JAR})
+        }
+        eq {
+            timestamp(.temp_repo${~/~}${JDBC_DRIVER_JAR})
+        }
    }
-   }
+ }
+ 
+     if {
+           eq {
+              timestamp(.temp_repo${~/~}${JSON_API_LIB_JAR})
+           }
+           then {
+             display(Loading ${JSON_API_LIB_JAR})
+             as_url(JSON_API_LIB)
+             exec wget (
+               ~~, 
+               -O,
+               .temp_repo${~/~}${JSON_API_LIB_JAR}
+             )
+          }
+       }
+       
+      if {
+           eq {
+              timestamp(.temp_repo${~/~}${JDBC_DRIVER_JAR})
+           }
+           then {
+             display(Loading ${JDBC_DRIVER_JAR})
+             as_url(JDBC_DRIVER)
+             exec wget (
+               ~~, 
+               -O,
+               .temp_repo${~/~}${JDBC_DRIVER_JAR}
+             )
+          }
+       }
+     
+     
       if {
        eq {
-          timestamp(websocket jar)
+          timestamp(.temp_repo${~/~}${websocket jar})
        }
        then {
-         display(Loading WS)
-         websocket_api="javax.websocket:javax.websocket-api:1.1":rep-maven
+         display(Loading ${websocket jar})
+         
          as_url(websocket_api)
          exec wget (
            ~~, 
            -O,
-           websocket jar
+           .temp_repo${~/~}${websocket jar}
          )
       }
    }
 
     if {
        eq {
-          timestamp(servlet jar)
+          timestamp(.temp_repo${~/~}${servlet jar})
        }
        then {
-         servlet_api="javax.servlet:javax.servlet-api:4.0.1":rep-maven
          as_url(servlet_api)
          exec wget (
            ~~, 
            -O,
-           servlet jar
+           .temp_repo${~/~}${servlet jar}
          )
       }
    }
@@ -94,28 +156,32 @@ target get_ext_deps {
 target compile:. {
    dependency {
        or {
-              newerthan(${source_directory}/.java,${build_directory}/.class)
+              newerthan(${source_directory}${~/~}.java,${build_directory}${~/~}.class)
        }
    }
    dependency {
           target(get_ext_deps)
    }
-    display(Compiling Java nio src ...)
-   newerthan(${source_directory}/.java,${build_directory}/.class)
+   newerthan(${source_directory}${~/~}.java,${build_directory}${~/~}.class)
    assign(main src,~~)
-   exec javac (
-     -d,
-     ${build_directory},
-    -classpath,
-     cp,
-     main src
-   )     
-	 if {
-	     neq(${~~}, 0)
-	     then {
-	        panic("Compilation error(s)")
-	     }
-	 }
+   if {
+       or (main src) then {
+       display(Compiling Java src ... )
+           exec javac (
+             -d,
+             ${build_directory},
+            -classpath,
+             cp,
+             main src
+           )     
+        	 if {
+        	     neq(${~~}, 0)
+        	     then {
+        	        panic("Compilation error(s)")
+        	     }
+        	 }
+    	}
+	}
 }
 
 target jar {
@@ -142,6 +208,19 @@ target jar {
         ${build_directory},
         ${domain}
       )
+}
+
+target deploy {
+	dependency {
+          target(war)
+   }
+   dependency {
+      or {
+       anynewer(${build_directory}${~/~}${war_file},${TJWS_HOME}/1.x/webapps/${war_file})
+       }
+    }
+    display(Deploying ${build_directory}/${war_file} ...)
+    cp(${build_directory}/${war_file},${TJWS_HOME}/1.x/webapps)
 }
 
 target war {
@@ -173,9 +252,9 @@ target war {
    -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.htmt,
    -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.json,
    
-   -C WEB-INF/res/text,src{~/~}res{~/~}text{~/~}*.properties,
-   -B, src{~/~}res{~/~}html{~/~}*.jsp,
-   -B, src{~/~}res{~/~}html{~/~}*.html,
+   -C WEB-INF/res/text,src${~/~}res${~/~}text${~/~}*.properties,
+   -B, src${~/~}res${~/~}html${~/~}*.jsp,
+   -B, src${~/~}res${~/~}html${~/~}*.html,
    -B image,src${~/~}3rd_party${~/~}image${~/~}*.gif,
    -B image,src${~/~}image${~/~}*.png,
    -B image,src${~/~}image${~/~}*.jpg,
@@ -197,18 +276,6 @@ target war {
    )
 }
 
-target deploy {
-	dependency {
-          target(war)
-   }
-   dependency {
-      or {
-       anynewer(${build_directory}${~/~}${war_file},${TJWS_HOME}/1.x/webapps/${war_file})
-       }
-    }
-    display(Deploying ${build_directory}/${war_file} ...)
-    cp(${build_directory}/${war_file},${TJWS_HOME}/1.x/webapps)
-}
 
 
 
