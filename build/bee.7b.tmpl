@@ -1,9 +1,12 @@
 # a rustbee script to build a webbee based app 
-# it requires RustBee v 1.12.03 or better
+# it requires RustBee v 1.12.05 or better
 
 project =<proj name>
  domain =<domain>
 org=<org>
+
+# cusum CP libs
+buzzbee=../Buzzbee/build/buzzbee.jar
 
 "build_directory" = ./build
 source_directory ="src/java"
@@ -30,13 +33,19 @@ JSON_API_LIB="org.glassfish:javax.json:1.1.4":rep-maven
 websocket_api="javax.websocket:javax.websocket-api:1.1":rep-maven
 servlet_api="javax.servlet:javax.servlet-api:4.0.1":rep-maven
 
-JSON_API_LIB_JAR=none
-JDBC_DRIVER_JAR=none
+cp=.temp_repo${~/~}${JSON_API_LIB_JAR}${~path_separator~}.temp_repo${~/~}${servlet jar}${~path_separator~}.temp_repo${~/~}${websocket jar}${~path_separator~}${aldan3}${~path_separator~}${aldan3-jdo}${~path_separator~}${webbee}${~path_separator~}${buzzbee}${~path_separator~}${build_directory}
 
-websocket jar=none
-servlet jar=none
+# Main block execution
+as_jar(JSON_API_LIB)
+assign(JSON_API_LIB_JAR,~~)
+as_jar(JDBC_DRIVER)
+assign(JDBC_DRIVER_JAR,~~)
 
-cp=.temp_repo${~/~}${servlet jar}${~path_separator~}.temp_repo${~/~}${websocket jar}${~path_separator~}${aldan3}${~path_separator~}${aldan3-jdo}${~path_separator~}${webbee}${~path_separator~}${build_directory}
+as_jar(websocket_api)
+assign(websocket jar,~~)
+as_jar(servlet_api)
+assign(servlet jar,~~)
+display("jars: ${servlet jar}, ${JDBC_DRIVER_JAR} and others ...")
 
 target clean {
     dependency {true}
@@ -58,21 +67,7 @@ target dep_dir {
    )
 }
 
-target dep_jar_name {
-    dependency{}  # dependency false executes the target but mark it as not evaluated
-    as_jar(JSON_API_LIB)
-    assign(JSON_API_LIB_JAR,~~)
-    as_jar(JDBC_DRIVER)
-    assign(JDBC_DRIVER_JAR,~~)
-    
-    as_jar(websocket_api)
-    assign(websocket jar,~~)
-    as_jar(servlet_apir)
-    assign(servlet jar,~~)
-}
-
 target get_ext_deps {
-  dependency{target(dep_jar_name)}
   dependency{target(dep_dir)}
   dependency {
     or{
@@ -166,7 +161,7 @@ target compile:. {
    assign(main src,~~)
    if {
        or (main src) then {
-       display(Compiling Java src ... )
+       display(Compiling Java src ${cp}... )
            exec javac (
              -d,
              ${build_directory},
@@ -244,8 +239,13 @@ target war {
    -B WEB-INF/lib,${aldan3_home}${~/~}build${~/~}aldan3.jar,
    -B WEB-INF/lib,${aldan3_home}-jdo${~/~}build${~/~}aldan3-jdo.jar,
    -B WEB-INF/lib,${webbee},
+   # custom libs
+   -B WEB-INF/lib,${buzzbee},
+   -B WEB-INF/lib,.temp_repo${~/~}${JSON_API_LIB_JAR},
+   -B WEB-INF/lib,.temp_repo${~/~}${JDBC_DRIVER_JAR},
+   
    -B WEB-INF/config,src${~/~}res${~/~}cfg${~/~}*.properties, 
-   -B WEB-INF, src${~/~}res${~/~}cfg${~/~}context.xml,
+   -B META-INF, src${~/~}res${~/~}cfg${~/~}context.xml,
    -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.html,
    -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.txt,
    -C WEB-INF/res/view,src${~/~}res${~/~}view${~/~}*.htm,
@@ -256,26 +256,22 @@ target war {
    -B, src${~/~}res${~/~}html${~/~}*.jsp,
    -B, src${~/~}res${~/~}html${~/~}*.html,
    -B image,src${~/~}3rd_party${~/~}image${~/~}*.gif,
-   -B image,src${~/~}image${~/~}*.png,
-   -B image,src${~/~}image${~/~}*.jpg,
-   -B,src${~/~}image${~/~}favicon.ico,
+   -B image,src${~/~}res${~/~}image${~/~}*.png,
+   -B image,src${~/~}res${~/~}image${~/~}*.jpg,
+   -B,src${~/~}res${~/~}image${~/~}favicon.ico,
    -B js,src${~/~}js${~/~}*.js,
-   -B css,src${~/~}html${~/~}style.css,
-   -B,src${~/~}html${~/~}*.html,
-   -B,src${~/~}html${~/~}*.jsp,
-   -B,src${~/~}html${~/~}*.json,
+   -B css,src${~/~}res${~/~}css${~/~}*.css,
+   -B,src${~/~}res${~/~}html${~/~}*.html,
+   -B,src${~/~}res${~/~}html${~/~}*.jsp,
+   -B,src${~/~}res${~/~}html${~/~}*.json,
    -B js,src/3rd_party/js/*.js,
-   -B sound,src${~/~}sound${~/~}*.ogg,
+   -B sound,src${~/~}res${~/~}sound${~/~}*.ogg,
    -B js,src${~/~}3rd_party${~/~}ace${~/~}*.js,
    # merging webbee
-   -B WEB-INF/text,${webbee_home}${~/~}src${~/~}res${~/~}text${~/~}*.properties,
-   -C WEB-INF/view,${webbee_home}${~/~}src${~/~}res${~/~}template${~/~}*.htmt,
+   -B WEB-INF/res/text,${webbee_home}${~/~}src${~/~}res${~/~}text${~/~}*.properties,
+   -C WEB-INF/res/view,${webbee_home}${~/~}src${~/~}res${~/~}template${~/~}*.htmt,
    -B js,${webbee_home}${~/~}src${~/~}js${~/~}*.js,
    -B css,${webbee_home}${~/~}src${~/~}res${~/~}css${~/~}*.css,
    -B image,${webbee_home}${~/~}src${~/~}res${~/~}image${~/~}*.gif
    )
 }
-
-
-
-
