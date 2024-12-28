@@ -15,7 +15,7 @@ import com.beegman.webbee.model.AppModel;
 public class WebApp extends Main {
 	public static final String COMMONDATA_IDENT = "commonlabels";
 	
-	public static final String  VERSION = "1.34";
+	public static final String  VERSION = "1.35";
 	
 	static BaseBehavior commonBehavior; // keeps app specific common behavior
 

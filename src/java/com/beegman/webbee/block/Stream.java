@@ -25,8 +25,6 @@ public class Stream<A extends AppModel> extends BaseBlock<A> {
 		} catch (IOException e) {
 			log("IO exception:", e);
 		} catch(Throwable t) {
-			if (t instanceof ThreadDeath)
-				throw (ThreadDeath)t;
 			log("Unhandled exception:", t);
 		}
 		return null;

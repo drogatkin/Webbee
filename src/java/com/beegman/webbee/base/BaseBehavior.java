@@ -53,6 +53,8 @@ public class BaseBehavior<T extends AppModel> {
 	protected boolean isGetAllowed;
 
 	protected String unauthorizedView;
+	
+	protected boolean mobileOnly;
 
 	public String getTitle(BaseBlock<T> baseBlock) {
 		AppModel app = baseBlock.getAppModel();

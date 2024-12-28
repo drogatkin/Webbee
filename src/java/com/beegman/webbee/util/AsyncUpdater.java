@@ -99,8 +99,6 @@ public class AsyncUpdater implements ServiceProvider, Runnable, AsyncListener {
 			} catch (InterruptedException e) {
 				stopped = true;
 			} catch (Throwable t) {
-				if (t instanceof ThreadDeath)
-					throw (ThreadDeath) t;
 				t.printStackTrace(); // TODO use logger
 			}
 		} while (stopped == false);
