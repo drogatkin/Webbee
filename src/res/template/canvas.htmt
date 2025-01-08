@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head profile="http://www.w3.org/2005/10/profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html>
+<head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" 
       type="image/ico" 
