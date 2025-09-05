@@ -1,0 +1,96 @@
+# Java project WebBee - build script
+
+project =webbee
+ domain ="com"
+source_directory ="src/java"
+"build_directory" = ./build/out
+java_version=8
+
+#include(./env.7b) 
+
+servlet=.temp_repo/javax.servlet-api-4.0.1.jar
+aldan3 jdo=../aldan3-jdo/build/aldan3-jdo.jar
+aldan3=../aldan3/build/aldan3.jar
+json_maven="javax.json:javax.json-api:1.1.4"
+as_jar(json_maven)
+assign(json,.temp_repo/${~~})
+websocket_maven="javax.websocket:javax.websocket-api:1.1"
+as_jar(websocket_maven)
+assign(websocket,.temp_repo/${~~})
+deps=${servlet}${~path_separator~}${aldan3 jdo}${~path_separator~}${aldan3}${~path_separator~}${json}${~path_separator~}${websocket}
+#display(--->${deps})
+doc_directory=doc
+build_file ="${project}.jar"
+ mobile= "y"
+resources ="${domain}.${project}.resources"
+manifestf =""
+main_class= "${domain}.${project}.Main"
+
+test class=""
+
+comm =..${~/~}simscript${~/~}comm-java.7b:file
+
+target dep_dir {
+  dependency {
+        eq {
+           timestamp(.temp_repo)
+        }
+   }
+   display(Dir .temp_repo)
+   mkd (
+        .temp_repo
+   )
+}
+
+target websocket_lib {
+    dependency {
+        target(dep_dir)
+    }
+    dependency {
+       eq {
+           timestamp(websocket)
+       }
+    }
+    as_url(websocket_maven)
+    exec wget (
+       ~~, 
+       -O,
+       websocket
+    )
+}
+target json_lib {
+    dependency {
+        target(websocket_lib)
+    }
+    dependency {
+       eq {
+           timestamp(json)
+       }
+    }
+    as_url(json_maven)
+    exec wget (
+       ~~, 
+       -O,
+       json
+    )
+}
+
+target load_libs {
+    dependency {
+        target(json_lib)
+    }
+    dependency {
+       eq {
+           timestamp(servlet)
+       }
+    }
+    servlet_api="javax.servlet:javax.servlet-api:4.0.1":rep-maven
+    as_url(servlet_api)
+    exec wget (
+       ~~, 
+       -O,
+       servlet
+    )
+}
+
+include(comm)
