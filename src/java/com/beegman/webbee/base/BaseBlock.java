@@ -275,9 +275,9 @@ public abstract class BaseBlock<T extends AppModel> extends BasePageService {
 	
 	protected boolean isBackgroundCall() {
 		// TODO reconsider detection
-		if (!"PUT".equals(req.getMethod()))
+		if (!"PUT".equals(req.getMethod()) && !"OPTIONS".equals(req.getMethod()))
 			return "true".equals(getStringParameterValue(Constant.Form.BACKGROUND, null, 0));
-		return false;
+		return true;
 	}
 	
 	protected boolean isSPA() {
